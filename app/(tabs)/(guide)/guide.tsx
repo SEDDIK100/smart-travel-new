@@ -55,7 +55,7 @@ const Guide = () => {
           journey.””
         </Text>
         <TouchableOpacity
-          onPress={() => router.replace("/(screens)/destination")}
+          onPress={() => router.replace("/(tabs)/(guide)/destination")}
           className="bg-[#A3E635] w-3/5 border border-white justify-center py-3 flex-row rounded-2xl space-x-4 items-center"
         >
           <Text className="text-center text-lg "> Generate </Text>

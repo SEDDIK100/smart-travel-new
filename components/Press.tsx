@@ -1,21 +1,31 @@
-import { Text,TouchableOpacity } from 'react-native'
-import React from 'react'
-import { router } from 'expo-router'
+import { router } from "expo-router";
+import React from "react";
+import { Text, TouchableOpacity, View } from "react-native";
 
 type props = {
-  title: string,
-  link :any
-}
+  title: any;
+  link: any;
+  icon: any;
+};
 
-const Press = ({title,link} :props) => {
+const Press = ( {title, link, icon} : props) => {
   return (
+    <>
     
-         <TouchableOpacity onPress={()=>router.push(link)}
-          className='bg-[#A3E635] w-3/5 border border-white py-3  rounded-2xl'>
-            <Text className='text-center text-2xl ' > {title}  </Text>
+      <View className="items-center mt-2">
+        <TouchableOpacity
+          onPress={() => router.push(link)}
+          className="bg-[#A3E635]  rounded-2xl flex-row w-3/5
+                   items-center justify-center active:opacity-90 p-4 "
+        >
+          <View className="flex-row items-center">
+            <Text className="text-black font-semibold text-xl"> {title} </Text>
+            <Text className="text-black font-semibold text-lg"> {icon} </Text>
+          </View>
         </TouchableOpacity>
-    
-  )
-}
+      </View>
+    </>
+  );
+};
 
-export default Press
+export default Press;

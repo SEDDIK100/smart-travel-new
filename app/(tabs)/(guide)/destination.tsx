@@ -1,15 +1,15 @@
+import Press from "@/components/Press";
 import { router } from "expo-router";
 import React from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Press from "../../components/Press";
 
 const Destination = () => {
   return (
     <SafeAreaView className="flex-1 bg-[#0d0d0d]">
       {/*header*/}
-      <View className="flex-row items-center justify-between   px-8 ">
+      <View className="flex-row items-center justify-between px-8 ">
         <TouchableOpacity
           onPress={() => router.replace("/(tabs)/home")}
           className="bg-white rounded-full h-8 w-8 items-center justify-center "
@@ -51,9 +51,7 @@ const Destination = () => {
       {/*btn*/}
 
       <View>
-        <TouchableOpacity className="items-center ">
-          <Press title="confirm" link={"/(screens)/travellers"} />
-        </TouchableOpacity>
+        <Press title="confirm" link={"/(tabs)/(guide)/travellers"} icon="" />
       </View>
     </SafeAreaView>
   );

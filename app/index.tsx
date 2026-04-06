@@ -24,8 +24,8 @@ const Index = () => {
           </Text>
 
           <TouchableOpacity
-            onPress={() => router.push("/welcome")}
-            className="gap-2 px-4  border border-white items-center justify-center py-3 mt-8 flex-row rounded-full "
+            onPress={() => router.replace("/(welcome)/welcome")}
+            className="gap-2 px-4  border border-white items-center justify-center py-3 mt-8 flex-row rounded-full"
           >
             <Text className="text-center text-lg text-white">Let s start</Text>
             <FontAwesome5 name="plane-departure" size={24} color="white" />

@@ -1,10 +1,10 @@
-import { View, Text } from 'react-native'
+import { View, Text,Image } from 'react-native'
 import React from 'react'
 
 type CardOption ={
   title :  string,
   description :string,
-  icon : React.ReactNode
+  icon : any
 }
 
 type Props ={
@@ -15,13 +15,13 @@ type Props ={
 const Card = ({option}:Props) => {
 
   return (
-    <View className='bg-[rgb(26,34,53)] flex-row items-center justify-between gap-2 mb-4 rounded-2xl mx-6 p-6'>
-      <View className='flex-col gap-3'>
+    <View className='bg-[rgb(26,34,53)] flex-row items-center justify-center gap-4 mb-4 rounded-2xl mx-6 px-5 py-4'>
+      <View className='flex-col w-3/4 gap-2'>
       <Text className='text-white text-2xl font-bold text-bold  '> {option.title} </Text>
       <Text className='text-white text-base'> {option.description} </Text>
     </View>
-    <View className='mr-6 '>
-        {option.icon}
+    <View className=''>
+        <Image source={option.icon} className='w-10 h-10'/>
       </View>
     </View>
   )

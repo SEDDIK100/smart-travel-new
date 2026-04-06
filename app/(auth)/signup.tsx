@@ -1,8 +1,25 @@
 import { router } from "expo-router";
-import React from "react";
+import React, { useState } from "react";
 import { Image, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+
+import { auth } from "@/config";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+
 const SignUp = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("")
+
+  const handleSubmit = async () => {
+    if (email && password) {
+      await createUserWithEmailAndPassword(auth, email, password);
+    } else {
+       console.log("eororororror")
+    }
+  };
+
   return (
     <SafeAreaView className="flex-1 bg-[#0d0d0d]">
       <View className="flex-row items-center justify-between   px-8 ">
@@ -33,11 +50,9 @@ const SignUp = () => {
       {/*form*/}
       <View className="mb-4">
         <Text className="text-white text-4xl font-bold text-center mb-2 ">
-          
           Create an account!
         </Text>
         <Text className="text-gray-400 text-center text-base mb-1">
-          
           Sign up to access smart, personalized travel plans made for you.
         </Text>
       </View>
@@ -52,28 +67,33 @@ const SignUp = () => {
           className="text-white py-4 bg bg-[#1A2235] px-5 rounded-2xl text-base mb-2"
           placeholder="user name"
           placeholderTextColor="#64748B"
+          onChangeText={setName}
+          value={name}
         />
         <Text className="text-sm text-gray-300 mb-2">email adresse * </Text>
         <TextInput
           className="text-white py-4 bg bg-[#1A2235] px-5 rounded-2xl text-base mb-2"
           placeholder="example@gmail.com"
           placeholderTextColor="#64748B"
+          onChangeText={setEmail}
+          value={email}
         />
         <Text className="text-sm text-gray-300 mb-2"> password *</Text>
         <TextInput
           className="text-white py-4 bg bg-[#1A2235] px-5 rounded-2xl text-base mb-2"
           placeholder="@Sn123hsn#"
-          placeholderTextColor="#64748B"
+          placeholderTextColor="#64748B" onChangeText={setPassword}  value={password}
         />
         <Text className="text-sm text-gray-300 mb-2"> confirm password * </Text>
         <TextInput
           className="text-white py-4 bg bg-[#1A2235] px-5 rounded-2xl text-base mb-2"
           placeholder="@Sn123hsn#"
           placeholderTextColor="#64748B"
+          onChangeText={setConfirmPassword} value={confirmPassword}
         />
 
         <View className="items-center mt-2">
-          <TouchableOpacity
+          <TouchableOpacity onPress={handleSubmit}
             className="bg-[#A3E635] py-4 rounded-2xl flex-row w-3/5
                    items-center justify-center active:opacity-90 "
           >
@@ -105,10 +125,7 @@ const SignUp = () => {
 
       <View className="flex-row justify-center mt-auto mb-10">
         <Text className=" text-gray-400 "> i have an account </Text>
-        <TouchableOpacity
-          onPress={() => router.replace("/(auth)/signup")}
-          className=""
-        >
+        <TouchableOpacity onPress={() => router.replace("/(auth)/signup")}>
           <Text className="text-emerald-500 dont-semibold ">signin</Text>
         </TouchableOpacity>
       </View>
