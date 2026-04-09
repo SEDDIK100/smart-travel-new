@@ -10,9 +10,9 @@ const Vibe = () => {
   return (
     <SafeAreaView className="flex-1 bg-[#0d0d0d]">
       {/*header*/}
-      <View className="flex-row items-center justify-between   px-8 ">
+      <View className="flex-row items-center justify-between px-8 ">
         <TouchableOpacity
-          onPress={() => router.replace("/(tabs)/(guide)/Date")}
+          onPress={() => router.replace("/(tabs)/(guide)/(plan)/travellers")}
           className="bg-white rounded-full h-8 w-8 items-center justify-center "
         >
           <Text> {`<-`} </Text>
@@ -35,21 +35,21 @@ const Vibe = () => {
       </View>
 
       {/*list*/}
-
-      <FlatList
-        className="mx-4 mb-4"
-        data={vb}
-        renderItem={({ index, item }) => (
-          <View>
-            <Card option={item} />
-          </View>
-        )}
-      />
-
-      {/*btn*/}
-      <View>
-        <Press title="confirm" link={"/(screens)/Date"} icon="" />
-      </View>
+      
+        <FlatList
+          className="mx-4 mb-4"
+          data={vb}
+          renderItem={({ index, item }) => (
+            <TouchableOpacity>
+              <Card option={item} />
+            </TouchableOpacity>
+          )}
+        />
+        {/*btn*/}
+        <View>
+          <Press title="confirm" link={"/(tabs)/(guide)/(plan)/Budget"} icon="" />
+        </View>
+      
     </SafeAreaView>
   );
 };

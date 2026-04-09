@@ -140,7 +140,7 @@ const SignIn = () => {
       <View className="flex-row justify-center mt-auto ">
         <Text className=" text-gray-400 "> don t have an account </Text>
         <TouchableOpacity
-          onPress={() => router.replace("/(auth)/signup")}
+          onPress={() => router.replace("/(auth)/(signup)/firstSignup")}
           className=""
         >
           <Text className="text-emerald-500 dont-semibold ">signup</Text>

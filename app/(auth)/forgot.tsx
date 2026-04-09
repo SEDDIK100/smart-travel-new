@@ -2,8 +2,11 @@ import { router } from "expo-router";
 import React from "react";
 import { Image, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useState } from "react";
 
 const Forgot = () => {
+
+
   return (
     <SafeAreaView className="flex-1 bg-[#0d0d0d] ">
       <View className="flex-row justify-between itmes-center mt-2 mb-2 px-8 ">

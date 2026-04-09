@@ -7,6 +7,8 @@ const Welcomelayout = () => {
   return (
      <Stack>
         <Stack.Screen name="welcome" options={{headerShown:false}}  />
+
+        
     </Stack>
   )
 }

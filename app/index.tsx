@@ -9,10 +9,12 @@ const Index = () => {
   return (
     <SafeAreaView className="flex-1 bg-[#0d0d0d]">
       <View className="flex-1 items-center ">
+        <View className="items-center">
         <Image
-          className=" shadow-slate-700 absolute"
-          source={require("@/assets/999.png")}
+          className=" shadow-slate-700 absolute w-1/2" resizeMode="contain"
+          source={require("@/assets/rockw.png")}
         />
+        </View>
 
         <View className="flex-col justify-center items-center top-1/2">
           <Text className="text-5xl text-white font-bold mt-2 max-w-xl  text-bold text-center">

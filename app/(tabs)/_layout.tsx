@@ -2,24 +2,46 @@ import Entypo from "@expo/vector-icons/Entypo";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import { Tabs } from "expo-router";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import React from "react";
+
+
 const _layout = () => {
   return (
+    <SafeAreaProvider>
     <Tabs
-      screenOptions={{
-        tabBarShowLabel: false,
-        tabBarActiveTintColor: '#007AFF',
-        tabBarInactiveTintColor: '#8E8E93',
 
+
+
+    
+      screenOptions = {({route})=>({
         tabBarStyle: {
-          backgroundColor: "#1A2235",
-          paddingTop: 10,
-          shadowColor: "#000",
-          shadowOpacity: 0.2,
-          shadowRadius: 10,
-        },
-      }}
-    >
+              paddingTop:6,
+              backgroundColor: '#1A2235',     
+              borderTopWidth: 0,
+              position: 'absolute',
+              marginLeft: 10,
+              marginRight:10,
+              bottom: 30,
+              height: 68,
+              borderRadius: 25,                
+              shadowColor: '#A3E635',           
+              shadowOffset: { width: 0, height: 1 },
+              shadowOpacity: 0.4,
+              shadowRadius: 25,
+              },
+              tabBarActiveTintColor: '#A3E635',
+              tabBarInactiveTintColor: '#71717a',
+            
+            tabBarLabelStyle: {
+              fontSize: 11.5,
+              fontWeight: '600',
+              marginBottom: 4,
+              marginTop: 4},
+
+      
+    })}
+>
       <Tabs.Screen
         name="home"
         options={{
@@ -45,7 +67,8 @@ const _layout = () => {
           ),
         }}
       />
-    </Tabs>
+    </Tabs> 
+     </SafeAreaProvider>
   );
 };
 

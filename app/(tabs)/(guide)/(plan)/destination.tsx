@@ -11,7 +11,7 @@ const Destination = () => {
       {/*header*/}
       <View className="flex-row items-center justify-between px-8 ">
         <TouchableOpacity
-          onPress={() => router.replace("/(tabs)/home")}
+          onPress={() => router.replace("/(tabs)/(guide)/guide")}
           className="bg-white rounded-full h-8 w-8 items-center justify-center "
         >
           <Text> {`<-`} </Text>
@@ -51,7 +51,7 @@ const Destination = () => {
       {/*btn*/}
 
       <View>
-        <Press title="confirm" link={"/(tabs)/(guide)/travellers"} icon="" />
+        <Press title="confirm" link={"/(tabs)/(guide)/(plan)/travellers"} icon="" />
       </View>
     </SafeAreaView>
   );

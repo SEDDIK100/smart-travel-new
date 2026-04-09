@@ -3,20 +3,32 @@ import React, { useState } from "react";
 import { Image, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { auth } from "@/config";
+import { auth, db } from "@/config";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("")
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const handleSubmit = async () => {
     if (email && password) {
-      await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        confirmPassword,
+      );
+      const user = userCredential.user;
+      await setDoc(doc(db, "users", user.uid), {
+        username: "",
+        phoneNumber: "",
+        address: "",
+        imageUrl: "",
+        createdAt: new Date().toISOString(),
+      });
     } else {
-       console.log("eororororror")
+      console.log("eororororror");
     }
   };
 
@@ -24,7 +36,7 @@ const SignUp = () => {
     <SafeAreaView className="flex-1 bg-[#0d0d0d]">
       <View className="flex-row items-center justify-between   px-8 ">
         <TouchableOpacity
-          onPress={() => router.replace("/(auth)/signin")}
+          onPress={() => router.replace("/(auth)/(signup)/firstSignup")}
           className="bg-white rounded-full h-8 w-8 items-center justify-center "
         >
           <Text> {`<-`} </Text>
@@ -62,14 +74,6 @@ const SignUp = () => {
       {/*fiil*/}
 
       <View className="px-5">
-        <Text className="text-sm text-gray-300 mb-2">user name *</Text>
-        <TextInput
-          className="text-white py-4 bg bg-[#1A2235] px-5 rounded-2xl text-base mb-2"
-          placeholder="user name"
-          placeholderTextColor="#64748B"
-          onChangeText={setName}
-          value={name}
-        />
         <Text className="text-sm text-gray-300 mb-2">email adresse * </Text>
         <TextInput
           className="text-white py-4 bg bg-[#1A2235] px-5 rounded-2xl text-base mb-2"
@@ -82,22 +86,26 @@ const SignUp = () => {
         <TextInput
           className="text-white py-4 bg bg-[#1A2235] px-5 rounded-2xl text-base mb-2"
           placeholder="@Sn123hsn#"
-          placeholderTextColor="#64748B" onChangeText={setPassword}  value={password}
+          placeholderTextColor="#64748B"
+          onChangeText={setPassword}
+          value={password}
         />
         <Text className="text-sm text-gray-300 mb-2"> confirm password * </Text>
         <TextInput
           className="text-white py-4 bg bg-[#1A2235] px-5 rounded-2xl text-base mb-2"
           placeholder="@Sn123hsn#"
           placeholderTextColor="#64748B"
-          onChangeText={setConfirmPassword} value={confirmPassword}
+          onChangeText={setConfirmPassword}
+          value={confirmPassword}
         />
 
         <View className="items-center mt-2">
-          <TouchableOpacity onPress={handleSubmit}
+          <TouchableOpacity
+            onPress={handleSubmit}
             className="bg-[#A3E635] py-4 rounded-2xl flex-row w-3/5
                    items-center justify-center active:opacity-90 "
           >
-            <Text className="text-black font-semibold text-lg"> Sign in</Text>
+            <Text className="text-black font-semibold text-lg"> Sign up</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -125,7 +133,7 @@ const SignUp = () => {
 
       <View className="flex-row justify-center mt-auto mb-10">
         <Text className=" text-gray-400 "> i have an account </Text>
-        <TouchableOpacity onPress={() => router.replace("/(auth)/signup")}>
+        <TouchableOpacity onPress={() => router.replace("/(auth)/signin")}>
           <Text className="text-emerald-500 dont-semibold ">signin</Text>
         </TouchableOpacity>
       </View>

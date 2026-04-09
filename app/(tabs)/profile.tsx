@@ -7,10 +7,12 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useSelector } from "react-redux";
 import Press from "@/components/Press";
 
+
+
 const Profile = () => {
   const userInform = useSelector((state: RootState) => state.user);
 
-  if (!userInform) {
+  if (userInform) {
     return (
       <SafeAreaView className="flex-1 bg-[#0d0d0d]">
         {/*header*/}

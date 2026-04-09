@@ -1,18 +1,22 @@
 import Card from "@/components/Card";
 import Press from "@/components/Press";
-import { travel } from "@/constants/data";
 import { router } from "expo-router";
-import React from "react";
+import React, { useState } from "react";
 import { FlatList, Image, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { budgets } from "@/constants/data";
 
-const Travellers = () => {
+const Budget = () => {
+ 
+  const [budget, setBudget] = useState<any | null>(null);
+
+
   return (
     <SafeAreaView className="flex-1 bg-[#0d0d0d]">
       {/*header*/}
       <View className="flex-row items-center justify-between px-8 ">
         <TouchableOpacity
-          onPress={() => router.replace("/(tabs)/(guide)/destination")}
+          onPress={() => router.replace("/(tabs)/(guide)/(plan)/vibe")}
           className="bg-white rounded-full h-8 w-8 items-center justify-center"
         >
           <Text> {"<-"} </Text>
@@ -36,18 +40,27 @@ const Travellers = () => {
       </View>
 
       {/*list*/}
-
-      <FlatList className="mb-2"
-        data={travel}
-        renderItem={({ item }) => <Card option={item} />}
-      />
-
-      {/*btn*/}
       <View>
-        <Press title="confirm" link={"/(tabs)/(guide)/vibe"} icon="" />
+        <FlatList
+          className="mb-2"
+          data={budgets}
+          renderItem={({ item }) => (
+            <TouchableOpacity onPress={() => setBudget(item)}>
+              <View  className={`mx-6 mb-3 rounded-2xl
+            ${budget ===item} ? "bg-slate-300 scale-105" : "bg-transparent"}
+          `}>
+              <Card option={item} />
+              </View>
+            </TouchableOpacity>
+          )}
+        />
+        {/*btn*/}
+        <View>
+          <Press title="confirm" link={"/(tabs)/(guide)/vibe"} icon="" />
+        </View>
       </View>
     </SafeAreaView>
   );
 };
 
-export default Travellers;
+export default Budget;

@@ -69,7 +69,7 @@ const Welcome = () => {
 
           <View className="flex-row justify-center mt-auto mb-10">
             <Text className="text-gray-400 "> don t have an account </Text>
-            <TouchableOpacity onPress={() => router.replace("/(auth)/signup")}>
+            <TouchableOpacity onPress={() => router.replace("/(auth)/(signup)/firstSignup")}>
               <Text className="text-emerald-500 font-semibold">signup</Text>
             </TouchableOpacity>
           </View>

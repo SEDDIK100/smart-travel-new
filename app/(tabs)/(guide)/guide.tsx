@@ -37,11 +37,11 @@ const Guide = () => {
           “Need something quick? Let s get your trip ready in just a few taps.”
         </Text>
         <TouchableOpacity
-          onPress={() => router.push("/(tabs)/home")}
+          onPress={() => router.push("/(tabs)/(guide)/(activity)/activityName")}
           className="bg-[#A3E635] w-3/5 border border-white justify-center py-3
         flex-row rounded-2xl space-x-4 items-center"
         >
-          <Text className="text-center text-lg "> Ask Now </Text>
+          <Text className="text-center text-lg "> Activity </Text>
           <AntDesign name="search" size={24} color="black" />
         </TouchableOpacity>
       </View>
@@ -55,10 +55,10 @@ const Guide = () => {
           journey.””
         </Text>
         <TouchableOpacity
-          onPress={() => router.replace("/(tabs)/(guide)/destination")}
+          onPress={() => router.replace("/(tabs)/(guide)/(plan)/destination")}
           className="bg-[#A3E635] w-3/5 border border-white justify-center py-3 flex-row rounded-2xl space-x-4 items-center"
         >
-          <Text className="text-center text-lg "> Generate </Text>
+          <Text className="text-center text-lg "> Generate plan </Text>
           <FontAwesome5 name="magic" size={24} color="black" />
         </TouchableOpacity>
       </View>
