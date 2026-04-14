@@ -4,6 +4,8 @@ const _layout = () => {
   return (
     <Stack>
         <Stack.Screen name="activityName" options={{headerShown:false}}  />
+        <Stack.Screen name="Moods" options={{headerShown:false}}  />
+        <Stack.Screen name="Position" options={{headerShown:false}}  />
         
     </Stack>
   )

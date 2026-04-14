@@ -1,4 +1,5 @@
 import {
+  Alert,
   Image,
   Switch,
   Text,
@@ -9,25 +10,44 @@ import {
 
 import { SafeAreaView } from "react-native-safe-area-context";
 
+
 import { router } from "expo-router";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/redux/slices/userSlices";
+import {signInWithEmailAndPassword } from "firebase/auth";
+import { auth, db } from "@/config";
+import { useState } from "react";
+import { doc, getDoc } from "firebase/firestore";
 
 const SignIn = () => {
+     
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("");
+
 
     const dispatch = useDispatch()
-    
- const Login = () =>{
-    
-    dispatch(setUser({user:{email:"",password:""},token:""}))
+    const Login = async (  )=>{
+      
+        const logedIn = await signInWithEmailAndPassword(auth, email, password )
+        if(!logedIn){
+          Alert.alert('errrrro') 
+        }
+         const profile = await getDoc(doc(db, "users", logedIn.user.uid ))
+        console.log("loged", logedIn.user.uid)
+
+        if(profile.exists()){
+          dispatch(setUser({user:{...profile,email:email,password:password , id:logedIn.user.uid },token:""}))
+          console.log("prfile", profile.data())
+          if (profile.data().username==="" &&  profile.data().birthdate==="" && profile.data().gender==="" ){
+            router.push('/(auth)/informPer')
+          }else{
+
+          router.replace('/(tabs)/home')
+          }}
+        
 
 
- }
-   
-
-
-
-
+    }
   return (
     <SafeAreaView className="flex-1 bg-[#0d0d0d] ">
       <View className="flex-row justify-between itmes-center mt-2 mb-2 px-8 ">
@@ -76,6 +96,8 @@ const SignIn = () => {
           placeholderTextColor="#64748B"
           keyboardType="email-address"
           autoCapitalize="none"
+          value={email}
+          onChangeText={setEmail}
         />
 
         {/*password*/}
@@ -84,7 +106,9 @@ const SignIn = () => {
           className="bg-[#1A2235] text-white px-5 py-4 text-base pr-14 rounded-2xl"
           placeholder="@Sn123hsn#"
           placeholderTextColor="#64748B"
-          secureTextEntry
+          secureTextEntry={true}
+          value={password}
+          onChangeText={setPassword}
         />
 
         <View className="flex-row justify-between items-center mt-2 mb-8 ">
@@ -108,7 +132,7 @@ const SignIn = () => {
 
       {/*signiin*/}
       <View className=" items-center">
-        <TouchableOpacity
+        <TouchableOpacity onPress={Login}
           className="bg-[#A3E635] py-4 rounded-2xl flex-row w-3/5
   items-center justify-center active:opacity-90 "
         >
@@ -140,7 +164,7 @@ const SignIn = () => {
       <View className="flex-row justify-center mt-auto ">
         <Text className=" text-gray-400 "> don t have an account </Text>
         <TouchableOpacity
-          onPress={() => router.replace("/(auth)/(signup)/firstSignup")}
+          onPress={() => router.replace("/(auth)/signup")}
           className=""
         >
           <Text className="text-emerald-500 dont-semibold ">signup</Text>

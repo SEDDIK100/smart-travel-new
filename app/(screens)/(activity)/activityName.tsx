@@ -1,13 +1,14 @@
+import React from 'react'
 import Press from "@/components/Press";
 import { router } from "expo-router";
-import React from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const Destination = () => {
+
+const ActivityName = () => {
   return (
-    <SafeAreaView className="flex-1 bg-[#0d0d0d]">
+     <SafeAreaView className="flex-1 bg-[#0d0d0d]">
       {/*header*/}
       <View className="flex-row items-center justify-between px-8 ">
         <TouchableOpacity
@@ -51,10 +52,10 @@ const Destination = () => {
       {/*btn*/}
 
       <View>
-        <Press title="confirm" link={"/(tabs)/(guide)/(plan)/travellers"} icon="" />
+        <Press title="confirm" link={"/screens/(activity)/Moods"} icon="" style=""/>
       </View>
     </SafeAreaView>
-  );
-};
+  )
+}
 
-export default Destination;
+export default ActivityName

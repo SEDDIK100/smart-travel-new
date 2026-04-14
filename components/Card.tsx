@@ -4,22 +4,23 @@ import React from 'react'
 type CardOption ={
   title :  string,
   description :string,
-  icon : any
+  icon : any,
 }
 
 type Props ={
-  option: CardOption
+  option: CardOption,
+  style: any
 }
 
 
-const Card = ({option}:Props) => {
+const Card = ({option,style}:Props) => {
 
   return (
-    <View className='bg-[rgb(26,34,53)] flex-row items-center justify-center gap-4 mb-4 rounded-2xl mx-6 px-5 py-4'>
+    <View className={`bg-[rgb(26,34,53)] flex-row items-center  justify-center gap-4 mb-4 rounded-2xl mx-6 px-5 py-4  ${style} `}>
       <View className='flex-col w-3/4 gap-2'>
       <Text className='text-white text-2xl font-bold text-bold  '> {option.title} </Text>
       <Text className='text-white text-base'> {option.description} </Text>
-    </View>
+    </View>                                                                         
     <View className=''>
         <Image source={option.icon} className='w-10 h-10'/>
       </View>

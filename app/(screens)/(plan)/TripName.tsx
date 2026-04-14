@@ -1,15 +1,14 @@
-import React from 'react'
 import Press from "@/components/Press";
 import { router } from "expo-router";
+import React from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-
-const ActivityName = () => {
+const TripName = () => {
   return (
-     <SafeAreaView className="flex-1 bg-[#0d0d0d]">
-      {/*header*/}
+    <SafeAreaView className="flex-1 bg-[#0d0d0d]">
+    
       <View className="flex-row items-center justify-between px-8 ">
         <TouchableOpacity
           onPress={() => router.replace("/(tabs)/(guide)/guide")}
@@ -25,7 +24,7 @@ const ActivityName = () => {
           />
         </TouchableOpacity>
       </View>
-      {/*logo*/}
+    
       <View className=" items-center w-full h-72 ">
         <Image
           className="w-full h-full"
@@ -34,7 +33,7 @@ const ActivityName = () => {
         />
       </View>
 
-      {/*seaarchBar*/}
+    
       <View className="mx-6 mb-20">
         <GooglePlacesAutocomplete
           styles={{ backgroundColor: "red" }}
@@ -52,10 +51,15 @@ const ActivityName = () => {
       {/*btn*/}
 
       <View>
-        <Press title="confirm" link={"/(tabs)/(guide)/(plan)/travellers"} icon="" />
+        <Press
+          title="confirm"
+          link={"/(screens)/(plan)/travellers"}
+          icon=""
+          style=""
+        />
       </View>
     </SafeAreaView>
-  )
-}
+  );
+};
 
-export default ActivityName
+export default TripName;

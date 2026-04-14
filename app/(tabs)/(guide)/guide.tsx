@@ -37,7 +37,7 @@ const Guide = () => {
           “Need something quick? Let s get your trip ready in just a few taps.”
         </Text>
         <TouchableOpacity
-          onPress={() => router.push("/(tabs)/(guide)/(activity)/activityName")}
+          onPress={() => router.push("/(screens)/(activity)/activityName")}
           className="bg-[#A3E635] w-3/5 border border-white justify-center py-3
         flex-row rounded-2xl space-x-4 items-center"
         >
@@ -55,7 +55,7 @@ const Guide = () => {
           journey.””
         </Text>
         <TouchableOpacity
-          onPress={() => router.replace("/(tabs)/(guide)/(plan)/destination")}
+          onPress={() => router.replace("/(screens)/(plan)/TripName")}
           className="bg-[#A3E635] w-3/5 border border-white justify-center py-3 flex-row rounded-2xl space-x-4 items-center"
         >
           <Text className="text-center text-lg "> Generate plan </Text>

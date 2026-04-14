@@ -31,6 +31,7 @@ const Welcome = () => {
               title="invited"
               link={"/(tabs)/home"}
               icon={(<FontAwesome6 name="person" size={24} color="black"/>)}
+              style=""
             />
             <Press
               title="signin"
@@ -40,7 +41,7 @@ const Welcome = () => {
                   size={24}
                   color="black"
                 />)}
-
+                    style=""
               link={"/(auth)/signin"}
               
             />
@@ -69,7 +70,7 @@ const Welcome = () => {
 
           <View className="flex-row justify-center mt-auto mb-10">
             <Text className="text-gray-400 "> don t have an account </Text>
-            <TouchableOpacity onPress={() => router.replace("/(auth)/(signup)/firstSignup")}>
+            <TouchableOpacity onPress={() => router.replace("/(auth)/signup")}>
               <Text className="text-emerald-500 font-semibold">signup</Text>
             </TouchableOpacity>
           </View>

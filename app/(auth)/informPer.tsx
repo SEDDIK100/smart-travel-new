@@ -1,11 +1,16 @@
+import { auth, db } from "@/config";
+import { RootState } from "@/redux/stores";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { router } from "expo-router";
+import { doc, updateDoc } from "firebase/firestore";
 import React, { useState } from "react";
-import { Image, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Alert, Image, Text, TextInput, TouchableOpacity, View } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { SafeAreaView } from "react-native-safe-area-context";
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-const FirstSignup = () => {
-  const [userName, setUserName] = useState("");
+import { useSelector } from "react-redux";
+
+const InformPer = () => {
+  const [userName, setUserName] = useState<string>("");
   const [birthday, setBirthday] = useState<Date | null>(null);
   const [person, setPerson] = useState<string | null>(null);
   const [visible, setIsvisible] = useState(false);
@@ -14,6 +19,26 @@ const FirstSignup = () => {
     setBirthday(date);
     setIsvisible(!visible);
   };
+
+  const currrentUser = useSelector((state:RootState )=>{state.user.user})
+  console.log("currentuser", currrentUser)
+  const updateProfile = async()=>{
+    console.log('id user', currrentUser?.id)
+  await updateDoc(doc(db, "users", currrentUser?.id), {
+      username: userName,
+      birthdate: birthday?.toDateString(),
+      gender: person 
+    })
+
+
+    
+
+    router.replace("/(tabs)/home")
+
+  }
+
+
+
 
   return (
     <SafeAreaView className="flex-1 bg-[#0d0d0d]">
@@ -44,10 +69,10 @@ const FirstSignup = () => {
       <View className="px-8">
         <View className="mb-4">
           <Text className="text-white text-4xl font-bold text-center mb-2 ">
-            Create an account!
+            continue with signing up !
           </Text>
           <Text className="text-gray-400 text-center text-base mb-1">
-            Sign up to access smart, personalized travel plans made for you.
+            make yourself home ...
           </Text>
         </View>
 
@@ -58,6 +83,9 @@ const FirstSignup = () => {
             className="text-white py-4 bg bg-[#1A2235] px-5 rounded-2xl text-base mb-2"
             placeholder="user name"
             placeholderTextColor="#64748B"
+
+            value={userName}
+            onChangeText={setUserName}
           />
         </View>
 
@@ -71,7 +99,11 @@ const FirstSignup = () => {
               onPress={() => setIsvisible(!visible)}
             >
               <Text className="text-center text-lg font-semibold text-gray-500">
-                {birthday ? birthday.toDateString() :  <FontAwesome name="calendar" size={24} color="white" /> }
+                {birthday ? (
+                  birthday.toDateString()
+                ) : (
+                  <FontAwesome name="calendar" size={24} color="white" />
+                )}
               </Text>
             </TouchableOpacity>
             <DateTimePickerModal
@@ -105,7 +137,8 @@ const FirstSignup = () => {
 
         {/*ere*/}
         <View className="items-center mt-2">
-          <TouchableOpacity  onPress={() => router.replace("/(auth)/(signup)/signup")}
+          <TouchableOpacity
+            onPress={updateProfile}
             className="bg-[#A3E635] py-4 rounded-2xl flex-row w-3/5
                              items-center justify-center active:opacity-90 "
           >
@@ -117,4 +150,4 @@ const FirstSignup = () => {
   );
 };
 
-export default FirstSignup;
+export default InformPer;

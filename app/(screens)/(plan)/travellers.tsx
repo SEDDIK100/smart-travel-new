@@ -1,22 +1,20 @@
 import Card from "@/components/Card";
 import Press from "@/components/Press";
+import { travel } from "@/constants/data";
 import { router } from "expo-router";
 import React, { useState } from "react";
 import { FlatList, Image, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { budgets } from "@/constants/data";
 
-const Budget = () => {
- 
-  const [budget, setBudget] = useState<any | null>(null);
-
+const Travellers = () => {
+  const [traveller, setTraveller] = useState<any | null>(null);
 
   return (
     <SafeAreaView className="flex-1 bg-[#0d0d0d]">
       {/*header*/}
       <View className="flex-row items-center justify-between px-8 ">
         <TouchableOpacity
-          onPress={() => router.replace("/(tabs)/(guide)/(plan)/vibe")}
+          onPress={() => router.replace("/(screens)/(plan)/TripName")}
           className="bg-white rounded-full h-8 w-8 items-center justify-center"
         >
           <Text> {"<-"} </Text>
@@ -38,29 +36,41 @@ const Budget = () => {
           source={require("@/assets/852.png")}
         />
       </View>
+        <View className="px-6 mb-4 mt-2">
+                    <Text className="text-white text-2xl font-extrabold tracking-tight">
+                      Select the vibe you like
+                    </Text>
+                    <Text className="text-gray-400 text-md mt-1">
+                      Choose a plan that fits your travel style.
+                    </Text>
+                  </View>
 
       {/*list*/}
       <View>
         <FlatList
           className="mb-2"
-          data={budgets}
-          renderItem={({ item }) => (
-            <TouchableOpacity onPress={() => setBudget(item)}>
-              <View  className={`mx-6 mb-3 rounded-2xl
-            ${budget ===item} ? "bg-slate-300 scale-105" : "bg-transparent"}
-          `}>
-              <Card option={item} />
+          data={travel}
+          renderItem={({ item, index }) => (
+            <TouchableOpacity onPress={() => setTraveller(item)}>
+              <View>
+                <Card option={item} style="" />
               </View>
             </TouchableOpacity>
           )}
         />
+
         {/*btn*/}
         <View>
-          <Press title="confirm" link={"/(tabs)/(guide)/vibe"} icon="" />
+          <Press
+            title="confirm"
+            link={"/(screens)/(plan)/vibe"}
+            icon=""
+            style=""
+          />
         </View>
       </View>
     </SafeAreaView>
   );
 };
 
-export default Budget;
+export default Travellers;

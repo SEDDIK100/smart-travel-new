@@ -5,9 +5,6 @@ const _layout = () => {
   return (
     <Stack>
         <Stack.Screen  name="guide" options={{headerShown:false}} />
-        <Stack.Screen  name="(activity)" options={{headerShown:false}} />
-        <Stack.Screen  name="(plan)" options={{headerShown:false}} />
-        
     </Stack>
   
   )
