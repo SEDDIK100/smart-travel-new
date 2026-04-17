@@ -6,48 +6,76 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  ActivityIndicator
 } from "react-native";
-
 import { SafeAreaView } from "react-native-safe-area-context";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-
-import { router } from "expo-router";
-import { useDispatch } from "react-redux";
-import { setUser } from "@/redux/slices/userSlices";
-import {signInWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "@/config";
-import { useState } from "react";
+import { setUser } from "@/redux/slices/userSlices";
+import { router } from "expo-router";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 
-const SignIn = () => {
-     
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("");
+const SignIn = () =>{
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showP, setShowP] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-
-    const dispatch = useDispatch()
-    const Login = async (  )=>{
-      
-        const logedIn = await signInWithEmailAndPassword(auth, email, password )
-        if(!logedIn){
-          Alert.alert('errrrro') 
-        }
-         const profile = await getDoc(doc(db, "users", logedIn.user.uid ))
-        console.log("loged", logedIn.user.uid)
-
-        if(profile.exists()){
-          dispatch(setUser({user:{...profile,email:email,password:password , id:logedIn.user.uid },token:""}))
-          console.log("prfile", profile.data())
-          if (profile.data().username==="" &&  profile.data().birthdate==="" && profile.data().gender==="" ){
-            router.push('/(auth)/informPer')
-          }else{
-
-          router.replace('/(tabs)/home')
-          }}
-        
-
-
+  const dispatch = useDispatch();
+  const Login = async () => {
+    if (!email || !password) {
+      Alert.alert("you have to fill");
+      return;
     }
+    setLoading(true)
+    try {
+      const logedIn = await signInWithEmailAndPassword(auth, email, password);
+      console.log("log", logedIn._tokenResponse.idToken)
+      await AsyncStorage.setItem("token", logedIn._tokenResponse.idToken)
+      if (!logedIn) {
+        Alert.alert("errrrro");
+      }
+      const profile = await getDoc(doc(db, "users", logedIn.user.uid));
+      console.log("loged", logedIn.user.uid);
+
+      if (profile.exists()) {
+        const userData = profile.data();
+        dispatch(
+          setUser({
+            user: {
+              id: logedIn.user.uid,
+              gender: userData.gender || null,
+              username: userData.username || "",
+              birthdate: userData.birthdate || null,
+              createdAt: userData.createdAt,
+              email: email,
+              password: password,
+            },
+            token: "",
+          }),
+        );
+
+        if (
+          profile.data().username === "" &&
+          profile.data().birthdate === "" &&
+          profile.data().gender === ""
+        ) {
+          router.push("/(auth)/informPer");
+        } else {
+          router.replace("/(tabs)/home");
+        }
+      }
+    } catch {
+      Alert.alert("invalid");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <SafeAreaView className="flex-1 bg-[#0d0d0d] ">
       <View className="flex-row justify-between itmes-center mt-2 mb-2 px-8 ">
@@ -82,7 +110,6 @@ const SignIn = () => {
           welcome back !
         </Text>
         <Text className="text-gray-400 text-center text-base mb-1">
-          
           Sign in to access smart, personalized travel plans made for you.
         </Text>
       </View>
@@ -91,7 +118,7 @@ const SignIn = () => {
         {/*email*/}
         <Text className="text-gray-300 text-sm mb-2 ">email adresse </Text>
         <TextInput
-          className="bg-[#1A2235] text-white px-5 py-4 rounded-2xl text-base mb-6"
+          className="bg-[#1A2235] text-white px-5 py-4 rounded-2xl mb-6"
           placeholder="example@gmail.com"
           placeholderTextColor="#64748B"
           keyboardType="email-address"
@@ -103,13 +130,21 @@ const SignIn = () => {
         {/*password*/}
         <Text className="text-gray-300 text-sm mb-2">password</Text>
         <TextInput
-          className="bg-[#1A2235] text-white px-5 py-4 text-base pr-14 rounded-2xl"
+          className="bg-[#1A2235] text-white px-5 py-4  pr-14 rounded-2xl"
           placeholder="@Sn123hsn#"
           placeholderTextColor="#64748B"
           secureTextEntry={true}
           value={password}
           onChangeText={setPassword}
         />
+        <TouchableOpacity
+          className="absolute right-4 top-4"
+          onPress={() => setShowP((v) => !v)}
+        >
+          <Text className="text-zinc-400 text-sm">
+            {showP ? "Hide" : "Show"}
+          </Text>
+        </TouchableOpacity>
 
         <View className="flex-row justify-between items-center mt-2 mb-8 ">
           <View className="flex-row items-center gap-1 ">
@@ -121,10 +156,8 @@ const SignIn = () => {
             <Text className="text-gray-400"> Remember me </Text>
           </View>
           <TouchableOpacity onPress={() => router.push("/(auth)/forgot")}>
-            
             <Text className="text-emerald-500 font-medium">
-              
-              Forgor password
+              Forgot password
             </Text>
           </TouchableOpacity>
         </View>
@@ -132,11 +165,17 @@ const SignIn = () => {
 
       {/*signiin*/}
       <View className=" items-center">
-        <TouchableOpacity onPress={Login}
+        <TouchableOpacity
+          disabled={loading}
+          onPress={Login}
           className="bg-[#A3E635] py-4 rounded-2xl flex-row w-3/5
   items-center justify-center active:opacity-90 "
         >
-          <Text className="text-black font-semibold text-lg"> Sign in</Text>
+          {loading ? (
+            <ActivityIndicator />
+          ) : (
+            <Text className={`text-black font-semibold text-lg `}>Sign up</Text>
+          )}
         </TouchableOpacity>
       </View>
 

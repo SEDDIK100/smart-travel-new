@@ -5,29 +5,16 @@ import React, { useState } from "react";
 import { FlatList, Image, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { moods } from "@/constants/data";
+import Header from "@/components/Header";
+
+
 const Moods = () => {
 
-  
   const [selectedMoods, setSelectedMoods] = useState<any | null>(null);
 
   return (
     <SafeAreaView className="flex-1 bg-[#0d0d0d]">
-      <View className="flex-row items-center justify-between px-6 mt-2">
-        <TouchableOpacity  
-          onPress={() => router.replace("/(screens)/(activity)/activityName")}
-          className="bg-[#1c1c1e] border border-white/10 rounded-full h-10 w-10 items-center justify-center"
-        >
-          <Text className="text-white text-lg">{"<-"}</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity className="w-10 h-10">
-          <Image
-            className="h-full w-full rounded-full border-2 border-[#1c1c1e]"
-            resizeMode="cover"
-            source={require("@/assets/st.jpg")}
-          />
-        </TouchableOpacity>
-      </View>
+      <Header link="/(screen)/(activity)/activityName"/>
 
 
 
@@ -36,16 +23,16 @@ const Moods = () => {
           className="w-3/4 h-full"
           resizeMode="contain"
           source={require("@/assets/852.png")}
-          
         />  
       </View>
-       <View className="px-6 mb-4 mt-2">
-       
+
+
+      <View className="px-6 mb-4 mt-2">
                 <Text className="text-white text-2xl font-extrabold tracking-tight">
-                Select Your Budget
+                How you feel ?
                 </Text>
                 <Text className="text-gray-400 text-md mt-1">
-                Choose a plan that fits your travel style.
+                Choose the mood you match with.
                 </Text>
              </View>
 
@@ -62,18 +49,11 @@ const Moods = () => {
              
               <TouchableOpacity
                 activeOpacity={0.8}
-                onPress={() => setSelectedMoods(item)}
-              >
-                <View
-                  className={`mx-6 mb-4 rounded-2xl border-2 transition-all duration-200`}
-                >
-              
-                 
-
+                onPress={() => setSelectedMoods(item)}>
+                <View>
                   <Card option={item} style="" />
                 </View>
               </TouchableOpacity>
-        
         }
         />
 
@@ -81,7 +61,7 @@ const Moods = () => {
         <View className="px-6 pb-6 pt-4 bg-[#0d0d0d]">
           <Press
             title="Confirm"
-            link={"/screens/(activity)/Position"}
+            link={"/(screens)/(activity)/Position"}
             icon=""
             style=""
           />

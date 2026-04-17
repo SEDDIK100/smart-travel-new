@@ -4,7 +4,7 @@
     "slug": "Venus",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/rock4.png",
+    "icon": "./assets/rockw.png",
     "scheme": "smarttravel",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -20,7 +20,7 @@
     },
     "web": {
       "output": "static",
-      "favicon": "./assets/images/favicon.png",
+      "favicon": "./assets/rockw.png",
       "bundler": "metro"
     },
     "plugins": [

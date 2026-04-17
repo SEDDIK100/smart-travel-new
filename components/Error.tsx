@@ -1,25 +1,27 @@
+import Press from "@/components/Press";
+import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import React from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Header from "./Header";
+interface error{
+  title :string,
+  desc : string,
+  sub: string
+}
 
-const Error = () => {
+
+
+const Error = ({title, desc,sub}:error)  => {
+  
+
   return (
     <SafeAreaView className="flex-1 bg-[#0d0d0d]">
       {/*header*/}
-      <View className="flex-row items-center justify-between mx-6 ">
-        <Text className="text-white"> seaRock </Text>
-
-        <TouchableOpacity className="h-20 w-20 ">
-          <Image
-            className="h-full w-full"
-            resizeMode="contain"
-            source={require("@/assets/rock4.png")}
-          />
-        </TouchableOpacity>
-      </View>
+      <Header link="" />
 
       {/*logo*/}
-      <View className=" items-center w-full h-72 ">
+      <View className=" items-center w-full h-40">
         <Image
           className="w-full h-full"
           resizeMode="contain"
@@ -31,26 +33,23 @@ const Error = () => {
 
       <View className="flex-col gap-6 mb-8">
         <View className="items-center flex-row justify-center gap-5 ">
-          <Text className="text-white text-7xl font-semibold ">Sorry</Text>
-          <FontAwesome6 name="face-smile-wink" size={80} color="white" />
+          <Text className="text-white text-3xl font-semibold "> {title} </Text>
+          <FontAwesome6 name="face-smile-wink" size={40} color="white" />
         </View>
         <View className="items-center mx-6">
-          <Text className="text-white text-4xl text-center font-normal mb-3">
-            Don t miss new destibnations and vibes
+          <Text className="text-white text-2xl text-center font-normal mb-3">
+            {desc}
           </Text>
-          <Text className="text-gray-300 text-2xl text-center font-light">
-            Sign in to see updates from around the worlds
+          <Text className="text-gray-300 text-xl text-center font-light">
+            {sub}
           </Text>
         </View>
       </View>
 
       {/*btn*/}
-      <TouchableOpacity
-        onPress={() => router.push("/(screens)/vibe")}
-        className="items-center "
-      >
-        <Press title="sign" link={"/(auth)/signin"} />
-      </TouchableOpacity>
+      <View>
+        <Press title="signin" link={"/(auth)/signin"} icon="" style="" />
+      </View>
     </SafeAreaView>
   );
 };

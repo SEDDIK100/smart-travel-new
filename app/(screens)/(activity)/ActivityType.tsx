@@ -1,19 +1,17 @@
 import Card from "@/components/Card";
-import Header from "@/components/Header";
 import Press from "@/components/Press";
-import { travel } from "@/constants/data";
-import { router } from "expo-router";
 import React, { useState } from "react";
 import { FlatList, Image, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-
-const Travellers = () => {
-  const [traveller, setTraveller] = useState<any | null>(null);
+import { activityThemes } from "@/constants/data";
+import Header from "@/components/Header";
+const ActivityType = () => {
+  const [type, setType] = useState<any | null>(null);
 
   return (
     <SafeAreaView className="flex-1 bg-[#0d0d0d]">
       {/*header*/}
-      <Header link="/(screens)/(plan)/TripName" />
+        <Header link="/(screen)/(activity)/Position"/>
 
       {/*logo*/}
       <View className="items-center w-full h-40">
@@ -25,10 +23,10 @@ const Travellers = () => {
       </View>
         <View className="px-6 mb-4">
                     <Text className="text-white text-2xl font-extrabold tracking-tight">
-                      how many are you ?
+                      what you want to do
                     </Text>
                     <Text className="text-gray-400 text-md mt-1">
-                      Choose a you accompany.
+                      Choose an activity you prefer
                     </Text>
                   </View>
 
@@ -36,11 +34,11 @@ const Travellers = () => {
       
         <FlatList
           className="mb-2 "
-          data={travel}
+          data={activityThemes}
           renderItem={({ item, index }) => {
-            const isSelected = traveller?.id === item.id
+            const isSelected = type?.id === item.id
             return(
-            <TouchableOpacity onPress={() => setTraveller(item)}>
+            <TouchableOpacity onPress={() => setType(item)}>
               
                 <Card option={item}  style="  " />
             
@@ -48,9 +46,6 @@ const Travellers = () => {
           }}
         />
         <View>
-
-
-
 
 
         {/*btn*/}
@@ -67,4 +62,4 @@ const Travellers = () => {
   );
 };
 
-export default Travellers;
+export default ActivityType;

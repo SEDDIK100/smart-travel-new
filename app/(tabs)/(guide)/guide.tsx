@@ -9,19 +9,20 @@ const Guide = () => {
   return (
     <SafeAreaView className="flex-1 bg-[#0d0d0d]">
       {/*header*/}
-      <View className="flex-row mx-6 ">
+      <View className="flex-row items-center justify-between mx-6 ">
         <Text className="text-white"> seaRock </Text>
-        <TouchableOpacity className="w-10 h-10 ">
+
+        <TouchableOpacity className="h-20 w-20 ">
           <Image
-            className="h-full w-full rounded-full"
+            className="h-full w-full"
             resizeMode="contain"
-            source={require("@/assets/st.jpg")}
+            source={require("@/assets/rock4.png")}
           />
         </TouchableOpacity>
       </View>
 
       {/*logo*/}
-      <View className=" items-center w-full h-72 ">
+      <View className=" items-center w-full h-56 ">
         <Image
           className="w-full h-full"
           resizeMode="contain"
@@ -48,7 +49,7 @@ const Guide = () => {
 
       <View className="items-center mx-6">
         <Text className="text-white text-2xl font-bold text-center mb-1 ">
-          Complete Plan
+          Trip
         </Text>
         <Text className="text-gray-400 text-center text-base mb-3">
           “Prefer to plan it all? Customize every detail for the perfect
@@ -58,7 +59,23 @@ const Guide = () => {
           onPress={() => router.replace("/(screens)/(plan)/TripName")}
           className="bg-[#A3E635] w-3/5 border border-white justify-center py-3 flex-row rounded-2xl space-x-4 items-center"
         >
-          <Text className="text-center text-lg "> Generate plan </Text>
+          <Text className="text-center text-lg "> Generate Trip </Text>
+          <FontAwesome5 name="magic" size={24} color="black" />
+        </TouchableOpacity>
+      </View>
+
+      <View className="items-center mx-6">
+        <Text className="text-white text-2xl font-bold text-center mb-1 ">
+          Chat Bot
+        </Text>
+        <Text className="text-gray-400 text-center text-base mb-3">
+          ask chat bot
+        </Text>
+        <TouchableOpacity
+          onPress={() => router.push("/(tabs)/(guide)/guideRes")}
+          className="bg-[#A3E635] w-3/5 border border-white justify-center py-3 flex-row rounded-2xl space-x-4 items-center"
+        >
+          <Text className="text-center text-lg "> ask </Text>
           <FontAwesome5 name="magic" size={24} color="black" />
         </TouchableOpacity>
       </View>

@@ -5,6 +5,7 @@ const _layout = () => {
   return (
     <Stack>
         <Stack.Screen  name="guide" options={{headerShown:false}} />
+        <Stack.Screen  name="guideRes" options={{headerShown:false}} />
     </Stack>
   
   )

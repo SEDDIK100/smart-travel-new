@@ -1,18 +1,26 @@
-import { auth, db } from "@/config";
+import { db } from "@/config";
+import { setUser } from "@/redux/slices/userSlices";
 import { RootState } from "@/redux/stores";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { router } from "expo-router";
 import { doc, updateDoc } from "firebase/firestore";
 import React, { useState } from "react";
-import { Alert, Image, Text, TextInput, TouchableOpacity, View } from "react-native";
+import {
+  Image,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View
+} from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const InformPer = () => {
+  const dispatch = useDispatch();
   const [userName, setUserName] = useState<string>("");
-  const [birthday, setBirthday] = useState<Date | null>(null);
-  const [person, setPerson] = useState<string | null>(null);
+  const [birthday, setBirthday] = useState<Date>(new Date());
+  const [person, setPerson] = useState<string>("");
   const [visible, setIsvisible] = useState(false);
 
   const handleConfirm = (date: Date) => {
@@ -20,25 +28,37 @@ const InformPer = () => {
     setIsvisible(!visible);
   };
 
-  const currrentUser = useSelector((state:RootState )=>{state.user.user})
-  console.log("currentuser", currrentUser)
-  const updateProfile = async()=>{
-    console.log('id user', currrentUser?.id)
-  await updateDoc(doc(db, "users", currrentUser?.id), {
+  const currentUser = useSelector((state: RootState) => state.user.user);
+  console.log("currentuser", currentUser);
+  const updateProfile = async () => {
+    console.log("id user", currentUser?.id);
+    if (!currentUser?.id)return 
+    await updateDoc(doc(db, "users", currentUser?.id), {
       username: userName,
-      birthdate: birthday?.toDateString(),
-      gender: person 
-    })
+      birthdate: birthday ? birthday.toDateString() : "",
+      gender: person,
+    });
 
+    if (!birthday) {
+      console.log("birthday");
+    }
+    // Update Redux state too
+    dispatch(
+      setUser({
+        user: {
+          email: currentUser ? currentUser.email :"" ,
+          password: currentUser ? currentUser.password :"" ,
+          id: currentUser  ? currentUser.id  : "" ,  
+          username: userName,
+          birthdate: birthday.toDateString(),
+          gender: person,
+        },
+        token: null,
+      }),
+    );
 
-    
-
-    router.replace("/(tabs)/home")
-
-  }
-
-
-
+    router.replace("/(tabs)/home");
+  };
 
   return (
     <SafeAreaView className="flex-1 bg-[#0d0d0d]">
@@ -71,7 +91,7 @@ const InformPer = () => {
           <Text className="text-white text-4xl font-bold text-center mb-2 ">
             continue with signing up !
           </Text>
-          <Text className="text-gray-400 text-center text-base mb-1">
+          <Text className="text-gray-400 text-center mb-1">
             make yourself home ...
           </Text>
         </View>
@@ -80,10 +100,9 @@ const InformPer = () => {
         <View className="my-6">
           <Text className="te text-sm text-gray-300 mb-2">user name *</Text>
           <TextInput
-            className="text-white py-4 bg bg-[#1A2235] px-5 rounded-2xl text-base mb-2"
+            className="text-white py-4 bg bg-[#1A2235] px-5 rounded-2xl mb-2"
             placeholder="user name"
             placeholderTextColor="#64748B"
-
             value={userName}
             onChangeText={setUserName}
           />

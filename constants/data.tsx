@@ -59,7 +59,7 @@ export const vb: Travel[] = [
   },
   {
     id: 5,
-    title: "Party & Cultural Discovery",
+    title: "Cultural Discovery",
     description: "Explore history, traditions, and local life.",
     icon: require("@/assets/rock4.png"),
   },
@@ -100,7 +100,7 @@ export const budgets: Travel[] = [
   },
   {
     id: 6,
-    title: "Very High / Ultra Luxury",
+    title: "Ultra Luxury",
     description: "Exclusive villas, first-class travel, and VIP experiences.",
     icon: require("@/assets/rock4.png"),
   },
@@ -162,25 +162,84 @@ export const activityPlace: Travel[] = [
   {
     id: 1,
     title: "At Home",
-    description: "Relax and enjoy activities from the comfort of your home",
+    description: "enjoy activities from the comfort of your home",
     icon: require("@/assets/rock4.png"),
   },
+ 
   {
     id: 2,
-    title: "Outside",
-    description: "Explore outdoor activities and new places",
+    title: "Indoor",
+    description: "Enjoy indoor places like cafes, gyms, or malls",
     icon: require("@/assets/rock4.png"),
   },
   {
     id: 3,
-    title: "Indoor Spots",
-    description: "Visit indoor places like cafes, gyms, or malls",
+    title: "Outdoor ",
+    description: "Enjoy nature, parks, and open-air experiences",
+    icon: require("@/assets/rock4.png"),
+  },
+];
+
+
+export const activityThemes = [
+  {
+    id: 1,
+    title: "Sports",
+    description: "Physical activities like football, gym, or running",
+    icon: require("@/assets/rock4.png"),
+  },
+  {
+    id: 2,
+    title: "Music",
+    description: "Listening, playing instruments, or discovering songs",
+    icon: require("@/assets/rock4.png"),
+  },
+  {
+    id: 3,
+    title: "Art & Drawing",
+    description: "Creative expression through drawing, painting, or design",
     icon: require("@/assets/rock4.png"),
   },
   {
     id: 4,
-    title: "Outdoor Adventures",
-    description: "Enjoy nature, parks, and open-air experiences",
+    title: "Gaming",
+    description: "Playing video games or interactive entertainment",
+    icon: require("@/assets/rock4.png"),
+  },
+  {
+    id: 5,
+    title: "Travel",
+    description: "Exploring new places and environments",
+    icon: require("@/assets/rock4.png"),
+  },
+  {
+    id: 6,
+    title: "Food & Cooking",
+    description: "Cooking meals or discovering new foods",
+    icon: require("@/assets/rock4.png"),
+  },
+  {
+    id: 7,
+    title: "Learning",
+    description: "Studying, reading, or gaining new skills",
+    icon: require("@/assets/rock4.png"),
+  },
+  {
+    id: 8,
+    title: "Movies & Series",
+    description: "Watching films, shows, or documentaries",
+    icon: require("@/assets/rock4.png"),
+  },
+  {
+    id: 9,
+    title: "Photography",
+    description: "Capturing moments and creative visuals",
+    icon: require("@/assets/rock4.png"),
+  },
+  {
+    id: 10,
+    title: "Technology",
+    description: "Coding, gadgets, and exploring tech",
     icon: require("@/assets/rock4.png"),
   },
 ];

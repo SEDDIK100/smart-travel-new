@@ -1,11 +1,43 @@
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
-import { router } from "expo-router";
-import React from "react";
+import { router, useFocusEffect } from "expo-router";
+import React, { useCallback } from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import "../global.css";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/stores";
 
 const Index = () => {
+  const currentUser= useSelector((state: RootState)=>  state.user.user)
+  
+  useFocusEffect(
+
+    useCallback(() => {
+      const checkToken = async () => {
+        try {
+          const storedToken = await AsyncStorage.getItem('token');
+          if(storedToken){
+              if(currentUser?.username==="" && currentUser?.birthdate==="" && currentUser?.gender==="" ){
+                router.replace('/(auth)/informPer')
+              }else if(currentUser?.username!==""&& currentUser?.birthdate!=="" && currentUser?.gender!=="") {
+
+                console.log('sotred tooken',storedToken)
+                router.replace("/(tabs)/(guide)/guide")
+              } 
+
+//             setToken(storedToken);
+//             signIn(dispatch, router, t, undefined, undefined, true)
+          }
+        } catch (error) {
+          console.log('Erreur lors de la vérification du token :', error);
+
+        }
+      };
+      checkToken();
+    }, [])
+  );
+
   return (
     <SafeAreaView className="flex-1 bg-[#0d0d0d]">
       <View className="flex-1 items-center ">

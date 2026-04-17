@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
-import { initializeAuth,} from "firebase/auth";
 const firebaseConfig = {
   apiKey: "AIzaSyCY02XODOVSmmoAkWsW6CskJ4nVqpUxruI",
   authDomain: "smart-travel-75201.firebaseapp.com",
@@ -17,7 +17,7 @@ const firebaseConfig = {
 
 
 export const app = initializeApp(firebaseConfig);
-export const auth = initializeAuth(app)
+export const auth = getAuth(app)
 export const db = getFirestore(app);
 
 

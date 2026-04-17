@@ -4,7 +4,7 @@ import "../global.css";
 import { store } from "../redux/stores";
 
 export default function RootLayout() {
-  return (
+   return (
     <Provider store={store}>
       <Slot />
     </Provider>

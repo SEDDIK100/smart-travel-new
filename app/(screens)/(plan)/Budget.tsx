@@ -1,4 +1,5 @@
 import Card from "@/components/Card";
+import Header from "@/components/Header";
 import Press from "@/components/Press";
 import { budgets } from "@/constants/data";
 import { router } from "expo-router";
@@ -13,22 +14,7 @@ const Budget = () => {
 
   return (
     <SafeAreaView className="flex-1 bg-[#0d0d0d]">
-      <View className="flex-row items-center justify-between px-6 mt-2">
-        <TouchableOpacity  
-          onPress={() => router.replace("/(screens)/(plan)/vibe")}
-          className="bg-[#1c1c1e] border border-white/10 rounded-full h-10 w-10 items-center justify-center"
-        >
-          <Text className="text-white text-lg">{"<-"}</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity className="w-10 h-10">
-          <Image
-            className="h-full w-full rounded-full border-2 border-[#1c1c1e]"
-            resizeMode="cover"
-            source={require("@/assets/st.jpg")}
-          />
-        </TouchableOpacity>
-      </View>
+      <Header link="/(screen)/(plan)/vide"/>
 
       <View className="items-center justify-center w-full h-32 mt-4">
         <Image
@@ -40,10 +26,10 @@ const Budget = () => {
 
       <View className="px-6 mb-4 mt-2">
         <Text className="text-white text-2xl font-extrabold tracking-tight">
-          Select Your Budget
+          what is your budget ?
         </Text>
         <Text className="text-gray-400 text-md mt-1">
-          Choose a plan that fits your travel style.
+          Choose the budget you can afford.
         </Text>
       </View>
 
@@ -54,23 +40,14 @@ const Budget = () => {
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{ paddingBottom: 20 }}
           renderItem={({ item }) => {
-            const isActive = selectedBudget === item;
 
             return (
               <TouchableOpacity
                 activeOpacity={0.8}
                 onPress={() => setSelectedBudget(item)}
               >
-                <View
-                  className={`mx-6 mb-4 rounded-2xl border-2 transition-all duration-200`}
-                >
-              
-                  {isActive && (
-                    <View className="absolute top-4 right-4 h-3 w-3 rounded-full bg-indigo-500 z-10" />
-                  )}
-
-                  <Card option={item} style="" />
-                </View>
+                  <Card option={item} style="h-32 " />
+             
               </TouchableOpacity>
             );
           }}

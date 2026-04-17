@@ -1,31 +1,16 @@
-import React from 'react'
+import Header from "@/components/Header";
 import Press from "@/components/Press";
 import { router } from "expo-router";
-import { Image, Text, TouchableOpacity, View } from "react-native";
-import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
+import React from "react";
+import { Image, Text, TouchableOpacity, View, TextInput } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-
-const ActivityName = () => {
+const  ActivityName  = () => {
   return (
-     <SafeAreaView className="flex-1 bg-[#0d0d0d]">
-      {/*header*/}
-      <View className="flex-row items-center justify-between px-8 ">
-        <TouchableOpacity
-          onPress={() => router.replace("/(tabs)/(guide)/guide")}
-          className="bg-white rounded-full h-8 w-8 items-center justify-center "
-        >
-          <Text> {`<-`} </Text>
-        </TouchableOpacity>
-        <TouchableOpacity className="w-10 h-10 ">
-          <Image
-            className="h-full w-full rounded-full"
-            resizeMode="contain"
-            source={require("@/assets/st.jpg")}
-          />
-        </TouchableOpacity>
-      </View>
-      {/*logo*/}
+    <SafeAreaView className="flex-1 bg-[#0d0d0d]">
+    
+     <Header link="/(tabs)/(guide)/guide" />
+    
       <View className=" items-center w-full h-72 ">
         <Image
           className="w-full h-full"
@@ -34,28 +19,36 @@ const ActivityName = () => {
         />
       </View>
 
-      {/*seaarchBar*/}
-      <View className="mx-6 mb-20">
-        <GooglePlacesAutocomplete
-          styles={{ backgroundColor: "red" }}
-          placeholder="Search"
-          onPress={(data, details = null) => {
-            console.log(data, details);
-          }}
-          query={{
-            key: "YOUR API KEY",
-            language: "en",
-          }}
-        />
-      </View>
+    
+     <View className="px-5">
+               <Text className="text-sm text-gray-300 mb-2"> Activity Name * </Text>
+               <TextInput
+                 className={`text-white text-   p-4 bg bg-[#1A2235] px-5 rounded-2xl 
+                mb-2`}
+                 placeholder="your activity name"
+                 placeholderTextColor="#64748B"
+                 
+                 autoCapitalize="none"
+                 autoCorrect={false}
+                 textContentType="emailAddress"
+     
+               />
+
+
+               </View>  
 
       {/*btn*/}
 
-      <View>
-        <Press title="confirm" link={"/screens/(activity)/Moods"} icon="" style=""/>
+      <View className="my-6" >
+        <Press
+          title="confirm"
+          link={"/(screens)/(activity)/Moods"}
+          icon=""
+          style=""
+        />
       </View>
     </SafeAreaView>
-  )
-}
+  );
+};
 
-export default ActivityName
+export default ActivityName;

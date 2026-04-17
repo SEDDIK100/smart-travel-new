@@ -9,54 +9,57 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  Alert,
+  ActivityIndicator
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { auth, db } from "@/config";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { addDoc, collection, doc, setDoc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 
 const SignUp = () => {
-  
-    
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [touched, setTouched] = useState({em:false, pwd:false, confirm: false})
-  const [showPwd, setShowPwd] =useState(false)
-  const [showConfirm, setShowConfirm]=useState(false)
-
-
-  const pwdError = password.length <8 ? 'min 8 carater': ''
-  const confirmError = confirmPassword !== password ? 'passwords do not match' : ''
-
-  const isValid = !pwdError && !confirmError
-
-
-  
-  
-
-  
-
-
+  const [showP, setShowP] = useState(false)
+  const [showC, setShowC] = useState(false)
+  const [loading, setLoading] = useState(false)
 
 
   const handleSubmit = async () => {
-    if (email && password) {
-      const userCredential = await createUserWithEmailAndPassword(
+    if (!email || !password || !confirmPassword ){
+      Alert.alert("you have to fill the empty")
+      return
+    }
+    if(password !== confirmPassword){
+      Alert.alert("password does not match")
+      return
+    }
+
+    setLoading(true)
+    try{
+        const userCredential = await createUserWithEmailAndPassword(
         auth,
         email,
         confirmPassword,
       );
       const user = userCredential.user;
-      await setDoc(doc(db, "users", user.uid ), {
+      await setDoc(doc(db, "users", user.uid), {
         username: "",
         birthdate: "",
         gender: "",
         createdAt: new Date().toISOString(),
       });
-    } else {
-      console.log("eororororror");
+      router.push('/(auth)/signin')
+    }
+    
+     
+     catch {
+        Alert.alert('something went wrong')
+    }
+    finally{
+      setLoading(false)
     }
   };
 
@@ -109,7 +112,7 @@ const SignUp = () => {
           <Text className="text-sm text-gray-300 mb-2">email adresse * </Text>
           <TextInput
             className={`text-white py-4 bg bg-[#1A2235] px-5 rounded-2xl 
-          text-base mb-2`}
+           mb-2`}
             placeholder="example@gmail.com"
             placeholderTextColor="#64748B"
             keyboardType="email-address"
@@ -118,66 +121,67 @@ const SignUp = () => {
             autoCapitalize="none"
             autoCorrect={false}
             textContentType="emailAddress"
-
           />
-          {/*
-          {touched.em && emailError && (
-            <Text className="text-red-500 text-xs mt-1"> {emailError} </Text>
-          )  }
-           */}
+    
 
           <Text className="text-sm text-gray-300 mb-2"> password *</Text>
 
           <TextInput
-            className="text-white py-4 bg bg-[#1A2235] px-5 rounded-2xl text-base mb-2"
+            className="text-white py-4 bg bg-[#1A2235] px-5 rounded-2xl mb-2"
             placeholder="@Sn123hsn#"
             placeholderTextColor="#64748B"
             onChangeText={(text) => setPassword(text)}
             value={password}
-            secureTextEntry={!showPwd}
-            onBlur={()=> setTouched(t=> ({...t, pwd: !t.pwd}))}  
+            secureTextEntry={!showP}
+           
           />
-          <Pressable onPress={() => setShowPwd((v) => !v)}>
+          <Pressable onPress={() => setShowP((v) => !v)}>
             <Text className="text-gray-400 text-sm">
-              {showPwd ? "hide" : "show"}
+              {showP? "hide" : "show"}
             </Text>
           </Pressable>
-          
-            {touched.pwd && pwdError && (
-              <Text className="text-red-500 text-xs mt-1" > {pwdError} </Text>
-            ) }  
+
+        
 
           <Text className="text-sm text-gray-300 mb-2">confirm password *</Text>
 
           <TextInput
-            className={`text-white py-4 bg bg-[#1A2235] px-5 rounded-2xl text-base mb-2 `}
+            className={`text-white py-4 bg bg-[#1A2235] px-5 rounded-2xl mb-2 ${confirmPassword && confirmPassword !== password 
+              ? 'border-red-500'  : 'border-gray-700'
+             }  `}
             placeholder="repeat password"
             placeholderTextColor="#64748B"
             onChangeText={setConfirmPassword}
             value={confirmPassword}
-            secureTextEntry={true}
-           onBlur={()=> setTouched(t=> ({...t, confirm:true })) } 
+            secureTextEntry={!showC}
+           
           />
-          <Pressable onPress={() => setShowConfirm((v) => !v)}>
+          <Pressable onPress={() => setShowC((v) => !v)}>
             <Text className="text-gray-400 text-sm">
-              {showConfirm ? "hide" : "show"}
+              {showC ? "hide" : "show"}
             </Text>
           </Pressable>
 
-          {touched.confirm && confirmError && (
-          <Text className="text-red-500 text-sm mt-1"> {confirmError}  </Text>
-        ) } 
+          {confirmPassword && (password !== confirmPassword) &&  (
+            <Text className="text-red-500  mt-1"> password does not match </Text>
+          )}
 
-          
           <View className="items-center mt-2">
             <TouchableOpacity
+            disabled={loading}
               onPress={handleSubmit}
               className={`bg-[#A3E635] py-4 rounded-2xl flex-row w-3/5
                    items-center justify-center active:opacity-90`}
             >
-              <Text className={`text-black font-semibold text-lg `}>
+
+              {loading ? (
+                <ActivityIndicator />)  
+                :
+                (<Text className={`text-black font-semibold text-lg `}>
                 Sign up
-              </Text>
+              </Text>)
+               }
+              
             </TouchableOpacity>
           </View>
         </View>

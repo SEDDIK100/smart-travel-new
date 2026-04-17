@@ -3,8 +3,29 @@ import React from "react";
 import { Image, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useState } from "react";
+import { useDispatch, UseDispatch } from "react-redux";
+import { setLoadingFalse, setLoadingTrue } from "@/redux/slices/loadingSlices";
+import { sendPasswordResetEmail } from "firebase/auth";
+import { auth } from "@/config";
 
 const Forgot = () => {
+  const [email , setEmail]= useState("")
+
+  const dispatch =useDispatch()
+
+  const onForgotPassword = async () => {
+
+        try {
+            dispatch(setLoadingTrue());
+            await sendPasswordResetEmail(auth, email);
+          
+        } catch (error: any) {
+            console.error("Forgot password error:", error);
+        }finally{
+            dispatch(setLoadingFalse());
+            router.push("/(auth)/signin");
+        }
+    };
 
 
   return (
@@ -48,20 +69,23 @@ const Forgot = () => {
         {/*email*/}
         <Text className="text-gray-300 text-sm mb-2 ">email adresse </Text>
         <TextInput
-          className="bg-[#1A2235] text-white px-5 py-4 rounded-2xl text-base mb-6"
+          className="bg-[#1A2235] text-white px-5 py-4 rounded-2xl mb-6"
           placeholder="example@gmail.com"
           placeholderTextColor="#64748B"
           keyboardType="email-address"
           autoCapitalize="none"
+          value={email}
+          onChangeText={setEmail}
         />
       </View>
       {/*signiin*/}
       <View className=" items-center">
         <TouchableOpacity
+        onPress={onForgotPassword}
           className="bg-[#A3E635] py-4 rounded-2xl flex-row w-3/5
                           items-center justify-center active:opacity-90 "
         >
-          <Text className="text-black font-semibold text-lg"> Sign in</Text>
+          <Text className="text-black font-semibold text-lg"> send </Text>
         </TouchableOpacity>
       </View>
 
