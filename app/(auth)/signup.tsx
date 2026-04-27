@@ -17,6 +17,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { auth, db } from "@/config";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
+import { Ionicons } from "@expo/vector-icons";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -56,7 +57,7 @@ const SignUp = () => {
     
      
      catch {
-        Alert.alert('something went wrong')
+        Alert.alert('email is used before!')
     }
     finally{
       setLoading(false)
@@ -122,46 +123,48 @@ const SignUp = () => {
             autoCorrect={false}
             textContentType="emailAddress"
           />
-    
-
           <Text className="text-sm text-gray-300 mb-2"> password *</Text>
-
-          <TextInput
-            className="text-white py-4 bg bg-[#1A2235] px-5 rounded-2xl mb-2"
-            placeholder="@Sn123hsn#"
-            placeholderTextColor="#64748B"
-            onChangeText={(text) => setPassword(text)}
-            value={password}
-            secureTextEntry={!showP}
-           
-          />
-          <Pressable onPress={() => setShowP((v) => !v)}>
-            <Text className="text-gray-400 text-sm">
-              {showP? "hide" : "show"}
-            </Text>
-          </Pressable>
-
-        
-
+          <View className="relative mb-6">
+            <TextInput
+              className="bg-[#1A2235] text-white px-5 py-4 pr-14 rounded-2xl"
+              placeholder="@Sn123hsn#"
+              placeholderTextColor="#64748B"
+              secureTextEntry={!showP}
+              value={password}
+              onChangeText={setPassword}
+            />
+            <TouchableOpacity
+              className="absolute right-4 top-3"
+              onPress={() => setShowP((v) => !v)}
+            >
+              <Ionicons
+                name={showP ? "eye-off-outline" : "eye-outline"}
+                size={22}
+                color="#94a3b8"
+              />
+            </TouchableOpacity>
+          </View>
           <Text className="text-sm text-gray-300 mb-2">confirm password *</Text>
-
-          <TextInput
-            className={`text-white py-4 bg bg-[#1A2235] px-5 rounded-2xl mb-2 ${confirmPassword && confirmPassword !== password 
-              ? 'border-red-500'  : 'border-gray-700'
-             }  `}
-            placeholder="repeat password"
-            placeholderTextColor="#64748B"
-            onChangeText={setConfirmPassword}
-            value={confirmPassword}
-            secureTextEntry={!showC}
-           
-          />
-          <Pressable onPress={() => setShowC((v) => !v)}>
-            <Text className="text-gray-400 text-sm">
-              {showC ? "hide" : "show"}
-            </Text>
-          </Pressable>
-
+          <View className="relative mb-6">
+            <TextInput
+              className="bg-[#1A2235] text-white px-5 py-4 pr-14 rounded-2xl"
+              placeholder="@Sn123hsn#"
+              placeholderTextColor="#64748B"
+              secureTextEntry={!showC}
+              value={confirmPassword}
+              onChangeText={setConfirmPassword}
+            />
+            <TouchableOpacity
+              className="absolute right-4 top-3"
+              onPress={() => setShowC((v) => !v)}
+            >
+              <Ionicons
+                name={showC ? "eye-off-outline" : "eye-outline"}
+                size={22}
+                color="#94a3b8"
+              />
+            </TouchableOpacity>
+          </View>
           {confirmPassword && (password !== confirmPassword) &&  (
             <Text className="text-red-500  mt-1"> password does not match </Text>
           )}

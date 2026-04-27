@@ -1,16 +1,25 @@
 import Header from "@/components/Header";
 import Press from "@/components/Press";
-import { router } from "expo-router";
-import React from "react";
-import { Image, Text, TouchableOpacity, View, TextInput } from "react-native";
+import React, { useState } from "react";
+import { Image, Text, View, TextInput } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useAppDispatch } from "@/redux/stores";
+import { setActivityName as setActivityNameAction } from "@/redux/slices/activitySlices";
 
-const  ActivityName  = () => {
+const ActivityName = () => {
+  const dispatch = useAppDispatch();
+  const [name, setName] = useState("");
+
+  const handleConfirm = () => {
+    if (name.trim()) {
+      dispatch(setActivityNameAction(name.trim()));
+    }
+  };
+
   return (
     <SafeAreaView className="flex-1 bg-[#0d0d0d]">
-    
-     <Header link="/(tabs)/(guide)/guide" />
-    
+      <Header link="/(tabs)/(guide)/guide" />
+
       <View className=" items-center w-full h-72 ">
         <Image
           className="w-full h-full"
@@ -19,32 +28,26 @@ const  ActivityName  = () => {
         />
       </View>
 
-    
-     <View className="px-5">
-               <Text className="text-sm text-gray-300 mb-2"> Activity Name * </Text>
-               <TextInput
-                 className={`text-white text-   p-4 bg bg-[#1A2235] px-5 rounded-2xl 
-                mb-2`}
-                 placeholder="your activity name"
-                 placeholderTextColor="#64748B"
-                 
-                 autoCapitalize="none"
-                 autoCorrect={false}
-                 textContentType="emailAddress"
-     
-               />
+      <View className="px-5">
+        <Text className="text-sm text-gray-300 mb-2"> Activity Name * </Text>
+        <TextInput
+          className={`text-white text-base p-4 bg-[#1A2235] px-5 rounded-2xl mb-2`}
+          placeholder="your activity name"
+          placeholderTextColor="#64748B"
+          value={name}
+          onChangeText={setName}
+          autoCapitalize="none"
+          autoCorrect={false}
+        />
+      </View>
 
-
-               </View>  
-
-      {/*btn*/}
-
-      <View className="my-6" >
+      <View className="my-6">
         <Press
           title="confirm"
           link={"/(screens)/(activity)/Moods"}
           icon=""
           style=""
+          onBeforeNavigate={handleConfirm}
         />
       </View>
     </SafeAreaView>

@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 const Profile = () => {
   const userInform = useSelector((state: RootState) => state.user.user);
 
-  if (userInform) {
+  if (!userInform) {
     return (
       <Error
         title="sorry"

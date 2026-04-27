@@ -12,12 +12,13 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { auth, db } from "@/config";
-import { setUser } from "@/redux/slices/userSlices";
+import { setChats, setUser } from "@/redux/slices/userSlices";
 import { router } from "expo-router";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, orderBy, query } from "firebase/firestore";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import { Ionicons } from "@expo/vector-icons";
 
 const SignIn = () =>{
   const [email, setEmail] = useState("");
@@ -34,13 +35,12 @@ const SignIn = () =>{
     setLoading(true)
     try {
       const logedIn = await signInWithEmailAndPassword(auth, email, password);
-      console.log("log", logedIn._tokenResponse.idToken)
-      await AsyncStorage.setItem("token", logedIn._tokenResponse.idToken)
+      const token = await logedIn.user.getIdToken()
+      await AsyncStorage.setItem("token", token)
       if (!logedIn) {
         Alert.alert("errrrro");
       }
       const profile = await getDoc(doc(db, "users", logedIn.user.uid));
-      console.log("loged", logedIn.user.uid);
 
       if (profile.exists()) {
         const userData = profile.data();
@@ -58,7 +58,23 @@ const SignIn = () =>{
             token: "",
           }),
         );
+        const chatsSnap = await getDocs(
+          query(
+            collection(db, "users", logedIn.user.uid, "chats"),
+            orderBy("createdAt", "desc")
+          )
+        );
 
+        const chats = chatsSnap.docs.map((d) => ({
+          id: d.id,
+          createdAt: d.data().createdAt?.toDate().toISOString() ?? new Date().toISOString(),
+          messages: (d.data().messages ?? []).map((m: any) => ({
+            ...m,
+            createdAt: m.createdAt?.toDate?.()?.toISOString?.() ?? new Date().toISOString(),
+          })),
+        }));
+
+        dispatch(setChats(chats));
         if (
           profile.data().username === "" &&
           profile.data().birthdate === "" &&
@@ -129,22 +145,26 @@ const SignIn = () =>{
 
         {/*password*/}
         <Text className="text-gray-300 text-sm mb-2">password</Text>
-        <TextInput
-          className="bg-[#1A2235] text-white px-5 py-4  pr-14 rounded-2xl"
-          placeholder="@Sn123hsn#"
-          placeholderTextColor="#64748B"
-          secureTextEntry={true}
-          value={password}
-          onChangeText={setPassword}
-        />
-        <TouchableOpacity
-          className="absolute right-4 top-4"
-          onPress={() => setShowP((v) => !v)}
-        >
-          <Text className="text-zinc-400 text-sm">
-            {showP ? "Hide" : "Show"}
-          </Text>
-        </TouchableOpacity>
+        <View className="relative mb-6">
+          <TextInput
+            className="bg-[#1A2235] text-white px-5 py-4 pr-14 rounded-2xl"
+            placeholder="@Sn123hsn#"
+            placeholderTextColor="#64748B"
+            secureTextEntry={!showP}
+            value={password}
+            onChangeText={setPassword}
+          />
+          <TouchableOpacity
+            className="absolute right-4 top-3"
+            onPress={() => setShowP((v) => !v)}
+          >
+            <Ionicons
+              name={showP ? "eye-off-outline" : "eye-outline"}
+              size={22}
+              color="#94a3b8"
+            />
+          </TouchableOpacity>
+        </View>
 
         <View className="flex-row justify-between items-center mt-2 mb-8 ">
           <View className="flex-row items-center gap-1 ">

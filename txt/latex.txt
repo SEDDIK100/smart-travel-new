@@ -1,0 +1,977 @@
+\documentclass[a4paper, 12pt]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{float}
+
+\geometry{margin=2.5cm}
+
+\title{Projet de Fin d'Études : Application de Recommandation et Planification Intelligente d'Activités}
+\author{Votre Nom}
+\date{}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+\newpage
+
+\chapter*{Introduction Générale}
+\addcontentsline{toc}{chapter}{Introduction Générale}
+
+Dans un monde marqué par un rythme de vie tres rapide avec une forte dépendance aux technologies numériques, les individus se retrouvent souvent prisonniers de routines quotidiennes répétitives,cela leur cause du stress, de l' epuisement mentale et de la perte du motivation. 
+
+Paradoxalement, malgré richesses d'informations et de la disponibilité de divertissements, il est devenu de plus en plus difficile pour les individus de choisir des activités qui correspondent a leurs préférences, leurs loisirs, leur budget et leur temps libre.
+
+Avec la croissance de l'intelligence artificielle, de nouvelles opportunités naissant pour améliorer l'expérience utilisateur grâce à des services avancés. Par ailleurs, l'exploitation des données via les techniques de \textbf{Business Intelligence} permet d'analyser le comportement des utilisateurs afin de les aider à optimiser leurs décisions.
+
+Dans ce contexte, notre projet consiste à concevoir et développer une \textbf{application mobile intelligente} capable de programmer une diversité d'activités personnalisées, de planifier des sorties ou voyages, en fonction des besoins et préférences des utilisateurs. Cette application vise à les aider à changer leur routine quotidienne, à améliorer leur bien-être et à mieux gérer leur temps libre, tout en leur offrant une expérience simple, créative et efficace basée sur l'intelligence artificielle et l'analyse des données.
+
+\newpage
+
+\chapter{Étude Préalable}
+\newpage
+
+\section{Introduction}
+Ce premier chapitre présente le contexte général du projet. Nous allons commencer par présenter l’organisme d’accueil \textbf{ITGate Group}, où nous avons effectué notre stage PFE. Nous allons exposé ensuite le contexte du problème, l' objectif du projet et un aperçu des aspects techniques.
+
+\section{Cadre Général du Projet}
+
+\subsection{Présentation de l’organisme d'accueil}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.4\textwidth]{itgate-logo.png}
+    \caption{Logo de ITGate Group}
+    \label{fig:itgate-logo}
+\end{figure}
+
+\textbf{ITGate Group} est une société d’ingénierie informatique créée en 2015, spécialisée dans le développement et les services informatiques. Répartie entre l’expérience utilisateur, le design, le développement web et mobile, l’entreprise est guidée par des valeurs telles que l’organisation, la collaboration, la confiance et la responsabilité.
+
+\subsection{Services proposés}
+\begin{itemize}
+    \item Développement web, mobile et embarqué
+    \item Mise en œuvre de solutions mobiles et web
+    \item Services informatiques et infogérance
+    \item Référencement naturel (SEO)
+    \item Conception graphique et design UI/UX
+\end{itemize}
+
+\subsection{Fiche signalétique}
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{|p{4.5cm}|p{9cm}|}
+\hline
+\textbf{Adresse} & 2ème étage B1, Résidence El Hamd, Rue d'Algérie, Sousse 4011 \\
+\hline
+\textbf{Activité} & Développement et services informatiques \\
+\hline
+\textbf{Forme juridique} & SUARL \\
+\hline
+\textbf{Date de création} & Novembre 2015 \\
+\hline
+\textbf{Surface} & 240 m² \\
+\hline
+\textbf{Téléphone} & 73 325 001 \\
+\hline
+\textbf{Mobile} & 54 161 325 \\
+\hline
+\textbf{Site web} & \textcolor{blue}{\texttt{www.itgate-group.com}} \\
+\hline
+\end{tabular}
+\caption{Fiche signalétique d’ITGate Group}
+\end{table}
+
+\section{presentation du projet}
+\subsection{contexte du projet}
+Dans le cadre de mon projet de fin d’études, j’ai eu l’opportunité de réaliser
+un stage chez ITGate. en ce moment je remarquais toujours que la creativite et l' inventivité humaine sont en régression progressive. donc l' epoque actuelle fait face un probleme de blocage d' inspiration et d' imagination: une pauvreté d' idée en termes generale.c' est pour cela j' ai proposé a cette entreprise ma propre idees pour la realisation un application mobile pour resoudre ces problemes.  
+
+
+
+\subsection{problematique}
+La vie moderne, avec son rythme effrené, provoque une perte de motivation, de créativité et de bien-être. Les individus manquent d’idées et de temps pour organiser des activités et des sorties pour casser la monotonie. 
+
+C’est dans ce cadre que s’inscrit notre projet : concevoir une solution innovante permettant de faciliter l’accès à des programme d' activités variées et personnalisées afin d’aider les utilisateurs à sortir de leur routine quotidienne.
+
+
+
+\section{Étude de l’Existant}
+De nos jours, de nombreuses applications proposent des services de découverte d’activités et de planification de sorties ou voyages.
+
+\subsection{Solutions existantes}
+Voici les principales applications représentatives du marché :
+
+\begin{itemize}
+    \item \textbf{Meetup} : Application sociale permettant de découvrir et rejoindre des événements locaux (tech, sport, networking…), basée sur la communauté et les groupes d’intérêt.
+    \item \textbf{Calm} : Application de bien-être proposant méditation, relaxation et gestion du stress, axée sur l’état émotionnel et mental de l’utilisateur.
+    \item \textbf{GetYourGuide} : Plateforme de réservation d’activités touristiques (visites, excursions…), offrant plus de 150\,000 expériences dans le monde.
+\end{itemize}
+
+\subsection{Analyse comparative}
+
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{|p{3.2cm}|p{5.8cm}|p{5.8cm}|}
+\hline
+\textbf{Application} & \textbf{Avantages} & \textbf{Inconvénients} \\
+\hline
+\textbf{Meetup} &
+- Facilite les rencontres et le networking \newline
+- Large choix d’événements locaux \newline
+- Interface simple et accessible &
+- Pas de génération automatique de programme \newline
+- Personnalisation limitée \newline
+- Pas d’aide à la décision intelligente \\
+\hline
+\textbf{GetYourGuide} &
+- Large catalogue d’activités touristiques \newline
+- Réservation simple et rapide \newline
+- Disponible à l’international &
+- Prix parfois élevés (commissions) \newline
+- Dépendance aux prestataires externes \newline
+- Pas de planification intelligente \\
+\hline
+\textbf{Calm} &
+- Expérience utilisateur fluide \newline
+- Contenu adapté à l’état émotionnel \newline
+- Favorise le bien-être et la relaxation &
+- Limité au domaine du bien-être \newline
+- Pas d’activités réelles ou sorties \newline
+- Aucune planification ni recommandation avancée \\
+\hline
+\end{tabular}
+\caption{Étude comparative des applications existantes}
+\end{table}
+
+\subsection{Critique des solutions existantes}
+Malgré leur efficacité, ces applications présentent plusieurs limites :
+
+\begin{itemize}
+    \item Absence de génération automatique de programme complet
+    \item Manque de personnalisation intelligente (IA avancée)
+    \item Pas d'intégration de Business Intelligence (BI) pour aider à la décision
+    \item Solutions fragmentées (social, bien-être, tourisme séparés)
+\end{itemize}
+
+\bigskip
+
+L'utilisateur doit souvent utiliser plusieurs applications pour planifier une seule sortie.
+
+\subsection{solution proposé}
+La solution proposée consiste à développer une application mobile intelligente capable de générer automatiquement des programmes d’activités (voyages ou sorties) personnalisés selon le profil de l’utilisateur, incluant ses préférences, son budget, son humeur, ainsi que des données contextuelles telles que la localisation, la météo et le temps disponible, tout en exploitant l’historique et les comportements d’utilisation. Cette application intègre des fonctionnalités avancées telles que la génération automatique de programmes basée sur l’intelligence artificielle, des recommandations personnalisées, ainsi qu’un module de Business Intelligence permettant de transformer les données collectées en tableaux de bord et insights pour faciliter la prise de décision. Ainsi, elle offre une expérience unifiée combinant planification intelligente, aide à la décision et optimisation des choix, en regroupant les aspects liés aux activités sociales, au bien-être et au tourisme au sein d’une seule plateforme.
+
+
+
+\section{methodologie adoptée } 
+\subsection{Méthodologie adoptée}
+
+Dans tout projet informatique, il est essentiel d’adopter une démarche structurée pour garantir une gestion de projet efficace et le développement d’un produit fiable et de qualité. Cette approche permet de répondre aux attentes des clients tout en maîtrisant le processus de développement.
+
+Tout au long de ce projet, nous avons suivi la méthode \textbf{SCRUM Agile}. Cette approche souple et adaptable permet de gérer efficacement les changements de besoins et s’adapte parfaitement à la nature dynamique de notre application.
+
+\subsubsection{Les méthodes Agiles}
+
+Les méthodes agiles sont des approches itératives et collaboratives de gestion de projet, largement adoptées dans le développement logiciel. Elles se distinguent par leur capacité à intégrer les besoins initiaux du client tout en intégrant les évolutions tout au long du cycle de développement. Elles favorisent la communication, la collaboration au sein d’équipes multidisciplinaires et mettent l’accent sur la flexibilité, l’adaptabilité et la livraison continue de valeur.
+
+\subsubsection{Comparaison entre les méthodes classiques et agiles}
+
+Le tableau suivant illustre les principales différences entre les méthodes classiques et les méthodes agiles, justifiant ainsi notre choix de la méthodologie agile :
+
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{|p{5cm}|p{5cm}|p{5cm}|}
+\hline
+\textbf{Élément de projet} & \textbf{Méthode Classique} & \textbf{Méthode Agile} \\
+\hline
+Planification & Rigide et détaillée & Flexible et itérative \\
+Gestion des changements & Résistance aux modifications & Forte adaptabilité \\
+Livraison & En une seule fois (fin de projet) & Incrémentale et régulière \\
+Communication & Limitée & Collaboration étroite et continue \\
+Évaluation des progrès & Basée sur le respect du plan & Basée sur la valeur ajoutée \\
+Gestion des risques & Réaction aux problèmes & Prévention et gestion proactive \\
+\hline
+\end{tabular}
+\caption{Comparaison entre les méthodes classiques et agiles}
+\label{tab:comparaison-agile}
+\end{table}
+
+\subsubsection{La méthode SCRUM}
+
+\textbf{SCRUM} est l’une des méthodes agiles les plus utilisées. Elle vise à améliorer la productivité des équipes, même à distance, tout en optimisant le produit grâce à des retours réguliers des utilisateurs finaux.
+
+Le terme « Scrum » provient du rugby (mêlée), car il met l’accent sur le travail d’équipe, la communication fréquente et la capacité à réajuster rapidement le projet.
+
+\subsubsection{Les rôles SCRUM}
+
+La méthode Scrum définit trois rôles principaux, complémentaires et essentiels :
+
+\begin{itemize}
+    \item \textbf{Product Owner} : Représente le client et l’entreprise. Il définit les objectifs, rédige les User Stories et priorise le Product Backlog.
+    \item \textbf{Scrum Master} : Garant de la bonne application des pratiques Scrum. Il facilite le travail de l’équipe, supprime les obstacles et favorise l’amélioration continue.
+    \item \textbf{Équipe de Développement} : Groupe pluridisciplinaire chargé de transformer les exigences en fonctionnalités opérationnelles.
+\end{itemize}
+
+\subsubsection{Les événements SCRUM}
+
+Les événements Scrum permettent à l’équipe de rester synchronisée, de partager les informations et de prendre des décisions rapides. Les principaux événements sont :
+
+\begin{itemize}
+    \item \textbf{Le Sprint} : Période fixe (1 à 4 semaines) durant laquelle l’équipe développe un incrément de produit.
+    \item \textbf{Planification du Sprint (Sprint Planning)} : Réunions pour sélectionner les tâches prioritaires du Product Backlog.
+    \item \textbf{Mêlée Quotidienne (Daily Scrum)} : Réunion courte quotidienne pour synchroniser l’équipe et identifier les obstacles.
+    \item \textbf{Revues de Sprint (Sprint Review)} : Présentation des résultats du sprint aux parties prenantes.
+    \item \textbf{Rétrospective de Sprint} : Réunion d’amélioration continue où l’équipe analyse ce qui a bien fonctionné et ce qu’il faut améliorer.
+\end{itemize}
+
+\subsubsection{Lexique SCRUM}
+
+\begin{itemize}
+    \item \textbf{Product Backlog} : Liste ordonnée et priorisée des besoins et fonctionnalités du projet (exprimés généralement sous forme de User Stories).
+    \item \textbf{Release} : Version du produit livrée aux utilisateurs, issue de plusieurs sprints.
+    \item \textbf{User Story} : Brève description d’une fonctionnalité du point de vue de l’utilisateur.
+    \item \textbf{Priorité d’une User Story} : Ordre d’importance des fonctionnalités permettant de maximiser la valeur délivrée.
+\end{itemize}
+
+\subsection{Conclusion}
+
+En conclusion, cette étude préalable nous a permis de bien comprendre le contexte du projet et de justifier le choix de la méthode SCRUM comme approche de développement. 
+
+Le chapitre suivant sera consacré à l’analyse détaillée des besoins fonctionnels et non fonctionnels du système.
+
+\newpage
+
+
+
+
+
+
+
+
+
+
+
+
+
+\chapter{Analyse et Spécification des Besoins}
+\newpage
+
+
+
+\section{Introduction}
+Après avoir présenté le cadre général de notre projet, ce chapitre se concentre sur la planification et l’identification des besoins. La planification comprend une compréhension globale et la mise en place du projet dans son contexte spécifique..
+
+ \section{specification de besoins}
+ 
+La spécification des besoins represente l’étape initiale de tout projet d’application à développer. Dans cette partie, nous allons identifier les différents acteurs et mettre en évidence les besoins fonctionnels et les besoins non fonctionnels, visant l' objectif de concevoir une application qui repond aux exigences du client.
+
+
+\subsection{Identification des acteurs}
+Un acteur est une entité qui interagit directement avec le système. Dans notre cas, les acteurs sont le voyageur et le moteur IA.
+
+\begin{table}[h]
+\centering
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{|p{5cm}|p{8cm}|}
+\hline
+\textbf{Acteur} & \textbf{Fonctionnalité} \\
+\hline
+utilisateur & il representé le visiteur et l' internaute pricipale de la platforme.Il a la possibilité de s' authentifier, lancer des generations automatique de programme, consulter et gerer les resultat, les valider, et avoir access a un dashboards \\
+\hline
+Moteur IA & Générer des programmes personnalisées et donnes des renseignement specifiques au utilisateurs \\
+\hline
+\end{tabular}
+\caption{Tableau de fonctionnalité des acteurs}
+\end{table}
+
+
+
+
+\subsection{Besoins fonctionnelles}
+Les besoins fonctionnels constitue les fonctionnalités que l’application va fournir
+aux acteurs connuz précédemment. Ces fonctionnalités seront aggregé comme le suit selon ces 2 types d’utilisateurs.
+
+\subsubsection{Fonctionnalités d' utilisateur}
+
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{|p{5cm}|p{8cm}|}
+\hline
+\textbf{Fonctionnalité} & \textbf{Description} \\
+\hline
+S’authentifier & L' utilisateur peut accéder à son compte via une adresse mail et un mot de passe spécifique \\
+\hline
+Lancer une génération de programme & L' utilisateur peut saisir ses données pour obtenir un résultat personnalisé \\
+\hline
+Consulter resultat de prgramme generé & L' utilisateur peut consulter les résultats et les gerer. \\
+\hline
+Modifier résultat & Le voyageur peut modifier certains détails du plan généré \\
+\hline
+Valider programme fournit & Le voyageur peut valider le programme proposé \\
+\hline
+Gérer programme historisé & L' utilisateur peut consulter et supprimer ses anciens programme \\
+\hline
+Consulter le tableau de bord & L'  utilisateur peut consulter le tableau de bord pour voir statistiques \\
+\hline
+\end{tabular}
+\caption{Fonctionnalités de l' utilisateur}
+\end{table}
+
+\subsubsection{Fonctionnalités de l' Agent AI}
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{|p{5cm}|p{8cm}|}
+\hline
+\textbf{Fonctionnalité} & \textbf{Description} \\
+\hline
+Générer des programme personnalisées & Le moteur IA est responsable de créer des programmes et des idées adaptées aux besoins d' utilisateurs \\
+donner des renseignements & l' agent IA responsable de repondre les utilisateur et leur donner des renseignement en cas de besoin. \\
+
+\hline
+\end{tabular}
+\caption{Fonctionnalités du l' Agent AI}
+\end{table}
+
+
+
+\subsection{Besoins non fonctionnelles}
+Après avoir analysé les besoins fonctionnels, il est essentiel de définir les besoins non fonctionnels :
+\begin{itemize}
+    \item \textbf{Sécurité} : L’authentification est assurée par un module dédié utilisant une adresse e-mail et un mot de passe.
+    \item \textbf{Performance} : L’application doit fournir des réponses rapides et efficaces.
+    \item \textbf{Fiabilité} : Le système doit fonctionner de manière stable et cohérente.
+    \item \textbf{Ergonomie} : L’interface doit être simple, intuitive et agréable à utiliser.
+\end{itemize}
+
+
+
+\section{Analyse des besoins}
+Après avoir identifié les différentes exigences de la solution, nous procédons à leur formalisation sous forme de cas d’utilisation. Cela nous permettra d’obtenir une vision globale du comportement de l’application.
+\subsection{Diagramme de cas d’utilisation global}
+La figure suivante présente le diagramme global des cas d’utilisation de notre application.
+
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=1\textwidth]{assets/cu.png}
+\caption{Diagramme de cas d’utilisation global}
+\end{figure}
+
+\subsection{diagramme de classes global}
+Le diagramme de classes illustré dans la figure 2.2 présente l’architecture globale de notre système. Il met en évidence, à travers une vue statique, les relations entre les classes ainsi que leurs attributs et méthodes.
+
+\subsection{Backlog de produit}
+Le ``Backlog produit'' (Product Backlog) constitue un élément essentiel de tout projet. Il regroupe l’ensemble des fonctionnalités nécessaires à la réalisation du système, ainsi que tous les éléments requérant l’intervention de l’équipe projet.
+
+Nous avons tout d’abord recensé les exigences du client dans le tableau suivant, qui synthétise le backlog du produit ``Pilot Pro''. L’accent est mis sur les \textit{user stories} en précisant leur niveau de priorité. Le backlog est structuré comme suit :
+
+\begin{itemize}
+    \item \textbf{Epic} : correspond à une fonctionnalité majeure du projet.
+    \item \textbf{Sous-epic} : représente une tâche associée à une fonctionnalité, une epic pouvant être décomposée en plusieurs sous-epics.
+    \item \textbf{Rôle} : indique l’acteur responsable de la réalisation de l’epic.
+    \item \textbf{User Story} : formule une phrase décrivant la fonctionnalité attendue par le client.
+\end{itemize}
+
+
+
+
+
+\begin{table}[H]
+\centering
+\renewcommand{\arraystretch}{1}
+\begin{tabular}{|p{3cm}|p{4cm}|p{2.5cm}|p{4cm}|p{2cm}|}
+\hline
+\textbf{Epic} & \textbf{Sous Epic} & \textbf{Rôle} & \textbf{User Story} & \textbf{Priorité} \\
+\hline
+
+Lancer generation programme &
+
+ choisir de lancer une  activité ou sortie 
+ repondre au questionnaire
+
+&
+utilisateur &
+
+ETQ utilisateur, je peux consulter les postes disponibles
+
+
+&
+Haute \\
+\hline
+Consulter un programme generé &
+ modifier le programme 
+ valider le programme
+
+
+&
+utilisateur &
+
+ ETQ utilisateur, je peux 
+
+&
+Haute \\
+\hline
+
+Authentification &
+
+ Connexion
+ Mot de passe oublié 
+ Reinstalisation mot de passe 
+
+&
+utilisateur &
+
+* ETQ Utilisateur, je peux me
+connecter.
+
+* ETQ Utilisateur, je peux me
+déconnecter.
+* ETQ Utilisateur, je peux de-
+mander la réinitialisation de mon
+mot de passe si je l’oublie.
+
+
+&
+Haute \\
+\hline
+
+\end{tabular}
+\caption{Backlog produit de l’application}
+\end{table}
+
+
+
+
+\subsubsection{Structure de découpage du projet}
+
+Selon la complexité du projet, nous avons choisi de développer plusieurs sprints comme illustré dans le tableau suivant (Table \ref{tab:sprints}) :
+
+\begin{table}[h]
+\centering
+\caption{Planification des sprints}
+\label{tab:sprints}
+\begin{tabular}{|c|p{10cm}|}
+\hline
+\textbf{Sprint} & \textbf{Modules} \\
+\hline
+\hline
+Sprint 1 &
+ * Module authentification
+ 
+* Module mot de passe oublié
+ 
+ * Module gestion des utilisateurs
+ 
+ * Module gestion des positions
+ 
+ * Module gestion des collaborateurs
+ 
+ * Module gestion des ressources humaines Module gestion des managers
+ \\
+\hline
+
+Sprint 2 &
+
+* Module gestion des offres
+
+* Module gestion des favoris
+\\
+\hline
+
+Sprint 3 &
+ *Module postuler
+ 
+* Module gestion des candidatures
+ 
+ * Module gestion de calendrier
+ 
+* Module gestion des quiz
+ 
+ 
+ \\
+\hline
+
+
+\end{tabular}
+\end{table}
+
+
+\subsection{Environnement logiciel}
+
+Pour mener à bien nos tâches durant ce projet, nous avons utilisé les outils logiciels suivants :
+
+\begin{itemize}
+    \item \textbf{Visual Studio Code} : Un éditeur de code multiplateforme qui offre un environnement flexible. Il dispose d'un système d'auto-complétion et d'une console de débogage, ce qui facilite la gestion des fichiers de code, en particulier pour le développement mobile.
+
+    \item \textbf{GitHub} : Une plateforme qui permet d'héberger et de gérer des projets de A à Z. Elle offre la possibilité de gérer des dépôts Git, ce qui aide à mieux gérer les versions des codes sources.
+\end{itemize}
+
+\subsection{Choix technologique}
+
+\subsubsection{ React Native}
+
+React Native est un framework open-source créé par Meta. Il permet de créer des applications mobiles natives pour iOS et Android en utilisant JavaScript et React.
+
+Les avantages de React Native:
+
+\begin{itemize}
+    \item \textbf{Code unique (Cross-platform)} : Une seul code permet de construire une application sur iOS et Android, ca aide a reduire les coûts et le temps de développement.
+
+    \item \textbf{Composants natifs} : l'utilisation de composants natifs offre une performances tres robuste et proche des applications développées en langage natif comme swift et kotlin.
+
+    \item \textbf{Rechargement rapide} : offre une visualisation instantané pour les modifications apportées au code.
+
+    \item \textbf{Large communauté} : Facilite pour l' intégration de outils avancés grâce aux nombreuses bibliothèques fournit par sa communauté.
+\end{itemize}
+
+Pour la création de cette application mobile, React Native se présente comme une solution robuste.
+
+\newpage
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|l|l|}
+\hline
+\textbf{Fonctionnalité} & \textbf{React Native} & \textbf{Flutter} & \textbf{Développement Natif} \\ \hline
+Langage & JavaScript / TypeScript & Dart & Swift / Kotlin \\ \hline
+Composants UI & Natifs & Moteur Skia & Natifs purs \\ \hline
+Performance & Très bonnes & Excellentes & Optimales \\ \hline
+Apprentissage & Facile & Modéré & Raide \\ \hline
+Temps de développement & Rapide & Rapide & Lent \\ \hline
+\end{tabular}
+\caption{Comparaison des technologies mobiles}
+\end{table}
+
+\subsubsection{Redux}
+
+Redux est une bibliothèque JavaScript open source utilisée pour gérer l’état (state) global de l’application. Elle admet  aux composants de lire les données, aussi les mettre à jour en se referant d' un magasin centralisé (Store).
+elle garantuit une synchronisation et coherence globale de données.
+
+\subsubsection{Firebase}
+
+Firebase est une plateforme Backend-as-a-Service, fournit par google.
+
+Ses principales caractéristiques sont :
+
+\begin{itemize}
+    \item \textbf{Cloud Firestore} : Base de données NoSQL en temps réel.
+    \item \textbf{Firebase Authentication} : Authentification simple et securisé pour les utilisateurs.
+    \item \textbf{Cloud Storage} : Stockage des fichiers (images, vidéos).
+    \item \textbf{Scalabilité} : Architecture ne necissite pas de serveur dans pas de maintenance.
+\end{itemize}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Fonctionnalité} & \textbf{Firebase} & \textbf{Backend personnalisé} \\ \hline
+Modèle de données & NoSQL & SQL/NoSQL \\ \hline
+Temps de mise en place & Rapide & Long \\ \hline
+Temps réel & Intégré & Manuel \\ \hline
+Infrastructure & Serverless & Serveurs à gérer \\ \hline
+Flexibilité & Limitée & Élevée \\ \hline
+\end{tabular}
+\caption{Comparaison Firebase vs Backend personnalisé}
+\end{table}
+
+\subsubsection{ Power BI}
+
+Power BI est une solution Business Intelligence fournit par Microsoft. Elle permet de transformer les données en toutes strucutures en tableaux de bord interactifs.
+
+\begin{itemize}
+    \item \textbf{Tableaux de bord interactifs} : Visualisation des données statistique en référant des KPI.
+    \item \textbf{Connectivité} : adaptation aux diverses sources de données.
+    \item \textbf{Aide à la décision} : Analyse des donnes brutes ensuite donne des infomations visuelles qui aide a la prise de decision et pour la stratégie future.
+\end{itemize}
+
+\section{Conclusion}
+
+Dans ce chapitre, nous avons présenté les besoins fonctionnels et non fonctionnels du projet, ainsi que les diagrammes associés. Nous avons aussi détaillé le backlog et les choix technologiques. Le chapitre suivant sera consacré au premier sprint.
+
+
+
+
+
+
+
+
+
+
+
+
+\newpage
+
+
+\chapter{Étude et réalisation du Sprint 1}
+\newpage
+\section*{Introduction}
+Après avoir défini les besoins fonctionnels et non fonctionnels de notre platforme
+au niveau du chapitre précédent, nous allons commencer maintenant notre premier sprint, qui permet au utilisateur de créer des comptes et de lancer de generation de programme, des
+sorties ou des voyages personnalisé.
+
+\section{Planification de Sprint 1}
+Le Sprint Goal doit être formulé en termes métier plutôt que techniques afin
+d’être clairement compris. Il répond à la question essentielle « Pourquoi effectuons-nous
+ce sprint ? ». Dans notre situation, l’objectif de ce sprint est de développer le module
+d’authentification qui gère les comptes et identifie les utilisateurs, les collaborateurs, les
+responsables RH et les managers au sein d’ADN.
+
+\subsection{Classification des cas d’utilisation par acteur}
+Le tableau \ref{tab:sprint1} comporte une classification de toutes les fonctionnalités par acteur
+du sprint 1.
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|p{10cm}|}
+\hline
+\textbf{Acteur} & \textbf{Cas d’utilisation} \\
+\hline
+Super Admin &
+\begin{itemize}
+    \item S’authentifier
+    \item Réinitialiser le mot de passe
+    \item Créer un nouvel utilisateur
+    \item Modifier un utilisateur
+    \item Supprimer un utilisateur
+    \item Créer une nouvelle position
+    \item Modifier une position
+    \item Supprimer une position
+    \item Créer un nouveau collaborateur
+    \item Modifier un collaborateur
+    \item Supprimer un collaborateur
+    \item Créer un nouveau manager
+    \item Modifier un manager
+    \item Supprimer un manager
+    \item Créer une nouvelle ressource humaine
+    \item Modifier une ressource humaine
+    \item Supprimer une ressource humaine
+\end{itemize}
+\\
+\hline
+\end{tabular}
+\caption{Fonctionnalités par acteur du Sprint 1}
+\label{tab:sprint1}
+\end{table}
+
+\subsection{Diagramme de cas d’utilisation du Sprint 1}
+Ce diagramme nous donne une vue globale sur les fonctionnalités du sprint 1 (voir figure \ref{fig:sprint1}).
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\textwidth]{diagramme_sprint1.png}
+\caption{Diagramme de cas d’utilisation du Sprint 1}
+\label{fig:sprint1}
+\end{figure}
+
+
+
+
+
+
+
+\new page 
+\chapter{conception}
+\section{partie ai}
+\subsection{Pré-requis et modèles Ollama}
+Ce script Python met en œuvre un système \textbf{RAG} (Retrieval-Augmented Generation). 
+
+L’idée du RAG est de combiner la recherche d’informations (\textit{retrieval}) dans une base de connaissances locale (ici une FAQ) avec la génération de texte par un LLM (ici Gemma via Ollama).
+
+
+\begin{itemize}[label=$\bullet$]
+    \item Comprendre le principe du RAG
+    \item Comprendre le rôle des \textit{embeddings}
+    \item Comprendre la similarité cosinus
+    \item Savoir comment intégrer un LLM local (Ollama)
+    \item Mettre en pratique un pipeline RAG simple
+\end{itemize}
+
+\subsubsection{Dans un système RAG}
+\begin{itemize}
+    \item Le modèle d'\textit{embedding} sert à chercher l’information pertinente.
+    \item Le modèle génératif sert à formuler la réponse.
+\end{itemize}
+
+
+\subsection{Importation des bibliothèques}
+
+\begin{verbatim}
+import ollama
+import math
+\end{verbatim}
+
+\subsubsection*{Théorie}
+
+\begin{itemize}
+    \item \textbf{ollama} : Interface Python permettant de communiquer facilement avec les modèles de langage locaux (Gemma, Llama, Mistral, etc.) exécutés via Ollama.
+    \item \textbf{math} : Module standard de Python utilisé ici pour calculer les normes vectorielles (racine carrée, etc.), notamment pour la similarité cosinus.
+\end{itemize}
+
+
+
+latex\subsection{Chargement de la FAQ (Base de connaissances)}
+
+\subsubsection*{Version texte}
+
+\begin{verbatim}
+def load_faq(path="faq.txt"):
+    with open(path, "r", encoding="utf-8") as f:
+        return f.read().split("\n\n")
+\end{verbatim}
+
+\subsubsection*{Théorie}
+
+\begin{itemize}
+    \item La FAQ est stockée localement et constitue la \textbf{base de connaissances}.
+    \item Chaque bloc de texte séparé par une ligne vide devient un \textbf{chunk} (unité de recherche).
+    \item Le découpage en chunks est une étape fondamentale en RAG : il permet une recherche sémantique plus précise et efficace.
+\end{itemize}
+
+\subsubsection*{Pratique}
+
+Exemple de fichier \texttt{faq.txt} :
+
+\begin{verbatim}
+Qu'est-ce que Python ?
+Python est un langage de programmation interprété, polyvalent et facile à apprendre.
+
+Qu'est-ce qu'un LLM ?
+Un LLM est un grand modèle de langage entraîné sur d'énormes quantités de données textuelles.
+
+Comment fonctionne le RAG ?
+Le RAG combine la recherche d'information et la génération par LLM.
+\end{verbatim}
+
+
+\subsubsection*{Version JSON (optionnelle)}
+
+Cette version permet une structuration beaucoup plus propre et organisée des données (Question / Réponse).
+
+
+\subsubsection*{Avantages de la version JSON}
+
+\begin{itemize}
+    \item Plus structuré et organisé
+    \item Plus robuste pour des bases de connaissances larges ou complexes
+    \item Facilite l'ajout de métadonnées (date, catégorie, source, etc.)
+    \item Meilleure maintenabilité
+\end{itemize}
+
+\subsection{4. Embeddings avec Ollama}
+
+\begin{verbatim}
+def embed_text(text, model="nomic-embed-text:latest"):
+    response = ollama.embeddings(
+        model=model, 
+        prompt=text
+    )
+    return response["embedding"]
+\end{verbatim}
+
+\subsubsection*{Théorie}
+
+Un \textbf{embedding} est un vecteur numérique qui représente le sens sémantique d’un texte dans un espace vectoriel de haute dimension.
+
+\begin{itemize}
+    \item Exemple simplifié :
+        \begin{itemize}
+            \item "chat" $\rightarrow$ $[0.12, 0.98, 0.33, \dots]$
+            \item "chien" $\rightarrow$ $[0.11, 0.95, 0.30, \dots]$
+        \end{itemize}
+    \item Les textes sémantiquement proches ont des vecteurs proches dans cet espace.
+\end{itemize}
+
+\subsubsection*{Rôle dans le RAG}
+
+\begin{itemize}
+    \item Transformer la question de l’utilisateur en embedding
+    \item Transformer chaque chunk de la FAQ en embedding
+    \item Permettre la comparaison de similarité entre la question et les chunks
+\end{itemize}
+
+\subsection{5. Similarité cosinus}
+
+\begin{verbatim}
+def cosine_similarity(v1, v2):
+    dot = sum(a * b for a, b in zip(v1, v2))
+    norm1 = math.sqrt(sum(a * a for a in v1))
+    norm2 = math.sqrt(sum(b * b for b in v2))
+    return dot / (norm1 * norm2)
+\end{verbatim}
+
+\subsubsection*{Théorie}
+
+La \textbf{similarité cosinus} mesure l’angle entre deux vecteurs.  
+Elle est particulièrement adaptée aux embeddings car elle est indépendante de la magnitude des vecteurs.
+
+\textbf{Formule mathématique :}
+
+$$
+\cos(\theta) = \frac{\mathbf{v_1} \cdot \mathbf{v_2}}{||\mathbf{v_1}|| \times ||\mathbf{v_2}||}
+$$
+
+Où :
+- $\mathbf{v_1} \cdot \mathbf{v_2}$ est le produit scalaire
+- $||\mathbf{v}||$ est la norme euclidienne du vecteur
+
+
+\subsection{5. Similarité cosinus (suite)}
+
+\subsubsection*{Valeurs possibles}
+
+\begin{itemize}
+    \item \textbf{1} $\rightarrow$ Textes très similaires (même sens)
+    \item \textbf{0} $\rightarrow$ Aucune relation sémantique
+    \item \textbf{-1} $\rightarrow$ Textes opposés
+\end{itemize}
+
+\subsubsection*{Pourquoi pas la distance euclidienne ?}
+
+\begin{itemize}
+    \item La similarité cosinus se concentre sur la \textbf{direction} des vecteurs (sens sémantique)
+    \item Elle est indépendante de la \textbf{longueur} des vecteurs
+    \item Plus robuste pour les embeddings de texte de dimensions très élevées
+\end{itemize}
+
+\subsection{6. Recherche de contexte pertinent (Retrieval)}
+
+\begin{verbatim}
+def retrieve_context(question, faq_chunks, top_k=2, min_score=0.60):
+    # ... (code complet)
+\end{verbatim}
+
+\subsubsection*{Étapes théoriques}
+
+\begin{enumerate}
+    \item Calcul de l'embedding de la question
+    \item Calcul de l'embedding de chaque chunk de la FAQ
+    \item Calcul de la similarité cosinus entre la question et chaque chunk
+    \item Tri des chunks par score décroissant
+    \item Application d’un seuil de confiance (\texttt{min\_score})
+\end{enumerate}
+
+\subsubsection*{Pratique}
+
+\begin{verbatim}
+score = cosine_similarity(question_embedding, chunk_embedding)
+\end{verbatim}
+
+Chaque chunk reçoit un score de pertinence.
+
+\begin{verbatim}
+if scored_chunks[0][0] < min_score:
+    return None
+\end{verbatim}
+
+Cela empêche le modèle de générer une réponse lorsqu’aucun chunk pertinent n’est trouvé (évite les hallucinations).
+
+\subsection{Génération de réponse avec Gemma (RAG)}
+
+\begin{verbatim}
+def ask_ai_rag(question):
+    # Logique RAG complète
+\end{verbatim}
+
+\subsubsection*{Logique RAG}
+
+\begin{itemize}
+    \item Si aucun contexte pertinent n’est trouvé $\rightarrow$ refus poli de répondre
+    \item Sinon $\rightarrow$ génération contrôlée par le contexte récupéré
+\end{itemize}
+
+\subsubsection*{Prompt Engineering}
+
+\begin{verbatim}
+Si l'information n'est pas dans le contexte, dis : 
+"Je ne dispose pas d'information suffisante dans ma base de connaissances pour répondre à cette question."
+\end{verbatim}
+
+Le prompt doit être clair pour que le modèle respecte strictement le contexte fourni et évite les hallucinations.
+
+\subsubsection*{Prompt final}
+
+\begin{verbatim}
+Si l'information n'est pas dans le contexte, dis : "Je ne sais pas."
+\end{verbatim}
+
+\subsubsection*{Théorie}
+
+\begin{itemize}
+    \item Le prompt contraint fortement le comportement du modèle
+    \item Il évite les \textbf{hallucinations} (inventions de réponses)
+    \item Il garantit une réponse fidèle à la base de connaissances
+\end{itemize}
+
+\subsection{ Appel du modèle Gemma}
+
+\begin{verbatim}
+response = ollama.chat(
+    model="gemma3:1b",
+    messages=[{
+        "role": "user", 
+        "content": prompt
+    }]
+)
+\end{verbatim}
+
+\subsubsection*{Théorie}
+
+\begin{itemize}
+    \item \texttt{ollama.chat()} simule une conversation avec le modèle
+    \item Le modèle génère la réponse finale en utilisant le contexte fourni
+    \item Le contexte récupéré par Retrieval agit comme une \textbf{mémoire externe}
+\end{itemize}
+
+\subsection{ Programme principal}
+
+\begin{verbatim}
+if __name__ == "__main__":
+    while True:
+        question = input("Posez votre question : ")
+        if question.lower() in ["exit", "quit"]:
+            break
+        answer = ask_ai_rag(question)
+        print("\nRéponse :", answer)
+\end{verbatim}
+
+\subsubsection*{Fonctionnement}
+
+\begin{enumerate}
+    \item L’utilisateur pose une question
+    \item Le système recherche le contexte pertinent dans la FAQ
+    \item Le modèle Gemma répond uniquement avec les informations autorisées
+\end{enumerate}
+
+\subsection{Résumé du pipeline RAG}
+
+\begin{enumerate}
+    \item Chargement de la base de connaissances (FAQ)
+    \item Découpage en chunks
+    \item Génération des embeddings pour chaque chunk
+    \item Embedding de la question de l’utilisateur
+    \item Recherche par similarité cosinus (Retrieval)
+    \item Sélection du contexte le plus pertinent
+    \item Génération de la réponse par le LLM (Gemma) avec le contexte
+\end{enumerate}
+
+Ce pipeline permet de combiner la \textbf{précision} d’une base de connaissances locale avec la \textbf{fluidité} d’un modèle de langage.
+
+
+
+
+
+
+
+\end{document}

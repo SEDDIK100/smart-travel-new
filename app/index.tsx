@@ -1,51 +1,56 @@
+import { RootState } from "@/redux/stores";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router, useFocusEffect } from "expo-router";
 import React, { useCallback } from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import "../global.css";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useSelector } from "react-redux";
-import { RootState } from "@/redux/stores";
+import "../global.css";
 
 const Index = () => {
-  const currentUser= useSelector((state: RootState)=>  state.user.user)
-  
+ const currentUser = useSelector((state: RootState) => state.user.user);
   useFocusEffect(
+    useCallback(() => {
+      const checkToken = async () => {
+        try {
+          const storedToken = await AsyncStorage.getItem("token");
+          if (storedToken) {
+            if (
+              currentUser?.username === "" &&
+              currentUser?.birthdate === "" &&
+              currentUser?.gender === ""
+            ) {
+              router.replace("/(auth)/informPer");
+            } else if (
+              currentUser?.username !== "" &&
+              currentUser?.birthdate !== "" &&
+              currentUser?.gender !== ""
+            ) {
+              console.log("sotred tooken", storedToken);
+              router.replace("/(tabs)/(guide)/guide");
+            }
 
-    useCallback(() => {
-      const checkToken = async () => {
-        try {
-          const storedToken = await AsyncStorage.getItem('token');
-          if(storedToken){
-              if(currentUser?.username==="" && currentUser?.birthdate==="" && currentUser?.gender==="" ){
-                router.replace('/(auth)/informPer')
-              }else if(currentUser?.username!==""&& currentUser?.birthdate!=="" && currentUser?.gender!=="") {
-
-                console.log('sotred tooken',storedToken)
-                router.replace("/(tabs)/(guide)/guide")
-              } 
-
-//             setToken(storedToken);
-//             signIn(dispatch, router, t, undefined, undefined, true)
-          }
-        } catch (error) {
-          console.log('Erreur lors de la vérification du token :', error);
-
-        }
-      };
-      checkToken();
-    }, [])
-  );
+            //             setToken(storedToken);
+            //             signIn(dispatch, router, t, undefined, undefined, true)
+          }
+        } catch (error) {
+          console.log("Erreur lors de la vérification du token :", error);
+        }
+      };
+      checkToken();
+    },[]),
+  ); 
 
   return (
     <SafeAreaView className="flex-1 bg-[#0d0d0d]">
       <View className="flex-1 items-center ">
         <View className="items-center">
-        <Image
-          className=" shadow-slate-700 absolute w-1/2" resizeMode="contain"
-          source={require("@/assets/rockw.png")}
-        />
+          <Image
+            className=" shadow-slate-700 absolute w-1/2"
+            resizeMode="contain"
+            source={require("@/assets/rockw.png")}
+          />
         </View>
 
         <View className="flex-col justify-center items-center top-1/2">
@@ -53,8 +58,8 @@ const Index = () => {
             Plan Less {"\n"} Experience More
           </Text>
           <Text className="text-center text-sm p-6 text-gray-500">
-            Discover your next adventure efffortlesly. Personalized itineraries
-            at your fingertips . Travel smarter with ai driven insights.
+            Discover your next adventure efffortlesly. Personalized programs
+            at your fingertips .
           </Text>
 
           <TouchableOpacity

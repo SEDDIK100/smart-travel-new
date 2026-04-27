@@ -7,6 +7,7 @@ const _layout = () => {
         <Stack.Screen name="travellers" options={{headerShown:false}}  />
         <Stack.Screen name="vibe" options={{headerShown:false}}  />
         <Stack.Screen name="Budget" options={{headerShown:false}}  />
+        <Stack.Screen name="PlanRes" options={{headerShown:false}}  />
     </Stack>
   )
 }

@@ -5,52 +5,59 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { router } from "expo-router";
 import { doc, updateDoc } from "firebase/firestore";
 import React, { useState } from "react";
-import {
-  Image,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View
-} from "react-native";
+import { Image, Text, TextInput, TouchableOpacity, View } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useDispatch, useSelector } from "react-redux";
 
 const InformPer = () => {
+
+
+
+
   const dispatch = useDispatch();
   const [userName, setUserName] = useState<string>("");
   const [birthday, setBirthday] = useState<Date>(new Date());
   const [person, setPerson] = useState<string>("");
   const [visible, setIsvisible] = useState(false);
+  const  [age, setAge] =useState<number | null >(null)
+
+  const getAge = (date: Date) => {
+  const today = new Date();
+  let age = today.getFullYear() - date.getFullYear();
+  const m = today.getMonth() - date.getMonth();
+  if (m < 0 || (m === 0 && today.getDate() < date.getDate())) age--;
+  return age;
+};
 
   const handleConfirm = (date: Date) => {
     setBirthday(date);
+    setAge(getAge(date))
     setIsvisible(!visible);
   };
 
   const currentUser = useSelector((state: RootState) => state.user.user);
-  console.log("currentuser", currentUser);
   const updateProfile = async () => {
-    console.log("id user", currentUser?.id);
-    if (!currentUser?.id)return 
+    if (!currentUser?.id) return;
     await updateDoc(doc(db, "users", currentUser?.id), {
       username: userName,
       birthdate: birthday ? birthday.toDateString() : "",
+
       gender: person,
     });
 
     if (!birthday) {
       console.log("birthday");
     }
-    // Update Redux state too
     dispatch(
       setUser({
         user: {
-          email: currentUser ? currentUser.email :"" ,
-          password: currentUser ? currentUser.password :"" ,
-          id: currentUser  ? currentUser.id  : "" ,  
+          email: currentUser ? currentUser.email : "",
+          password: currentUser ? currentUser.password : "",
+          id: currentUser ? currentUser.id : "",
           username: userName,
           birthdate: birthday.toDateString(),
+          age: age,
           gender: person,
         },
         token: null,

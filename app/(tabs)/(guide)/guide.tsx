@@ -5,6 +5,9 @@ import React from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+
+
+
 const Guide = () => {
   return (
     <SafeAreaView className="flex-1 bg-[#0d0d0d]">
@@ -72,7 +75,7 @@ const Guide = () => {
           ask chat bot
         </Text>
         <TouchableOpacity
-          onPress={() => router.push("/(tabs)/(guide)/guideRes")}
+          onPress={() => router.push("/(tabs)/(guide)/ChatBot")}
           className="bg-[#A3E635] w-3/5 border border-white justify-center py-3 flex-row rounded-2xl space-x-4 items-center"
         >
           <Text className="text-center text-lg "> ask </Text>

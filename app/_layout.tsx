@@ -1,16 +1,12 @@
+import { store } from "@/redux/stores";
 import { Slot } from "expo-router";
 import { Provider } from "react-redux";
 import "../global.css";
-import { store } from "../redux/stores";
 
 export default function RootLayout() {
-   return (
+  return (
     <Provider store={store}>
       <Slot />
     </Provider>
   );
 }
-
-
-
-

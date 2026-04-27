@@ -1,9 +1,8 @@
 import { router } from "expo-router";
-import React from "react";
 import { Image, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useState } from "react";
-import { useDispatch, UseDispatch } from "react-redux";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { setLoadingFalse, setLoadingTrue } from "@/redux/slices/loadingSlices";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "@/config";

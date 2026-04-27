@@ -7,7 +7,7 @@ const _layout = () => {
         <Stack.Screen name="Moods" options={{headerShown:false}}  />
         <Stack.Screen name="Position" options={{headerShown:false}}  />
         <Stack.Screen name="ActivityType" options={{headerShown:false}}  />
-        
+        <Stack.Screen name="ActivityRes" options={{headerShown:false}}  />
     </Stack>
   )
 }
