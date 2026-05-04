@@ -1,10 +1,10 @@
-import Header from "@/components/Header";
 import Press from "@/components/Press";
 import React, { useState } from "react";
 import { Image, Text, View, TextInput } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useAppDispatch } from "@/redux/stores";
 import { setActivityName as setActivityNameAction } from "@/redux/slices/activitySlices";
+import HeaderQu from "@/components/HeaderQu";
 
 const ActivityName = () => {
   const dispatch = useAppDispatch();
@@ -18,7 +18,7 @@ const ActivityName = () => {
 
   return (
     <SafeAreaView className="flex-1 bg-[#0d0d0d]">
-      <Header link="/(tabs)/(guide)/guide" />
+      <HeaderQu linkPrv="/(tabs)/(guide)/guide" linkNext="/(screens)/(activity)/Moods" />
 
       <View className=" items-center w-full h-72 ">
         <Image

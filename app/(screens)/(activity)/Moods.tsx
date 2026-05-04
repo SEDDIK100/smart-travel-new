@@ -4,9 +4,9 @@ import React, { useState } from "react";
 import { FlatList, Image, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { moods } from "@/constants/data";
-import Header from "@/components/Header";
 import { useAppDispatch } from "@/redux/stores";
 import { setMood as setMoodAction } from "@/redux/slices/activitySlices";
+import HeaderQu from "@/components/HeaderQu";
 
 const Moods = () => {
   const dispatch = useAppDispatch();
@@ -20,7 +20,7 @@ const Moods = () => {
 
   return (
     <SafeAreaView className="flex-1 bg-[#0d0d0d]">
-      <Header link="/(screens)/(activity)/activityName" />
+      <HeaderQu linkPrv="/(screens)/(activity)/activityName" linkNext="/(screens)/(activity)/Cadre" />
 
       <View className="items-center justify-center w-full h-32 mt-4">
         <Image
@@ -64,7 +64,7 @@ const Moods = () => {
         <View className="px-6 pb-6 pt-4 bg-[#0d0d0d]">
           <Press
             title="Confirm"
-            link={"/(screens)/(activity)/Position"}
+            link={"/(screens)/(activity)/Cadre"}
             icon=""
             style=""
             onBeforeNavigate={handleConfirm}

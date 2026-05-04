@@ -1,7 +1,8 @@
-import Entypo from "@expo/vector-icons/Entypo";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import { Tabs } from "expo-router";
+import Entypo from "@expo/vector-icons/Entypo";
+import Feather from '@expo/vector-icons/Feather';
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import React from "react";
 
@@ -13,7 +14,7 @@ const _layout = () => {
 
 
 
-    
+      
       screenOptions = {({route})=>({
         tabBarStyle: {
               paddingTop:6,
@@ -51,10 +52,19 @@ const _layout = () => {
       />
       <Tabs.Screen
         name="(guide)"
+        
         options={{
           headerShown: false,
           tabBarIcon: ({color,size,focused}) => (
             <FontAwesome5 name={ focused ? 'map-marked-alt' : 'map-marked-alt'} size={size} color={color} />
+          ),
+        }}
+      /> <Tabs.Screen
+        name="MyPlan"
+        options={{
+          headerShown: false,
+          tabBarIcon: ({color,size,focused}) => (
+           <Feather name="check-square" size={size} color={color} />
           ),
         }}
       />

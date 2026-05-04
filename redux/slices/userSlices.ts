@@ -6,6 +6,7 @@ interface User {
     email: string|null,
     password: string |null,
     username?:string,
+    nationality?: string,
     birthdate? : string,
     age?:number| null,
     gender?: string,

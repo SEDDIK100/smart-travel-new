@@ -7,7 +7,8 @@ import { activityPlace } from "@/constants/data";
 import Header from "@/components/Header";
 import { useAppDispatch } from "@/redux/stores";
 import { setPosition as setPositionAction } from "@/redux/slices/activitySlices";
-
+import { router } from "expo-router";
+import HeaderQu from "@/components/HeaderQu";
 const Position = () => {
   const dispatch = useAppDispatch();
   const [selectedPosition, setSelectedPosition] = useState<any | null>(null);
@@ -15,12 +16,13 @@ const Position = () => {
   const handleConfirm = () => {
     if (selectedPosition) {
       dispatch(setPositionAction(selectedPosition.title.trim()));
+      router.push("/(screens)/(activity)/ActivityType");
     }
   };
 
   return (
     <SafeAreaView className="flex-1 bg-[#0d0d0d]">
-      <Header link="/(screens)/(activity)/Moods" />
+      <HeaderQu linkPrv="/(screens)/(activity)/Moods" linkNext="/(screens)/(activity)/AcivityType"  />
 
       <View className="items-center justify-center w-full h-32 mt-4">
         <Image
@@ -63,7 +65,7 @@ const Position = () => {
         <View className="px-6 pb-6 pt-4 bg-[#0d0d0d]">
           <Press
             title="Confirm"
-            link={"/(screens)/(activity)/ActivityType"}
+            link={"/(screens)/(activity)/Duration"}
             icon=""
             style=""
             onBeforeNavigate={handleConfirm}

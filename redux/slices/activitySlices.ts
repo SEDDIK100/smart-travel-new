@@ -4,7 +4,12 @@ interface ActivityState {
   activityName: string;
   mood: string;
   position: string;
+  duration: string;
   activityType: string;
+priority: string;
+rythme: string;
+cadre: string;
+companions: string;
 }
 
 const initialState: ActivityState = {
@@ -12,6 +17,11 @@ const initialState: ActivityState = {
   mood: "",
   position: "",
   activityType: "",
+  duration: "",
+  priority: "",
+  rythme: "",
+  cadre: "",
+  companions: "",
 };
 
 const activitySlice = createSlice({
@@ -30,6 +40,22 @@ const activitySlice = createSlice({
     setActivityType: (state, action: PayloadAction<string>) => {
       state.activityType = action.payload;
     },
+    setDuration: (state, action: PayloadAction<string>) => {
+      state.duration = action.payload;
+    },
+    setPriority: (state, action: PayloadAction<string>) => {
+      state.priority = action.payload;
+    },
+    setRythme: (state, action: PayloadAction<string>) => {
+      state.rythme = action.payload;
+    },
+    setCadre: (state, action: PayloadAction<string>) => {
+      state.cadre = action.payload;
+    },
+    setCompanions: (state, action: PayloadAction<string>) => {
+      state.companions = action.payload;
+    },  
+    
     resetActivity: () => initialState,
   },
 });
@@ -39,6 +65,11 @@ export const {
   setMood,
   setPosition,
   setActivityType,
+  setDuration,
+  setPriority,
+  setRythme,
+  setCadre,
+  setCompanions,
   resetActivity,
 } = activitySlice.actions;
 export default activitySlice.reducer;

@@ -3,6 +3,7 @@ import loadingReducer from "./slices/loadingSlices";
 import userReducer from "./slices/userSlices";
 import tripReducer from "./slices/tripSlices";
 import activityReducer from "./slices/activitySlices";
+import planReducer from "./slices/planSlices";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 
 export const store = configureStore({
@@ -11,6 +12,7 @@ export const store = configureStore({
     loading: loadingReducer,
     trip: tripReducer,
     activity: activityReducer,
+    plans: planReducer,
   },
 });
 

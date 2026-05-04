@@ -1,5 +1,4 @@
 import Card from "@/components/Card";
-import Header from "@/components/Header";
 import React, { useState } from "react";
 import {
   FlatList,
@@ -13,6 +12,7 @@ import { activityThemes } from "@/constants/data";
 import { useAppDispatch } from "@/redux/stores";
 import { setActivityType as setActivityTypeAction } from "@/redux/slices/activitySlices";
 import { router } from "expo-router";
+import HeaderQu from "@/components/HeaderQu";
 
 const ActivityType = () => {
   const dispatch = useAppDispatch();
@@ -21,12 +21,12 @@ const ActivityType = () => {
   const handleGenerate = () => {
     if (!type) return;
     dispatch(setActivityTypeAction(type.title.trim()));
-    router.push("/(screens)/(activity)/ActivityRes");
+    router.push("/(screens)/(activity)/ActivitySummary");
   };
 
   return (
     <SafeAreaView className="flex-1 bg-[#0d0d0d]">
-      <Header link="/(screens)/(activity)/Position" />
+      <HeaderQu linkPrv="/(screens)/(activity)/Position" linkNext="/(screens)/(activity)/ActivitySummary" />
 
       <View className="items-center w-full h-40">
         <Image
@@ -54,7 +54,7 @@ const ActivityType = () => {
             <TouchableOpacity onPress={() => setType(item)}>
               <Card
                 option={item}
-                style={isSelected ? "border-[#A3E635]" : ""}
+                style={isSelected ? "border-2 border-[#A3E635]" : ""}
               />
             </TouchableOpacity>
           );

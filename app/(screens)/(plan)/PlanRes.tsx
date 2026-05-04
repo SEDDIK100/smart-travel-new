@@ -1,198 +1,139 @@
 import { auth, db } from "@/config";
+import { API_BASE_URL } from "@/api";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import { router } from "expo-router";
-import {
-  addDoc,
-  collection,
-  serverTimestamp,
-} from "firebase/firestore";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import React, { useEffect, useRef, useState } from "react";
-import {
-  ActivityIndicator,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { ActivityIndicator, FlatList, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useAppSelector, useAppDispatch } from "@/redux/stores";
 import { resetTrip } from "@/redux/slices/tripSlices";
 
-import { API_BASE_URL } from "@/api";
-
 const PlanRes = () => {
   const dispatch = useAppDispatch();
-  const tripData = useAppSelector((state) => state.trip);
-
-  const [plan, setPlan] = useState<string | null>(null);
+  const trip = useAppSelector((s) => s.trip);
+  const user = useAppSelector((s) => s.user.user);
+  const [allPlans, setAllPlans] = useState<any[][]>([]);
+  const [index, setIndex] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [latency, setLatency] = useState<number | null>(null);
-  const hasFetched = useRef(false);
+  const [error, setError] = useState("");
+  const fetched = useRef(false);
 
-  // Appel API au montage — même pattern que guideRes
-  useEffect(() => {
-    if (hasFetched.current) return;
-    hasFetched.current = true;
-    generatePlan();
-  }, []);
+  useEffect(() => { if (!fetched.current) { fetched.current = true; generate(); } }, []);
 
-  const generatePlan = async () => {
-    setLoading(true);
-    setError(null);
-    setPlan(null);
-
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 120000);
-
+  const generate = async () => {
+    setLoading(true); setError("");
     try {
       const res = await fetch(`${API_BASE_URL}/generate-trip`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+        method: "POST", headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          trip_name: tripData.tripName,
-          travellers: tripData.travellers,
-          vibe: tripData.vibe,
-          budget: tripData.budget,
-          
+          trip_name: trip.tripName, budget: trip.budget,
+          destination_type: trip.destinationType, travel_mood: trip.travelMood,
+          trip_duration: trip.tripDuration, travel_distance: trip.travelDistance,
+          interests: trip.interests, travel_style: trip.travelStyle,
+          gender: user?.gender, age: user?.age, birthday: user?.birthdate,
         }),
-        signal: controller.signal,
       });
-
-      clearTimeout(timeout);
       const data = await res.json();
-
-      if (res.ok) {
-        setPlan(data.plan);
-        setLatency(data.latency_ms);
-        await savePlanToFirestore(data.plan);
-      } else {
-        throw new Error(data.detail ?? "Erreur serveur");
-      }
-    } catch (err: any) {
-      clearTimeout(timeout);
-      if (err.name === "AbortError") {
-        setError("⏱️ Le serveur a mis trop de temps à répondre.");
-      } else if (err.message === "Network request failed") {
-        setError("⚠️ Impossible de contacter le serveur. Vérifiez votre connexion.");
-      } else {
-        setError(err.message || "⚠️ Une erreur est survenue.");
-      }
-    } finally {
-      setLoading(false);
-    }
+      if (res.ok && data.tasks?.length) {
+        setAllPlans((p) => [...p, data.tasks]);
+        setIndex(allPlans.length);
+      } else setError("No tasks generated. Retry.");
+    } catch { setError("Connection error"); }
+    finally { setLoading(false); }
   };
 
-  // Sauvegarde dans Firestore — même pattern que guideRes
-  const savePlanToFirestore = async (planText: string) => {
-    const user = auth.currentUser;
-    if (!user) return;
-    try {
-      await addDoc(collection(db, "users", user.uid, "plans"), {
-        type: "trip",
-        tripName: tripData.tripName,
-        travellers: tripData.travellers,
-        vibe: tripData.vibe,
-        budget: tripData.budget,
-        plan: planText,
-        createdAt: serverTimestamp(),
-      });
-    } catch (e) {
-      console.log("Firestore save error:", e);
+  const choose = async () => {
+    const tasks = allPlans[index];
+    if (!tasks) return;
+    const uid = auth.currentUser?.uid;
+    if (uid) {
+      const toSave = tasks.map((t: any, i: number) => ({
+        id: `t${i}`, title: t.title || "", description: t.description || "",
+        duration: t.duration || "", location: t.location || "",
+        cost: t.cost || "", day: t.day || "", time: t.time || "", rating: 0,
+      }));
+      await addDoc(collection(db, "users", uid, "plans"), {
+        type: "trip", status: "active", tripName: trip.tripName,
+        tasks: toSave, overallRating: 0,
+        createdAt: serverTimestamp(), completedAt: null,
+      }).catch(console.log);
     }
-  };
-
-  const handleNewPlan = () => {
     dispatch(resetTrip());
     router.replace("/(tabs)/(guide)/guide");
   };
 
-  const handleRetry = () => {
-    hasFetched.current = false;
-    generatePlan();
-  };
+  const tasks = allPlans[index] || [];
 
-  // ─── Loading ──────────────────────────────────────────────────────────────
-  if (loading) {
-    return (
-      <SafeAreaView className="flex-1 bg-[#0d0d0d] items-center justify-center">
-        <ActivityIndicator size="large" color="#A3E635" />
-        <Text className="text-white text-xl font-bold mt-6 mb-2">
-          AI Agent is working...
-        </Text>
-        <Text className="text-gray-400 text-center px-10 text-base">
-          Generating your perfect travel plan ✈️
-        </Text>
-      </SafeAreaView>
-    );
-  }
+  if (loading && !allPlans.length) return (
+    <SafeAreaView className="flex-1 bg-[#0d0d0d] items-center justify-center">
+      <ActivityIndicator size="large" color="#A3E635" />
+      <Text className="text-white text-xl font-bold mt-6">Generating... ✈️</Text>
+    </SafeAreaView>
+  );
 
-  // ─── Erreur ───────────────────────────────────────────────────────────────
-  if (error) {
-    return (
-      <SafeAreaView className="flex-1 bg-[#0d0d0d] items-center justify-center px-6">
-        <FontAwesome6 name="triangle-exclamation" size={48} color="#EF4444" />
-        <Text className="text-white text-xl font-bold mt-6 mb-2">Oops!</Text>
-        <Text className="text-gray-400 text-center text-base mb-8">{error}</Text>
-        <TouchableOpacity
-          onPress={handleRetry}
-          className="bg-[#A3E635] rounded-2xl px-8 py-4 mb-4"
-        >
-          <Text className="text-black font-semibold text-lg">Retry</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={handleNewPlan}>
-          <Text className="text-gray-400 text-base underline">Start over</Text>
-        </TouchableOpacity>
-      </SafeAreaView>
-    );
-  }
+  if (error && !allPlans.length) return (
+    <SafeAreaView className="flex-1 bg-[#0d0d0d] items-center justify-center px-6">
+      <Text className="text-white text-xl font-bold mb-4">Oops!</Text>
+      <Text className="text-gray-400 mb-6">{error}</Text>
+      <TouchableOpacity onPress={generate} className="bg-[#A3E635] rounded-2xl px-8 py-4">
+        <Text className="text-black font-semibold">Retry</Text>
+      </TouchableOpacity>
+    </SafeAreaView>
+  );
 
-  // ─── Plan généré ──────────────────────────────────────────────────────────
   return (
     <SafeAreaView className="flex-1 bg-[#0d0d0d]">
-      {/* Header */}
-      <View className="flex-row items-center justify-between px-4 py-3 border-b border-[#1A2235]">
-        <TouchableOpacity
-          onPress={() => router.back()}
-          hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
-        >
+      <View className="flex-row items-center px-4 py-3 border-b border-[#1A2235]">
+        <TouchableOpacity onPress={() => router.back()}>
           <FontAwesome6 name="arrow-left" size={20} color="white" />
         </TouchableOpacity>
-        <View className="items-center">
-          <Text className="text-[#A3E635] font-bold text-lg">
-            🌍 {tripData.tripName || "Trip Plan"}
-          </Text>
-          {latency && (
-            <Text className="text-gray-500 text-xs">
-              Generated in {(latency / 1000).toFixed(1)}s
-            </Text>
-          )}
-        </View>
+        <Text className="text-[#A3E635] font-bold text-lg flex-1 text-center">
+          🌍 {trip.tripName} ({index + 1}/{allPlans.length})
+        </Text>
         <View className="w-5" />
       </View>
 
-      {/* Contenu */}
-      <ScrollView
-        className="flex-1 px-4"
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: 120, paddingTop: 16 }}
-      >
-        <View className="bg-[#1A2235] rounded-2xl p-5 border border-gray-700">
-          <Text className="text-zinc-200 text-base leading-7">
-            {plan ?? "No plan generated yet."}
-          </Text>
+      {allPlans.length > 1 && (
+        <View className="flex-row justify-center gap-4 py-2">
+          <TouchableOpacity onPress={() => setIndex(Math.max(0, index - 1))} disabled={index === 0}>
+            <FontAwesome6 name="chevron-left" size={18} color={index === 0 ? "#333" : "#A3E635"} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => setIndex(Math.min(allPlans.length - 1, index + 1))} disabled={index === allPlans.length - 1}>
+            <FontAwesome6 name="chevron-right" size={18} color={index === allPlans.length - 1 ? "#333" : "#A3E635"} />
+          </TouchableOpacity>
         </View>
-      </ScrollView>
+      )}
 
-      {/* Bouton en bas */}
+      <FlatList
+        data={tasks}
+        keyExtractor={(_, i) => `${i}`}
+        contentContainerStyle={{ padding: 16, paddingBottom: 160 }}
+        renderItem={({ item, index: i }) => (
+          <View className="bg-[#1A2235] rounded-2xl p-4 mb-3">
+            <View className="flex-row items-center gap-2 mb-2">
+              <View className="bg-[#A3E635] w-6 h-6 rounded-full items-center justify-center">
+                <Text className="text-black text-xs font-bold">{i + 1}</Text>
+              </View>
+              <Text className="text-white font-bold flex-1">{item.title}</Text>
+            </View>
+            {item.description ? <Text className="text-gray-400 text-sm mb-2">{item.description}</Text> : null}
+            <View className="flex-row flex-wrap gap-2">
+              {item.duration ? <Text className="text-xs text-gray-500 bg-[#0d0d0d] px-2 py-1 rounded">⏱ {item.duration}</Text> : null}
+              {item.location ? <Text className="text-xs text-gray-500 bg-[#0d0d0d] px-2 py-1 rounded">📍 {item.location}</Text> : null}
+              {item.cost ? <Text className="text-xs text-gray-500 bg-[#0d0d0d] px-2 py-1 rounded">💰 {item.cost}</Text> : null}
+              {item.day ? <Text className="text-xs text-gray-500 bg-[#0d0d0d] px-2 py-1 rounded">📅 {item.day}</Text> : null}
+            </View>
+          </View>
+        )}
+      />
+
       <View className="absolute bottom-0 left-0 right-0 px-6 pb-8 pt-4 bg-[#0d0d0d]">
-        <TouchableOpacity
-          onPress={handleNewPlan}
-          className="bg-[#A3E635] rounded-2xl py-4 items-center"
-        >
-          <Text className="text-black font-semibold text-lg">
-            New Plan ✨
-          </Text>
+        <TouchableOpacity onPress={generate} disabled={loading} className={`border border-[#A3E635] rounded-2xl py-3 items-center mb-3 ${loading ? "opacity-50" : ""}`}>
+          <Text className="text-[#A3E635] font-semibold">{loading ? "Generating..." : "Generate Another 🔄"}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={choose} className="bg-[#A3E635] rounded-2xl py-4 items-center">
+          <Text className="text-black font-semibold text-lg">Choose This Plan ✨</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>

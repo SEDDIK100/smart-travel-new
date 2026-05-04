@@ -1,22 +1,51 @@
 import { Sidebar } from "@/components/AssistantSideBar";
 import { auth, db } from "@/config";
 import { API_BASE_URL } from "@/api";
+import { setChats } from "@/redux/slices/userSlices";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import { router } from "expo-router";
-import { addDoc, arrayUnion, collection, doc, serverTimestamp, updateDoc } from "firebase/firestore";
-import React, { useRef, useState } from "react";
+import { addDoc, arrayUnion, collection, doc, getDocs, orderBy, query, serverTimestamp, updateDoc } from "firebase/firestore";
+import React, { useEffect, useRef, useState } from "react";
 import { ActivityIndicator, FlatList, KeyboardAvoidingView, Platform, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useAppDispatch } from "@/redux/stores";
 
 const WELCOME = { id: "welcome", role: "bot", text: "Hello! 👋 How can I help you plan your trip today?" };
 
+const parseChats = (snap: any) =>
+  snap.docs.map((d: any) => ({
+    id: d.id,
+    createdAt: d.data().createdAt?.toDate?.()?.toISOString() || new Date().toISOString(),
+    messages: (d.data().messages || []).map((m: any) => ({
+      role: m.role,
+      text: m.text,
+      createdAt: m.createdAt?.toDate?.()?.toISOString() || new Date().toISOString(),
+    })),
+  }));
+
 const ChatBot = () => {
+  const dispatch = useAppDispatch();
   const [messages, setMessages] = useState([WELCOME]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const chatIdRef = useRef<string | null>(null);
   const listRef = useRef<FlatList>(null);
+
+  const refreshChats = async () => {
+    const uid = auth.currentUser?.uid;
+    if (!uid) return;
+    try {
+      const q = query(collection(db, "users", uid, "chats"), orderBy("createdAt", "desc"));
+      const snap = await getDocs(q);
+      dispatch(setChats(parseChats(snap)));
+    } catch (e) { console.log("Load chats error:", e); }
+  };
+
+  useEffect(() => {
+    refreshChats();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const saveMsg = async (msg: any) => {
     const uid = auth.currentUser?.uid;
@@ -33,6 +62,7 @@ const ChatBot = () => {
           messages: arrayUnion({ role: msg.role, text: msg.text, createdAt: new Date() }),
         });
       }
+      await refreshChats();
     } catch (e) { console.log("Firestore:", e); }
   };
 
@@ -65,7 +95,6 @@ const ChatBot = () => {
     <View className="flex-1 bg-[#0d0d0d]">
       <SafeAreaView className="flex-1" edges={["top"]}>
 
-        {/* Header */}
         <View className="flex-row items-center justify-between px-4 py-3 border-b border-[#1A2235]">
           <TouchableOpacity onPress={() => setSidebarOpen(true)}>
             <FontAwesome6 name="bars" size={20} color="#A3E635" />
@@ -76,7 +105,6 @@ const ChatBot = () => {
           </TouchableOpacity>
         </View>
 
-        {/* Messages */}
         <FlatList
           ref={listRef}
           data={messages}
@@ -94,7 +122,6 @@ const ChatBot = () => {
 
         {loading && <ActivityIndicator color="#A3E635" className="my-2" />}
 
-        {/* Input */}
         <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
           <View className="flex-row items-center px-3 py-3 border-t border-[#1A2235]">
             <TextInput
