@@ -1,16 +1,19 @@
+import React from "react";
+import { Stack } from "expo-router";
+import AuthGate from "@/components/AuthGate";
 
-import React from 'react'
-import { Stack } from 'expo-router'
-
-
-const Welcomelayout = () => {
+const WelcomeLayout = () => {
+  
   return (
-     <Stack>
-        <Stack.Screen name="welcome" options={{headerShown:false}}  />
+    <AuthGate>
+      <Stack>
+        <Stack.Screen name="welcome" options={{ headerShown: false }} />
+      </Stack>
+    </AuthGate>
+  );
+};
 
-        
-    </Stack>
-  )
-}
+export default WelcomeLayout;
 
-export default Welcomelayout
+
+

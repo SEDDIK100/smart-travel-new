@@ -1,8 +1,11 @@
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import React from "react";
-import { Modal, Pressable, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { Alert, Modal, Pressable, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { auth, db } from "@/config";
+import { deleteDoc, doc } from "firebase/firestore";
+import { removeChat } from "@/redux/slices/userSlices";
 
 export const Sidebar = ({
   visible,
@@ -15,7 +18,33 @@ export const Sidebar = ({
   onSelectChat: (msgs: any[]) => void;
   onNewChat: () => void;
 }) => {
+  const dispatch = useDispatch();
   const chats = useSelector((s: any) => s.user.chats);
+
+  const handleDelete = (chatId: string) => {
+    Alert.alert(
+      "Supprimer la conversation",
+      "Cette action est définitive. Voulez-vous continuer ?",
+      [
+        { text: "Annuler", style: "cancel" },
+        {
+          text: "Supprimer",
+          style: "destructive",
+          onPress: async () => {
+            const uid = auth.currentUser?.uid;
+            if (!uid) return;
+            try {
+              await deleteDoc(doc(db, "users", uid, "chats", chatId));
+              dispatch(removeChat(chatId));
+            } catch (e) {
+              console.log("Erreur suppression chat :", e);
+              Alert.alert("Erreur", "Impossible de supprimer la conversation.");
+            }
+          },
+        },
+      ]
+    );
+  };
 
   return (
     <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose}>
@@ -48,15 +77,29 @@ export const Sidebar = ({
           ) : (
             <ScrollView contentContainerStyle={{ paddingVertical: 8 }}>
               {chats.map((chat: any) => (
-                <TouchableOpacity
+                <View
                   key={chat.id}
-                  onPress={() => { onSelectChat(chat.messages); onClose(); }}
-                  className="px-4 py-3 mx-2 my-0.5 rounded-xl active:bg-[#1A2235]"
+                  className="flex-row items-center mx-2 my-0.5 rounded-xl active:bg-[#1A2235]"
                 >
-                  <Text numberOfLines={1} className="text-zinc-300 text-sm">
-                    {chat.messages?.[0]?.text ?? "Conversation vide"}
-                  </Text>
-                </TouchableOpacity>
+                  {/* Zone cliquable pour ouvrir la conversation */}
+                  <TouchableOpacity
+                    onPress={() => { onSelectChat(chat.messages); onClose(); }}
+                    className="flex-1 px-4 py-3"
+                  >
+                    <Text numberOfLines={1} className="text-zinc-300 text-sm">
+                      {chat.messages?.[0]?.text ?? "Conversation vide"}
+                    </Text>
+                  </TouchableOpacity>
+
+                  {/* ✅ Bouton de suppression */}
+                  <TouchableOpacity
+                    onPress={() => handleDelete(chat.id)}
+                    className="px-3 py-3"
+                    hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+                  >
+                    <FontAwesome6 name="trash" size={14} color="#ef4444" />
+                  </TouchableOpacity>
+                </View>
               ))}
             </ScrollView>
           )}

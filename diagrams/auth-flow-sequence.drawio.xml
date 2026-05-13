@@ -1,0 +1,145 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Auth Flow Sequence" id="auth-seq">
+    <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <!-- Lifelines -->
+        <mxCell id="user" value="User" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=#d5e8d4;strokeColor=#82b366;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" vertex="1" parent="1">
+          <mxGeometry x="60" y="20" width="120" height="550" as="geometry" />
+        </mxCell>
+        <mxCell id="app" value="App (Screens/Redux)" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=#fff2cc;strokeColor=#d6b656;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" vertex="1" parent="1">
+          <mxGeometry x="240" y="20" width="160" height="550" as="geometry" />
+        </mxCell>
+        <mxCell id="firebase-auth" value="Firebase Auth" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=#f8cecc;strokeColor=#b85450;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" vertex="1" parent="1">
+          <mxGeometry x="460" y="20" width="140" height="550" as="geometry" />
+        </mxCell>
+        <mxCell id="firestore" value="Firestore" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=#e1d5e7;strokeColor=#9673a6;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;" vertex="1" parent="1">
+          <mxGeometry x="660" y="20" width="120" height="550" as="geometry" />
+        </mxCell>
+        <!-- Messages -->
+        <mxCell id="msg1" value="Signup (email/pass)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=9;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;dashed=0;endArrow=block;endFill=1;strokeWidth=2;" edge="1" parent="1" source="user" target="app">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="300" y="100" as="sourcePoint" />
+            <mxPoint x="300" y="80" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg2" value="createUserWithEmailAndPassword()" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=9;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;dashed=0;endArrow=block;endFill=1;strokeWidth=2;" edge="1" parent="1" source="app" target="firebase-auth">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="ret1" value="userCredential" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=9;html=1;exitX=0;exitY=0.5;exitDx=0;entryDy=0;dashed=1;endArrow=open;endFill=0;dashed=1;" edge="1" parent="1" source="firebase-auth" target="app">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="msg3" value="setDoc(users/{uid})" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=9;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;dashed=0;endArrow=block;endFill=1;strokeWidth=2;" edge="1" parent="1" source="app" target="firestore">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="520" y="140" />
+              <mxPoint x="620" y="140" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ret2" value="OK" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=9;html=1;dashed=1;endArrow=open;endFill=0;" edge="1" parent="1" source="firestore" target="app">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="620" y="160" />
+              <mxPoint x="520" y="160" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg4" value="push('/(auth)/signin')" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=9;html=1;exitX=0.5;exitY=1;entryX=0;entryY=0.5;dashed=0;endArrow=block;endFill=1;" edge="1" parent="1" source="app" target="user">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="300" y="200" as="sourcePoint" />
+            <mxPoint x="180" y="200" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg5" value="Signin (email/pass)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=9;html=1;exitX=0;exitY=0.5;exitDx=0;entryX=1;entryY=0.5;entryDx=0;dashed=0;endArrow=block;endFill=1;strokeWidth=2;" edge="1" parent="1" source="user" target="app" />
+        <mxCell id="msg6" value="signInWithEmailAndPassword() (inferred)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=9;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;dashed=0;endArrow=block;endFill=1;strokeWidth=2;" edge="1" parent="1" source="app" target="firebase-auth">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint y="280" as="sourcePoint" />
+            <mxPoint y="280" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ret3" value="user" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=9;html=1;exitX=0;exitY=0.5;exitDx=0;entryY=0;dashed=1;endArrow=open;endFill=0;" edge="1" parent="1" source="firebase-auth" target="app">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint y="300" as="sourcePoint" />
+            <mxPoint y="300" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg7" value="fetch profile/chats" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=9;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;dashed=0;endArrow=block;endFill=1;" edge="1" parent="1" source="app" target="firestore">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="600" y="320" />
+            <mxPoint x="700" y="320" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ret4" value="profile data" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=9;html=1;dashed=1;endArrow=open;endFill=0;" edge="1" parent="1" source="firestore" target="app">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="700" y="340" />
+            <mxPoint x="600" y="340" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg8" value="dispatch(setUser)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=9;html=1;rounded=1;strokeColor=#0066cc;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="320" y="360" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="msg9" value="Navigate to Nationality" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=9;html=1;exitX=0.5;exitY=1;entryX=0;entryY=0.5;dashed=0;endArrow=block;endFill=1;" edge="1" parent="1" source="app" target="user">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="300" y="420" as="sourcePoint" />
+            <mxPoint x="180" y="420" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg10" value="Select nationality/livingIn" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=9;html=1;exitX=0;exitY=0.5;exitDx=0;entryX=1;entryY=0.5;entryDx=0;dashed=0;endArrow=block;endFill=1;strokeWidth=2;" edge="1" parent="1" source="user" target="app">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="300" y="460" as="sourcePoint" />
+            <mxPoint x="300" y="440" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg11" value="updateDoc(nationality)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=9;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;dashed=0;endArrow=block;endFill=1;" edge="1" parent="1" source="app" target="firestore">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="540" y="460" />
+            <mxPoint x="640" y="460" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ret5" value="OK" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=9;html=1;dashed=1;endArrow=open;endFill=0;" edge="1" parent="1" source="firestore" target="app">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="640" y="480" />
+            <mxPoint x="540" y="480" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg12" value="dispatch(setUser(nationality))" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=9;html=1;rounded=1;strokeColor=#0066cc;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="320" y="500" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="msg13" value="Navigate to UserInterests" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=9;html=1;exitX=0.5;exitY=1;entryX=0;entryY=0.5;dashed=0;endArrow=block;endFill=1;" edge="1" parent="1" source="app" target="user">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="300" y="550" as="sourcePoint" />
+            <mxPoint x="180" y="550" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg14" value="Select interests" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=9;html=1;exitX=0;exitY=0.5;exitDx=0;entryX=1;entryY=0.5;entryDx=0;dashed=0;endArrow=block;endFill=1;strokeWidth=2;" edge="1" parent="1" source="user" target="app">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="300" y="590" as="sourcePoint" />
+            <mxPoint x="300" y="570" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg15" value="updateDoc(interests)" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=9;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;dashed=0;endArrow=block;endFill=1;" edge="1" parent="1" source="app" target="firestore">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="540" y="590" />
+            <mxPoint x="640" y="590" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ret6" value="OK" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=9;html=1;dashed=1;endArrow=open;endFill=0;" edge="1" parent="1" source="firestore" target="app">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="640" y="610" />
+            <mxPoint x="540" y="610" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="msg16" value="dispatch(setUser(interests))" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=9;html=1;rounded=1;strokeColor=#0066cc;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="320" y="630" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="msg17" value="replace('/(tabs)/home')" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=9;html=1;exitX=0.5;exitY=1;dashed=0;endArrow=block;endFill=1;" edge="1" parent="1" source="app" target="user">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="300" y="680" as="sourcePoint" />
+            <mxPoint x="180" y="680" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>

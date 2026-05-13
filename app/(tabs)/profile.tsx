@@ -6,11 +6,17 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
 import { signOut } from "firebase/auth";
 import React from "react";
-import { Alert, Text, TouchableOpacity, View } from "react-native";
+import { Alert,ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useAppDispatch, useAppSelector } from "@/redux/stores";
-
-const Row = ({ icon, label, value }: { icon: string; label: string; value: string }) => (
+import Ionicons from '@expo/vector-icons/Ionicons';
+import Zocial from '@expo/vector-icons/Zocial';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
+import Entypo from '@expo/vector-icons/Entypo';
+const Row = ({ icon, label, value }: { icon: any; label: string; value: string }) => (
   <View className="flex-row items-center py-3 border-b border-[#1A2235]">
     <Text className="text-xl mr-3">{icon}</Text>
     <View className="flex-1">
@@ -63,7 +69,12 @@ const Profile = () => {
   );
 
   return (
-    <SafeAreaView className="flex-1 bg-[#0d0d0d]" edges={["top"]}>
+    <SafeAreaView className="flex-1 bg-[#0d0d0d] " edges={["top"]}>
+      <ScrollView 
+        // 68 (height) + 30 (bottom offset) + 20 (extra breathing room) = 118
+        contentContainerStyle={{ paddingBottom: 180 }} 
+        showsVerticalScrollIndicator={false}
+      >
       {/* Header */}
       <View className="items-center mt-6 mb-6">
         <View className="w-20 h-20 bg-[#1A2235] rounded-full items-center justify-center mb-3">
@@ -87,11 +98,14 @@ const Profile = () => {
 
       {/* Info */}
       <View className="mx-6 bg-[#1A2235] rounded-2xl p-5 mb-6">
-        <Row icon="👤" label="Username" value={user?.username || ""} />
-        <Row icon="📧" label="Email" value={user?.email || ""} />
-        <Row icon="⚧" label="Gender" value={user?.gender || ""} />
-        <Row icon="🎂" label="Age" value={user?.age ? `${user.age} years` : ""} />
-        <Row icon="📅" label="Birthday" value={user?.birthdate || ""} />
+        <Row icon={<Ionicons name="person" size={22} color="#A3E635" />} label="Username" value={user?.username || ""} />
+        <Row icon={<Zocial name="email" size={22} color="#A3E635" />} label="Email" value={user?.email || ""} />
+        <Row icon={<MaterialCommunityIcons name="gender-male-female" size={22} color="#A3E635" />} label="Gender" value={user?.gender || ""} />
+        <Row icon={<FontAwesome name="birthday-cake" size={22} color="#A3E635" />} label="Age" value={user?.age ? `${user.age} years` : ""} />
+        <Row icon={<FontAwesome name="calendar" size={22} color="#A3E635" />} label="Birthday" value={user?.birthdate || ""} />
+        {user?.interrests ? <Row icon={<MaterialIcons name="local-fire-department" size={22} color="#A3E635" />} label="Interests" value={user.interrests} /> : null}
+{user?.nationality ? <Row icon={<FontAwesome5 name="flag" size={22} color="#A3E635" />} label="Nationality" value={user.nationality} /> : null}
+{user?.livingIn ? <Row icon={<Entypo name="location" size={22} color="#A3E635" />} label="Living in" value={user.livingIn} /> : null}
       </View>
 
       {/* Actions */}
@@ -112,6 +126,7 @@ const Profile = () => {
           <Text className="text-red-400 font-semibold ml-3">Logout</Text>
         </TouchableOpacity>
       </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };

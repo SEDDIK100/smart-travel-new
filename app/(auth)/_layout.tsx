@@ -7,6 +7,8 @@ const _layout = () => {
       <Stack.Screen name="signup" options={{ headerShown: false }} />
       <Stack.Screen name="forgot" options={{ headerShown: false }} /> 
       <Stack.Screen name="informPer" options={{ headerShown: false }} />
+       <Stack.Screen name="Nationality" options={{ headerShown: false }} />
+        <Stack.Screen name="UserInterrest" options={{ headerShown: false }} />
     </Stack>
   );
 };

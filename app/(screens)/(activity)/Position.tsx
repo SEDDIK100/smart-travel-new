@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import { FlatList, Image, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { activityPlace } from "@/constants/data";
-import Header from "@/components/Header";
 import { useAppDispatch } from "@/redux/stores";
 import { setPosition as setPositionAction } from "@/redux/slices/activitySlices";
 import { router } from "expo-router";
@@ -65,7 +64,7 @@ const Position = () => {
         <View className="px-6 pb-6 pt-4 bg-[#0d0d0d]">
           <Press
             title="Confirm"
-            link={"/(screens)/(activity)/Duration"}
+            link=""
             icon=""
             style=""
             onBeforeNavigate={handleConfirm}

@@ -2,9 +2,8 @@ import { router } from "expo-router";
 import React, { useState } from "react";
 import {
   Image,
-  KeyboardAvoidingView,
-  Platform,
-  Pressable,
+
+  
   Text,
   TextInput,
   TouchableOpacity,
@@ -13,9 +12,10 @@ import {
   ActivityIndicator
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import { auth, db } from "@/config";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword,sendEmailVerification } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -46,6 +46,11 @@ const SignUp = () => {
         confirmPassword,
       );
       const user = userCredential.user;
+      await sendEmailVerification(user);
+    Alert.alert(
+      "Verify your email", 
+      "A verification link has been sent to your email address. Please check your inbox."
+    );
       await setDoc(doc(db, "users", user.uid), {
         username: "",
         birthdate: "",
@@ -65,11 +70,9 @@ const SignUp = () => {
   };
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      className="flex-1"
-    >
+    
       <SafeAreaView className="flex-1 bg-[#0d0d0d]">
+        <KeyboardAwareScrollView contentContainerStyle={{ flexGrow: 3, paddingBottom: 40 }} extraScrollHeight={100} enableOnAndroid={true} keyboardShouldPersistTaps="handled">
         <View className="flex-row items-center justify-between px-8 ">
           <TouchableOpacity
             onPress={() => router.replace("/(auth)/signin")}
@@ -216,8 +219,9 @@ const SignUp = () => {
             <Text className="text-emerald-500 dont-semibold ">signin</Text>
           </TouchableOpacity>
         </View>
+        </KeyboardAwareScrollView>
       </SafeAreaView>
-    </KeyboardAvoidingView>
+   
   );
 };
 

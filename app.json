@@ -4,6 +4,11 @@
     "slug": "Venus",
     "version": "1.0.0",
     "orientation": "portrait",
+    "splash": {
+      "image": "./assets/rockw.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0d0d0d"
+    },
     "icon": "./assets/rockw.png",
     "scheme": "smarttravel",
     "userInterfaceStyle": "automatic",
@@ -24,8 +29,12 @@
       "bundler": "metro"
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+       ["expo-media-library", {
+        "photosPermission": "Autoriser l'accès à la galerie pour enregistrer vos plans"
+      }]
     ],
+    
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true

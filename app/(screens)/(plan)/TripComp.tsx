@@ -1,11 +1,10 @@
-import Header from "@/components/Header";
+import HeaderQu from "@/components/HeaderQu";
+import { setTripComp as setAction } from "@/redux/slices/tripSlices";
+import { useAppDispatch } from "@/redux/stores";
+import { router } from "expo-router";
 import React, { useState } from "react";
 import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useAppDispatch } from "@/redux/stores";
-import {setTripComp as setAction } from "@/redux/slices/tripSlices";
-import { router } from "expo-router";
-import HeaderQu from "@/components/HeaderQu";
 
 const options = [
   { id: 1, label: "Solo", icon: "🧍" },
@@ -27,15 +26,27 @@ const TripComp = () => {
 
   return (
     <SafeAreaView className="flex-1 bg-[#0d0d0d]">
-      <HeaderQu linkPrv="/(screens)/(plan)/TravelMood" linkNext="/(screens)/(plan)/TripDuration" />
+      <HeaderQu
+        linkPrv="/(screens)/(plan)/TravelMood"
+        linkNext="/(screens)/(plan)/TripDuration"
+      />
 
       <View className="items-center w-full h-32">
-        <Image className="w-full h-full" resizeMode="contain" source={require("@/assets/852.png")} />
+        <Image
+          className="w-full h-full"
+          resizeMode="contain"
+          source={require("@/assets/852.png")}
+        />
       </View>
 
       <View className="px-6 mb-4">
-        <Text className="text-white text-2xl font-extrabold tracking-tight">  who s coming ?</Text>
-        <Text className="text-gray-400 text-md mt-1">Who are you traveling with</Text>
+        <Text className="text-white text-2xl font-extrabold tracking-tight">
+        
+          who s coming ?
+        </Text>
+        <Text className="text-gray-400 text-md mt-1">
+          Who are you traveling with
+        </Text>
       </View>
 
       <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
@@ -50,7 +61,9 @@ const TripComp = () => {
                 className={`w-[28%] py-4 rounded-2xl items-center border ${isActive ? "bg-neutral-950 border-[#A3E635]" : "bg-[#1A2235] border-transparent"}`}
               >
                 <Text className="text-2xl mb-1">{item.icon}</Text>
-                <Text className="text-white text-sm font-semibold">{item.label}</Text>
+                <Text className="text-white text-sm font-semibold">
+                  {item.label}
+                </Text>
               </TouchableOpacity>
             );
           })}
@@ -59,7 +72,11 @@ const TripComp = () => {
 
       <View className="absolute bottom-0 left-0 right-0 px-6 pb-6 pt-4 bg-[#0d0d0d]">
         <View className="items-center">
-          <TouchableOpacity onPress={handleNext} disabled={!selected} className={`bg-[#A3E635] rounded-2xl flex-row w-3/5 items-center justify-center active:opacity-90 p-4 ${!selected ? "opacity-50" : ""}`}>
+          <TouchableOpacity
+            onPress={handleNext}
+            disabled={!selected}
+            className={`bg-[#A3E635] rounded-2xl flex-row w-3/5 items-center justify-center active:opacity-90 p-4 ${!selected ? "opacity-50" : ""}`}
+          >
             <Text className="text-black font-semibold text-xl">Confirm</Text>
           </TouchableOpacity>
         </View>

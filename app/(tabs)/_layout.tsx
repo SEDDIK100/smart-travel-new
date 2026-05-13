@@ -3,29 +3,21 @@ import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import { Tabs } from "expo-router";
 import Entypo from "@expo/vector-icons/Entypo";
 import Feather from '@expo/vector-icons/Feather';
-import { SafeAreaProvider } from "react-native-safe-area-context";
 import React from "react";
 
 
 const _layout = () => {
   return (
-    <SafeAreaProvider>
+  
     <Tabs
 
-
-
-      
       screenOptions = {({route})=>({
         tabBarStyle: {
-              paddingTop:6,
               backgroundColor: '#1A2235',     
               borderTopWidth: 0,
-              position: 'absolute',
-              marginLeft: 10,
-              marginRight:10,
-              bottom: 30,
-              height: 68,
-              borderRadius: 25,                
+              
+              paddingBottom: 10,
+              height: 70,                
               shadowColor: '#A3E635',           
               shadowOffset: { width: 0, height: 1 },
               shadowOpacity: 0.4,
@@ -59,7 +51,10 @@ const _layout = () => {
             <FontAwesome5 name={ focused ? 'map-marked-alt' : 'map-marked-alt'} size={size} color={color} />
           ),
         }}
-      /> <Tabs.Screen
+      /> 
+      
+      
+      <Tabs.Screen
         name="MyPlan"
         options={{
           headerShown: false,
@@ -78,7 +73,7 @@ const _layout = () => {
         }}
       />
     </Tabs> 
-     </SafeAreaProvider>
+    
   );
 };
 

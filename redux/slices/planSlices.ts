@@ -16,11 +16,14 @@ const planSlice = createSlice({
       const plan = state.plans.find(p => p.id === action.payload.planId);
       if (plan) { plan.status = "completed"; plan.overallRating = action.payload.rating; }
     },
+    // ✅ Nouveau : suppression d'un plan du store Redux
+    removePlan: (state, action: PayloadAction<string>) => {
+      state.plans = state.plans.filter(p => p.id !== action.payload);
+    },
     clearPlans: (state) => { state.plans = []; },
-
   },
 });
 
-export const { setPlans, rateTask, completePlan, clearPlans } = planSlice.actions;
+export const { setPlans, rateTask, completePlan, removePlan, clearPlans } = planSlice.actions;
 export default planSlice.reducer;
 export type { Plan, Task };
