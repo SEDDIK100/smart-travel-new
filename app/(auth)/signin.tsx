@@ -20,7 +20,7 @@ const SignIn = () => {
   const dispatch = useDispatch();
 
   const Login = async () => {
-    if (!email || !password) { Alert.alert("you have to fill"); return; }
+    if (!email || !password) { Alert.alert("you have to write password and email !"); return; }
     setLoading(true);
     try {
       const logedIn = await signInWithEmailAndPassword(auth, email, password);
@@ -65,6 +65,9 @@ const SignIn = () => {
           <Image className="rounded-full flex-1" source={require("@/assets/st.jpg")} />
         </TouchableOpacity>
       </View>
+
+
+
       <View className="items-center justify-center w-full h-32 mb-4">
         <Image className="w-full h-full" resizeMode="contain" source={require("@/assets/852.png")} />
       </View>
@@ -74,10 +77,14 @@ const SignIn = () => {
       </View>
       <View className="px-5">
         <Text className="text-gray-300 text-sm mb-2">email adresse</Text>
-        <TextInput className="bg-[#1A2235] text-white px-5 py-4 rounded-2xl mb-6" placeholder="example@gmail.com" placeholderTextColor="#64748B" keyboardType="email-address" autoCapitalize="none" value={email} onChangeText={setEmail} />
+        <TextInput className="bg-[#1A2235] text-white px-5 py-4 rounded-2xl mb-6" 
+        placeholder="example@gmail.com" placeholderTextColor="#64748B" keyboardType="email-address" autoCapitalize="none" value={email} onChangeText={setEmail} />
+     
+     
         <Text className="text-gray-300 text-sm mb-2">password</Text>
         <View className="relative mb-6">
-          <TextInput className="bg-[#1A2235] text-white px-5 py-4 pr-14 rounded-2xl" placeholder="@Sn123hsn#" placeholderTextColor="#64748B" secureTextEntry={!showP} value={password} onChangeText={setPassword} />
+          <TextInput className="bg-[#1A2235] text-white px-5 py-4 pr-14 rounded-2xl" 
+          placeholder="@Sn123hsn#" placeholderTextColor="#64748B" secureTextEntry={!showP} value={password} onChangeText={setPassword} />
           <TouchableOpacity className="absolute right-4 top-3" onPress={() => setShowP((v) => !v)}>
             <Ionicons name={showP ? "eye-off-outline" : "eye-outline"} size={22} color="#94a3b8" />
           </TouchableOpacity>

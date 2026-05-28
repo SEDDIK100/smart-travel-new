@@ -17,6 +17,8 @@ interface Props {
   data: Location[];
   placeholder?: string;
   label?: string;
+  accentColor?: string;   // ← add these
+
   initialValue?: string;
   onSelect?: (loc: Location | string) => void;
 }

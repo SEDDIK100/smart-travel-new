@@ -18,20 +18,21 @@ const ActivityName = () => {
 
   return (
     <SafeAreaView className="flex-1 bg-[#0d0d0d]">
-      <HeaderQu linkPrv="/(tabs)/(guide)/guide" linkNext="/(screens)/(activity)/Moods" />
+      <HeaderQu linkPrv="/(tabs)/(guide)/guide" linkNext="/(screens)/(activity)/Priority" />
 
-      <View className=" items-center w-full h-72 ">
+      {/* default stone — priority not chosen yet */}
+      <View className="items-center w-full h-72">
         <Image
           className="w-full h-full"
           resizeMode="contain"
-          source={require("@/assets/rock3.png")}
+          source={require("@/assets/852.png")}
         />
       </View>
 
       <View className="px-5">
-        <Text className="text-sm text-gray-300 mb-2"> Activity Name * </Text>
+        <Text className="text-sm text-gray-300 mb-2">Activity Name *</Text>
         <TextInput
-          className={`text-white text-base p-4 bg-[#1A2235] px-5 rounded-2xl mb-2`}
+          className="text-white py-4 bg-[#1A2235] px-5 rounded-2xl mb-2"
           placeholder="your activity name"
           placeholderTextColor="#64748B"
           value={name}
@@ -41,10 +42,10 @@ const ActivityName = () => {
         />
       </View>
 
-      <View className="my-6">
+      <View className="mt-10">
         <Press
           title="confirm"
-          link={"/(screens)/(activity)/Moods"}
+          link={"/(screens)/(activity)/Priority"}
           icon=""
           style=""
           onBeforeNavigate={handleConfirm}

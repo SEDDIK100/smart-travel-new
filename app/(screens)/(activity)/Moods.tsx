@@ -1,78 +1,76 @@
-import Card from "@/components/Card";
-import Press from "@/components/Press";
 import React, { useState } from "react";
 import { FlatList, Image, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { moods } from "@/constants/data";
-import { useAppDispatch } from "@/redux/stores";
-import { setMood as setMoodAction } from "@/redux/slices/activitySlices";
+import { useAppDispatch, useAppSelector } from "@/redux/stores";
+import { setMood } from "@/redux/slices/activitySlices";
+import { router } from "expo-router";
 import HeaderQu from "@/components/HeaderQu";
+import { getThemeFromKey, getStoneFromKey } from "@/constants/themes";
 
-const Moods = () => {
+const OPTIONS = [
+  { id: 1,  label: "Happy",       icon: "😊", desc: "Feeling good"        },
+  { id: 2,  label: "Excited",     icon: "🤩", desc: "Full of energy"       },
+  { id: 3,  label: "Motivated",   icon: "💪", desc: "Ready to push"        },
+  { id: 4,  label: "Bored",       icon: "😐", desc: "Need something new"   },
+  { id: 5,  label: "Stressed",    icon: "😤", desc: "Need to unwind"       },
+  { id: 6,  label: "Sad",         icon: "😔", desc: "Need a mood lift"     },
+  { id: 7,  label: "Romantic",    icon: "🥰", desc: "Feeling affectionate" },
+  { id: 8,  label: "Curious",     icon: "🤔", desc: "Want to discover"     },
+  { id: 9,  label: "Tired",       icon: "😴", desc: "Low energy"           },
+  { id: 10, label: "Nostalgic",   icon: "🌅", desc: "Reflective mood"      },
+  { id: 11, label: "Adventurous", icon: "🧭", desc: "Craving a challenge"  },
+  { id: 12, label: "Peaceful",    icon: "🕊️", desc: "Calm and serene"      },
+];
+
+export default function Moods() {
   const dispatch = useAppDispatch();
-  const [selectedMoods, setSelectedMoods] = useState<any | null>(null);
+  const themeKey = useAppSelector((s) => s.activity.themeKey);
+  const [selected, setSelected] = useState<number | null>(null);
 
-  const handleConfirm = () => {
-    if (selectedMoods) {
-      dispatch(setMoodAction(selectedMoods.title.trim()));
-    }
+  const { accent, bg, cardBg } = getThemeFromKey(themeKey);
+  const stone = getStoneFromKey(themeKey);
+
+  const handleNext = () => {
+    const item = OPTIONS.find((o) => o.id === selected);
+    if (!item) return;
+    dispatch(setMood(item.label));
+    router.push("/(screens)/(activity)/Cadre");
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-[#0d0d0d]">
-      <HeaderQu linkPrv="/(screens)/(activity)/activityName" linkNext="/(screens)/(activity)/Cadre" />
-
-      <View className="items-center justify-center w-full h-32 mt-4">
-        <Image
-          className="w-3/4 h-full"
-          resizeMode="contain"
-          source={require("@/assets/852.png")}
-        />
+    <SafeAreaView className="flex-1" style={{ backgroundColor: bg }}>
+      <HeaderQu linkPrv="/(screens)/(activity)/ActivityType" linkNext="/(screens)/(activity)/Cadre" />
+      <View className="w-full h-36 items-center">
+        <Image className="w-full h-full" resizeMode="contain" source={stone} />
       </View>
-
-      <View className="px-6 mb-4 mt-2">
-        <Text className="text-white text-2xl font-extrabold tracking-tight">
-          How you feel ?
-        </Text>
-        <Text className="text-gray-400 text-md mt-1">
-          Choose the mood you match with.
-        </Text>
+      <View className="px-6 mb-3">
+        <Text className="text-white text-2xl font-extrabold">How do you feel?</Text>
+        <Text className="text-gray-400 text-sm mt-1">Your mood shapes your activity</Text>
       </View>
-
-      <View className="flex-1 justify-between">
-        <FlatList
-          data={moods}
-          keyExtractor={(item, index) => index.toString()}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ paddingBottom: 20 }}
-          renderItem={({ item }) => {
-            const isActive = selectedMoods?.id === item.id;
-            return (
-              <TouchableOpacity
-                activeOpacity={0.8}
-                onPress={() => setSelectedMoods(item)}
-              >
-                <Card
-                  option={item}
-                  style={isActive ? "border-[#A3E635]" : ""}
-                />
-              </TouchableOpacity>
-            );
-          }}
-        />
-
-        <View className="px-6 pb-6 pt-4 bg-[#0d0d0d]">
-          <Press
-            title="Confirm"
-            link={"/(screens)/(activity)/Cadre"}
-            icon=""
-            style=""
-            onBeforeNavigate={handleConfirm}
-          />
-        </View>
+      <FlatList
+        data={OPTIONS}
+        keyExtractor={(item) => item.id.toString()}
+        numColumns={3}
+        showsVerticalScrollIndicator={false}
+        columnWrapperStyle={{ justifyContent: "center", gap: 10, marginBottom: 10 }}
+        contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 120 }}
+        renderItem={({ item }) => (
+          <TouchableOpacity activeOpacity={0.8} onPress={() => setSelected(item.id)}
+            className="w-[28%] py-4 rounded-2xl items-center border-2"
+            style={{ backgroundColor: selected === item.id ? bg : cardBg, borderColor: selected === item.id ? accent : "transparent" }}>
+            <Text className="text-2xl mb-1">{item.icon}</Text>
+            <Text className="text-xs font-bold text-center" style={{ color: selected === item.id ? accent : "white" }}>{item.label}</Text>
+            <Text className="text-[10px] text-center mt-0.5 px-1 text-gray-500">{item.desc}</Text>
+          </TouchableOpacity>
+        )}
+      />
+      <View className="absolute bottom-0 left-0 right-0 px-6 pb-6 pt-4 items-center" style={{ backgroundColor: bg }}>
+        <TouchableOpacity onPress={handleNext} disabled={!selected}
+          className="rounded-2xl w-3/5 items-center p-4"
+          style={{ backgroundColor: accent, opacity: selected ? 1 : 0.4 }}>
+          <Text className="text-black font-semibold text-xl">Confirm ✓</Text>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
-};
-
-export default Moods;
+}

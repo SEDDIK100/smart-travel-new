@@ -17,9 +17,7 @@ const HeaderQu = ({ linkPrv, linkNext }: header) => {
         <Text className="text-white text-lg">{"<-"}</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => router.push(linkNext)} className="mb-3">
-        <Text className="text-gray-500 text-base">Skip →</Text>
-      </TouchableOpacity>
+      
     </View>
   );
 };

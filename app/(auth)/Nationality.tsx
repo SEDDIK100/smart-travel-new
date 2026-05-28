@@ -10,7 +10,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/stores";
 import { router, useFocusEffect } from "expo-router";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Country, City, State } from "country-state-city";
-
+  
 const Nationality = () => {
   const dispatch = useAppDispatch();
   const currentUser = useAppSelector((s) => s.user.user);
@@ -26,7 +26,7 @@ const Nationality = () => {
   useFocusEffect(
     useCallback(() => {
       if (!currentUser) return;
-      setNationality(currentUser.nationality ?? "");
+      setNationality(currentUser.nationality ?? ""); 
 
       if (currentUser.livingIn) {
         const parts = currentUser.livingIn.split(",").map(p => p.trim());
@@ -75,7 +75,7 @@ const Nationality = () => {
 
     const uid = auth.currentUser?.uid;
     if (uid) {
-      await updateDoc(doc(db, "users", uid), { nationality, livingIn: fullLocation }).catch(console.log);
+      await updateDoc(doc(db, "users", uid), { nationality, livingIn: fullLocation });
     }
     if (currentUser) {
       dispatch(setUser({ user: { ...currentUser, nationality, livingIn: fullLocation }, token: null }));
@@ -92,11 +92,12 @@ const Nationality = () => {
         </View>
         <View className="px-6 mb-4">
           <Text className="text-white text-2xl font-extrabold tracking-tight">About you</Text>
-          <Text className="text-gray-400 text-md mt-1">Tell us where you are from</Text>
+          <Text className="text-gray-400 text-md mt-1">Tell us where are you from</Text>
         </View>
 
         <View className="px-6 mb-6">
-          <LocationAutocomplete data={countriesData} label="Your nationality" initialValue={nationality} onSelect={(loc: any) => setNationality(typeof loc === 'string' ? loc : loc.name)} />
+          <LocationAutocomplete data={countriesData} label="Your nationality" initialValue={nationality}
+           onSelect={(loc: any) => setNationality(typeof loc === 'string' ? loc : loc.name)} />
         </View>
 
         <View className="px-6">
@@ -124,7 +125,8 @@ const Nationality = () => {
 
           {(residenceCountryIso || cityName) && (
             <View className="mb-4">
-              <LocationAutocomplete data={citiesData} label="City" initialValue={cityName} onSelect={(loc: any) => setCityName(typeof loc === 'string' ? loc : loc.name)} />
+              <LocationAutocomplete data={citiesData} label="City" initialValue={cityName}
+               onSelect={(loc: any) => setCityName(typeof loc === 'string' ? loc : loc.name)} />
               <Text className="text-gray-500 text-[10px] mt-1 ml-1 italic">Not in the list? Type it manually.</Text>
             </View>
           )}

@@ -106,9 +106,10 @@ const UserInterests = () => {
       <View className="absolute bottom-0 left-0 right-0 px-6 pb-6 pt-4 bg-[#0d0d0d]">
         <View className="items-center">
           <TouchableOpacity onPress={() => router.push("/(tabs)/home")} className="mb-3">
-            <Text className="text-gray-500 text-base">Skip →</Text>
+            <Text className="text-gray-500 text-base">Skip</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={handleNext} disabled={selected.length < 3} className={`bg-[#A3E635] rounded-2xl flex-row w-3/5 items-center justify-center active:opacity-90 p-4 ${selected.length < 3 ? "opacity-50" : ""}`}>
+          <TouchableOpacity onPress={handleNext} disabled={selected.length < 3}
+           className={`bg-[#A3E635] rounded-2xl flex-row w-3/5 items-center justify-center active:opacity-90 p-4 ${selected.length < 3 ? "opacity-50" : ""}`}>
             <Text className="text-black font-semibold text-xl">Confirm ({selected.length})</Text>
           </TouchableOpacity>
         </View>

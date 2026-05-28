@@ -30,7 +30,7 @@ const SignUp = () => {
 
   const handleSubmit = async () => {
     if (!email || !password || !confirmPassword ){
-      Alert.alert("you have to fill the empty")
+      Alert.alert("you have to fill the form !")
       return
     }
     if(password !== confirmPassword){
@@ -115,7 +115,7 @@ const SignUp = () => {
         <View className="px-5">
           <Text className="text-sm text-gray-300 mb-2">email adresse * </Text>
           <TextInput
-            className={`text-white py-4 bg bg-[#1A2235] px-5 rounded-2xl 
+            className={`text-white py-4  bg-[#1A2235] px-5 rounded-2xl 
            mb-2`}
             placeholder="example@gmail.com"
             placeholderTextColor="#64748B"

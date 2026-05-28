@@ -20,7 +20,7 @@ const _layout = () => {
               height: 70,                
               shadowColor: '#A3E635',           
               shadowOffset: { width: 0, height: 1 },
-              shadowOpacity: 0.4,
+              shadowOpacity: 0.2,
               shadowRadius: 25,
               },
               tabBarActiveTintColor: '#A3E635',

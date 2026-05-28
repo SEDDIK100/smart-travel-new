@@ -1,91 +1,65 @@
 import React, { useState } from "react";
 import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useAppDispatch } from "@/redux/stores";
-import { setCompanions as setCompanionsAction } from "@/redux/slices/activitySlices";
+import { useAppDispatch, useAppSelector } from "@/redux/stores";
+import { setCompanions } from "@/redux/slices/activitySlices";
 import { router } from "expo-router";
 import HeaderQu from "@/components/HeaderQu";
+import { getThemeFromKey, getStoneFromKey } from "@/constants/themes";
 
-const companions = [
-  { id: 1, label: "Solo", icon: "🧍" },
-  { id: 2, label: "Duo", icon: "👫" },
-  { id: 3, label: "Friends", icon: "👯" },
-  { id: 4, label: "Family", icon: "👨‍👩‍👧‍👦" },
-  { id: 5, label: "Group", icon: "👥" },
-  { id: 6, label: "Team", icon: "🤝" },
+const OPTIONS = [
+  { id: 1, label: "Solo",    icon: "🧍"    },
+  { id: 2, label: "Duo",     icon: "👫"    },
+  { id: 3, label: "Friends", icon: "👯"    },
+  { id: 4, label: "Family",  icon: "👨‍👩‍👧‍👦" },
+  { id: 5, label: "Group",   icon: "👥"    },
+  { id: 6, label: "Team",    icon: "🤝"    },
 ];
 
-const Companions = () => {
+export default function Comp() {
   const dispatch = useAppDispatch();
+  const themeKey = useAppSelector((s) => s.activity.themeKey);
   const [selected, setSelected] = useState<number | null>(null);
 
+  const { accent, bg, cardBg } = getThemeFromKey(themeKey);
+  const stone = getStoneFromKey(themeKey);
 
   const handleNext = () => {
-    const item = companions.find((d) => d.id === selected);
+    const item = OPTIONS.find((o) => o.id === selected);
     if (!item) return;
-    dispatch(setCompanionsAction(item.label));
+    dispatch(setCompanions(item.label));
     router.push("/(screens)/(activity)/Duration");
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-[#0d0d0d]">
-      <HeaderQu linkPrv="/(screens)/(activity)/Cadre" linkNext="/(screens)/(activity)/Duration" />
-
-      <View className="items-center w-full h-32">
-        <Image
-          className="w-full h-full"
-          resizeMode="contain"
-          source={require("@/assets/852.png")}
-        />
+    <SafeAreaView className="flex-1" style={{ backgroundColor: bg }}>
+      <HeaderQu linkPrv="/(screens)/(activity)/Rythm" linkNext="/(screens)/(activity)/Duration" />
+      <View className="w-full h-36 items-center">
+        <Image className="w-full h-full" resizeMode="contain" source={stone} />
       </View>
-
-      <View className="px-6 mb-4">
-        <Text className="text-white text-2xl font-extrabold tracking-tight">
-          With who ?
-        </Text>
-        <Text className="text-gray-400 text-md mt-1">
-          Choose your company
-        </Text>
+      <View className="px-6 mb-3">
+        <Text className="text-white text-2xl font-extrabold">With who?</Text>
+        <Text className="text-gray-400 text-sm mt-1">Choose your company</Text>
       </View>
-
-      <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
+      <ScrollView contentContainerStyle={{ paddingBottom: 120 }}>
         <View className="flex-row flex-wrap justify-center px-4 gap-3">
-          {companions.map((item) => {
-            const isActive = selected === item.id;
-                 return (
-              <TouchableOpacity
-                key={item.id}
-                activeOpacity={0.8}
-                onPress={() => setSelected(item.id)}
-                className={`w-[28%] py-4 rounded-2xl items-center border ${
-                  isActive
-                    ? "bg-neutral-950 border-[#A3E635]"
-                    : "bg-[#1A2235] border-transparent"
-                }`}
-              >
-                <Text className="text-2xl mb-1">{item.icon}</Text>
-                <Text className="text-white text-sm font-semibold">{item.label}</Text>
-              </TouchableOpacity>
-            );
-          })}
+          {OPTIONS.map((o) => (
+            <TouchableOpacity key={o.id} activeOpacity={0.8} onPress={() => setSelected(o.id)}
+              className="w-[28%] py-4 rounded-2xl items-center border-2"
+              style={{ backgroundColor: selected === o.id ? bg : cardBg, borderColor: selected === o.id ? accent : "transparent" }}>
+              <Text className="text-2xl mb-1">{o.icon}</Text>
+              <Text className="text-sm font-semibold" style={{ color: selected === o.id ? accent : "white" }}>{o.label}</Text>
+            </TouchableOpacity>
+          ))}
         </View>
       </ScrollView>
-
-      <View className="absolute bottom-0 left-0 right-0 px-6 pb-6 pt-4 bg-[#0d0d0d]">
-        <View className="items-center">
-          <TouchableOpacity
-            onPress={handleNext}
-            disabled={!selected}
-            className={`bg-[#A3E635] rounded-2xl flex-row w-3/5
-              items-center justify-center active:opacity-90 p-4 
-              ${!selected ? "opacity-50" : ""}`}
-          >
-            <Text className="text-black font-semibold text-xl">Generate Plan ✨</Text>
-          </TouchableOpacity>
-        </View>
+      <View className="absolute bottom-0 left-0 right-0 px-6 pb-6 pt-4 items-center" style={{ backgroundColor: bg }}>
+        <TouchableOpacity onPress={handleNext} disabled={!selected}
+          className="rounded-2xl w-3/5 items-center p-4"
+          style={{ backgroundColor: accent, opacity: selected ? 1 : 0.4 }}>
+          <Text className="text-black font-semibold text-xl">Next →</Text>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
-};
-
-export default Companions;
+}

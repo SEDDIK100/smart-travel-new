@@ -5,6 +5,8 @@ import { router } from "expo-router";
 import React, { useState } from "react";
 import { Image, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+
+
 const TripName = () => {
   const dispatch = useAppDispatch();
   const [name, setName] = useState("");
@@ -39,8 +41,7 @@ const TripName = () => {
         />
       </View>
 
-      <View className="absolute bottom-0 left-0 right-0 px-6 pb-6 pt-4 bg-[#0d0d0d]">
-        <View className="items-center">
+        <View className="items-center mt-10">
          
           <TouchableOpacity
             onPress={handleNext}
@@ -51,7 +52,6 @@ const TripName = () => {
             <Text className="text-black font-semibold text-xl">Confirm</Text>
           </TouchableOpacity>
         </View>
-      </View>
     </SafeAreaView>
   );
 };

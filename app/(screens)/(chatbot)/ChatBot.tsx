@@ -12,60 +12,47 @@ import { useAppDispatch } from "@/redux/stores";
 
 const WELCOME = { id: "welcome", role: "bot", text: "Hello! 👋 How can I help you plan your trip today?" };
 
-const parseChats = (snap: any) =>
-  snap.docs.map((d: any) => ({
-    id: d.id,
-    createdAt: d.data().createdAt?.toDate?.()?.toISOString() || new Date().toISOString(),
-    messages: (d.data().messages || []).map((m: any) => ({
-      role: m.role,
-      text: m.text,
-      createdAt: m.createdAt?.toDate?.()?.toISOString() || new Date().toISOString(),
-    })),
-  }));
-
-const ChatBot = () => {
-  const dispatch = useAppDispatch();
-  const [messages, setMessages] = useState([WELCOME]);
-  const [input, setInput] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+export default function ChatBot() {
+  const dispatch    = useAppDispatch();
+  const [messages,     setMessages]     = useState([WELCOME]);
+  const [input,        setInput]        = useState("");
+  const [loading,      setLoading]      = useState(false);
+  const [sidebarOpen,  setSidebarOpen]  = useState(false);
   const chatIdRef = useRef<string | null>(null);
-  const listRef = useRef<FlatList>(null);
+  const listRef   = useRef<FlatList>(null);
 
-  const refreshChats = async () => {
-    const uid = auth.currentUser?.uid;
-    if (!uid) return;
-    try {
-      const q = query(collection(db, "users", uid, "chats"), orderBy("createdAt", "desc"));
-      const snap = await getDocs(q);
-      dispatch(setChats(parseChats(snap)));
-    } catch (e) { console.log("Load chats error:", e); }
+  const uid = () => auth.currentUser?.uid;
+
+  // ── Firestore helpers ──────────────────────────────────────────
+  const loadChats = async () => {
+    if (!uid()) return;
+    const snap = await getDocs(query(collection(db, "users", uid()!, "chats"), orderBy("createdAt", "desc"))).catch(() => null);
+    if (!snap) return;
+    dispatch(setChats(snap.docs.map((d) => ({
+      id: d.id,
+      createdAt: d.data().createdAt?.toDate?.()?.toISOString() || new Date().toISOString(),
+      messages:  (d.data().messages || []).map((m: any) => ({
+        role: m.role, text: m.text,
+        createdAt: m.createdAt?.toDate?.()?.toISOString() || new Date().toISOString(),
+      })),
+    }))));
   };
 
-  useEffect(() => {
-    refreshChats();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const saveMsg = async (msg: any) => {
-    const uid = auth.currentUser?.uid;
-    if (!uid) return;
-    try {
-      if (!chatIdRef.current) {
-        const ref = await addDoc(collection(db, "users", uid, "chats"), {
-          createdAt: serverTimestamp(),
-          messages: [{ role: msg.role, text: msg.text, createdAt: new Date() }],
-        });
-        chatIdRef.current = ref.id;
-      } else {
-        await updateDoc(doc(db, "users", uid, "chats", chatIdRef.current), {
-          messages: arrayUnion({ role: msg.role, text: msg.text, createdAt: new Date() }),
-        });
-      }
-      await refreshChats();
-    } catch (e) { console.log("Firestore:", e); }
+  const saveMsg = async (msg: { role: string; text: string }) => {
+    if (!uid()) return;
+    const entry = { role: msg.role, text: msg.text, createdAt: new Date() };
+    if (!chatIdRef.current) {
+      const ref = await addDoc(collection(db, "users", uid()!, "chats"), { createdAt: serverTimestamp(), messages: [entry] }).catch(() => null);
+      if (ref) chatIdRef.current = ref.id;
+    } else {
+      await updateDoc(doc(db, "users", uid()!, "chats", chatIdRef.current), { messages: arrayUnion(entry) }).catch(() => null);
+    }
+    loadChats();
   };
 
+  useEffect(() => { loadChats(); }, []);
+
+  // ── Send ───────────────────────────────────────────────────────
   const send = async () => {
     const q = input.trim();
     if (!q || loading) return;
@@ -77,20 +64,19 @@ const ChatBot = () => {
     await saveMsg(userMsg);
 
     try {
-      const res = await fetch(`${API_BASE_URL}/chat`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ question: q }),
-      });
+      const res  = await fetch(`${API_BASE_URL}/chat`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ question: q }) });
       const data = await res.json();
       const botMsg = { id: `${Date.now()}-bot`, role: "bot", text: res.ok ? data.answer : "Error" };
       setMessages((p) => [...p, botMsg]);
       await saveMsg(botMsg);
     } catch {
       setMessages((p) => [...p, { id: `${Date.now()}-err`, role: "bot", text: "⚠️ Connection error." }]);
-    } finally { setLoading(false); }
+    } finally {
+      setLoading(false);
+    }
   };
 
+  // ── UI ─────────────────────────────────────────────────────────
   return (
     <View className="flex-1 bg-[#0d0d0d]">
       <SafeAreaView className="flex-1" edges={["top"]}>
@@ -149,6 +135,4 @@ const ChatBot = () => {
       />
     </View>
   );
-};
-
-export default ChatBot;
+}

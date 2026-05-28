@@ -1,85 +1,82 @@
-import Header from "@/components/Header";
 import React, { useState } from "react";
 import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useAppDispatch } from "@/redux/stores";
-import { setInterests as setAction } from "@/redux/slices/tripSlices";
+import { useAppDispatch, useAppSelector } from "@/redux/stores";
+import { setInterests } from "@/redux/slices/tripSlices";
 import { router } from "expo-router";
 import HeaderQu from "@/components/HeaderQu";
+import { getThemeFromKey, getStoneFromKey } from "@/constants/themes";
 
-const options = [
-  { id: 1, label: "Food", icon: "🍜" },
-  { id: 2, label: "Culture", icon: "🏛️" },
-  { id: 3, label: "Nature", icon: "🌿" },
-  { id: 4, label: "Shopping", icon: "🛍️" },
-  { id: 5, label: "Events", icon: "🎶" },
-  { id: 6, label: "Adventure", icon: "🧗" },
+const OPTIONS = [
+  { id: 1,  label: "Get Active",      icon: "🏃", desc: "Sport & fitness"      },
+  { id: 2,  label: "Stay Healthy",    icon: "🌿", desc: "Wellness & health"     },
+  { id: 3,  label: "Seek Adventure",  icon: "🧭", desc: "Outdoor & wild"        },
+  { id: 4,  label: "Find Romance",    icon: "💕", desc: "Love & couple moments" },
+  { id: 5,  label: "Explore Culture", icon: "🎨", desc: "Art, history & food"   },
+  { id: 6,  label: "Party Hard",      icon: "🎉", desc: "Nightlife & festivals" },
+  { id: 7,  label: "Hit the Beach",   icon: "🌊", desc: "Beach & water sports"  },
+  { id: 8,  label: "Learn Something", icon: "📚", desc: "Education & skills"    },
+  { id: 9,  label: "Find Peace",      icon: "🧘", desc: "Relax & meditate"      },
+  { id: 10, label: "Go Digital",      icon: "💻", desc: "Tech & innovation"     },
+  { id: 11, label: "Game On",         icon: "🎮", desc: "Gaming & fun"          },
 ];
 
-const Interests = () => {
+export default function Interests() {
   const dispatch = useAppDispatch();
-  const [selected, setSelected] = useState<number[]>([]);
+  const themeKey = useAppSelector((s) => s.trip.themeKey);
+  const [selected, setSelected] = useState<number | null>(null);
 
-  const toggle = (id: number) => {
-    setSelected((prev) =>
-      prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]
-    );
-  };
+  const { accent, bg, cardBg } = getThemeFromKey(themeKey);
+  const stone = getStoneFromKey(themeKey);
 
   const handleNext = () => {
-    if (selected.length === 0) return;
-    const labels = options.filter((o) => selected.includes(o.id)).map((o) => o.label);
-    dispatch(setAction(labels.join(", ")));
+    const item = OPTIONS.find((o) => o.id === selected);
+    if (!item) return;
+    dispatch(setInterests(item.label));
     router.push("/(screens)/(plan)/TripStyle");
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-[#0d0d0d]">
+    <SafeAreaView className="flex-1" style={{ backgroundColor: bg }}>
       <HeaderQu linkPrv="/(screens)/(plan)/TripDistance" linkNext="/(screens)/(plan)/TripStyle" />
 
-      <View className="items-center w-full h-32">
-        <Image className="w-full h-full" resizeMode="contain" source={require("@/assets/852.png")} />
+      <View className="w-full h-36 items-center">
+        <Image className="w-full h-full" resizeMode="contain" source={stone} />
       </View>
 
-      <View className="px-6 mb-2">
-        <Text className="text-white text-2xl font-extrabold tracking-tight">Your interests ?</Text>
-        <Text className="text-gray-400 text-md mt-1">Pick all that apply</Text>
+      <View className="px-6 mb-3">
+        <Text className="text-white text-2xl font-extrabold">Your main interest?</Text>
+        <Text className="text-gray-400 text-sm mt-1">Pick what drives your trip</Text>
       </View>
 
-      {selected.length > 0 && (
-        <Text className="text-[#A3E635] text-center text-sm mb-2">
-          {selected.length} selected
-        </Text>
-      )}
-
-      <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
-        <View className="flex-row flex-wrap justify-center px-4 gap-3">
-          {options.map((item) => {
-            const isActive = selected.includes(item.id);
-            return (
-              <TouchableOpacity
-                key={item.id}
-                activeOpacity={0.8}
-                onPress={() => toggle(item.id)}
-                className={`w-[28%] py-4 rounded-2xl items-center border ${isActive ? "bg-neutral-950 border-[#A3E635]" : "bg-[#1A2235] border-transparent"}`}
-              >
-                <Text className="text-2xl mb-1">{item.icon}</Text>
-                <Text className="text-white text-sm font-semibold">{item.label}</Text>
-              </TouchableOpacity>
-            );
-          })}
+      <ScrollView contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 120 }} showsVerticalScrollIndicator={false}>
+        <View className="flex-row flex-wrap justify-center">
+          {OPTIONS.map((o) => (
+            <TouchableOpacity
+              key={o.id}
+              activeOpacity={0.8}
+              onPress={() => setSelected(o.id)}
+              className="w-[44%] m-1.5 py-4 px-3 rounded-2xl items-center border-2"
+              style={{ backgroundColor: selected === o.id ? bg : cardBg, borderColor: selected === o.id ? accent : "transparent" }}
+            >
+              <Text className="text-3xl mb-1">{o.icon}</Text>
+              <Text className="font-bold text-sm text-center" style={{ color: selected === o.id ? accent : "white" }}>{o.label}</Text>
+              <Text className="text-gray-500 text-xs text-center mt-0.5">{o.desc}</Text>
+            </TouchableOpacity>
+          ))}
         </View>
       </ScrollView>
 
-      <View className="absolute bottom-0 left-0 right-0 px-6 pb-6 pt-4 bg-[#0d0d0d]">
-        <View className="items-center">
-          <TouchableOpacity onPress={handleNext} disabled={selected.length === 0} className={`bg-[#A3E635] rounded-2xl flex-row w-3/5 items-center justify-center active:opacity-90 p-4 ${selected.length === 0 ? "opacity-50" : ""}`}>
-            <Text className="text-black font-semibold text-xl">Confirm</Text>
-          </TouchableOpacity>
-        </View>
+      <View className="absolute bottom-0 left-0 right-0 px-6 pb-6 pt-4 items-center" style={{ backgroundColor: bg }}>
+        <TouchableOpacity
+          onPress={handleNext}
+          disabled={!selected}
+          className="rounded-2xl w-3/5 items-center p-4"
+          style={{ backgroundColor: accent, opacity: selected ? 1 : 0.4 }}
+        >
+          <Text className="text-black font-semibold text-xl">Next →</Text>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
-};
-
-export default Interests;
+}

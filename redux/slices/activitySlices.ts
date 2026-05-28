@@ -2,75 +2,54 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface ActivityState {
   activityName: string;
-  mood: string;
-  position: string;
-  duration: string;
+  priority:     string;
+  themeKey:     string;
+  rythme:       string;
+  companions:   string;
+  duration:     string;
+  position:     string;
   activityType: string;
-priority: string;
-rythme: string;
-cadre: string;
-companions: string;
+  mood:         string;
+  cadre:        string;
 }
 
 const initialState: ActivityState = {
   activityName: "",
-  mood: "",
-  position: "",
+  priority:     "",
+  themeKey:     "adventures",
+  rythme:       "",
+  companions:   "",
+  duration:     "",
+  position:     "",
   activityType: "",
-  duration: "",
-  priority: "",
-  rythme: "",
-  cadre: "",
-  companions: "",
+  mood:         "",
+  cadre:        "",
 };
 
 const activitySlice = createSlice({
   name: "activity",
   initialState,
   reducers: {
-    setActivityName: (state, action: PayloadAction<string>) => {
-      state.activityName = action.payload;
+    setActivityName: (state, action: PayloadAction<string>) => { state.activityName = action.payload },
+    setRythme:       (state, action: PayloadAction<string>) => { state.rythme       = action.payload },
+    setCompanions:   (state, action: PayloadAction<string>) => { state.companions   = action.payload },
+    setDuration:     (state, action: PayloadAction<string>) => { state.duration     = action.payload },
+    setPosition:     (state, action: PayloadAction<string>) => { state.position     = action.payload },
+    setActivityType: (state, action: PayloadAction<string>) => { state.activityType = action.payload },
+    setMood:         (state, action: PayloadAction<string>) => { state.mood         = action.payload },
+    setCadre:        (state, action: PayloadAction<string>) => { state.cadre        = action.payload },
+    // priority + themeKey set together — same pattern as setTripMood
+    setPriority: (state, action: PayloadAction<{ priority: string; themeKey: string }>) => {
+      state.priority = action.payload.priority;
+      state.themeKey = action.payload.themeKey;
     },
-    setMood: (state, action: PayloadAction<string>) => {
-      state.mood = action.payload;
-    },
-    setPosition: (state, action: PayloadAction<string>) => {
-      state.position = action.payload;
-    },
-    setActivityType: (state, action: PayloadAction<string>) => {
-      state.activityType = action.payload;
-    },
-    setDuration: (state, action: PayloadAction<string>) => {
-      state.duration = action.payload;
-    },
-    setPriority: (state, action: PayloadAction<string>) => {
-      state.priority = action.payload;
-    },
-    setRythme: (state, action: PayloadAction<string>) => {
-      state.rythme = action.payload;
-    },
-    setCadre: (state, action: PayloadAction<string>) => {
-      state.cadre = action.payload;
-    },
-    setCompanions: (state, action: PayloadAction<string>) => {
-      state.companions = action.payload;
-    },  
-    
     resetActivity: () => initialState,
   },
 });
 
 export const {
-  setActivityName,
-  setMood,
-  setPosition,
-  setActivityType,
-  setDuration,
-  setPriority,
-  setRythme,
-  setCadre,
-  setCompanions,
-  resetActivity,
+  setActivityName, setPriority, setRythme, setCompanions,
+  setDuration, setPosition, setActivityType, setMood, setCadre, resetActivity,
 } = activitySlice.actions;
+
 export default activitySlice.reducer;
-export type { ActivityState };

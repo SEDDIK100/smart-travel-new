@@ -71,12 +71,13 @@ const InformPer = () => {
       </View>
       <View className="px-8">
         <View className="mb-4">
-          <Text className="text-white text-4xl font-bold text-center mb-2">continue with signing up !</Text>
+          <Text className="text-white text-4xl font-bold text-center mb-2">Profile Creation!</Text>
           <Text className="text-gray-400 text-center mb-1">make yourself home ...</Text>
         </View>
         <View className="my-6">
           <Text className="text-sm text-gray-300 mb-2">user name *</Text>
-          <TextInput className="text-white py-4 bg-[#1A2235] px-5 rounded-2xl mb-2" placeholder="user name" placeholderTextColor="#64748B" value={userName} onChangeText={setUserName} />
+          <TextInput className="text-white py-4 bg-[#1A2235] px-5 rounded-2xl mb-2"
+           placeholder="user name" placeholderTextColor="#64748B" value={userName} onChangeText={setUserName} />
         </View>
         <View>
           <Text className="text-sm text-gray-300 mb-2">birthday *</Text>
@@ -93,7 +94,8 @@ const InformPer = () => {
           <Text className="text-sm text-gray-300 mb-2">gender *</Text>
           <View className="justify-around flex-row mb-6">
             {["male", "female"].map((item) => (
-              <TouchableOpacity key={item} onPress={() => setPerson(item)} className={`py-4 px-6 mx-1 w-1/3 rounded-xl border ${person === item ? "bg-neutral-950 border-green-200" : "bg-[#1A2235]"}`}>
+              <TouchableOpacity key={item} onPress={() => setPerson(item)} 
+              className={`py-4 px-6 mx-1 w-1/3 rounded-xl border ${person === item ? "bg-neutral-950 border-green-200" : "bg-[#1A2235]"}`}>
                 <Text className="text-white text-center">{item}</Text>
               </TouchableOpacity>
             ))}
